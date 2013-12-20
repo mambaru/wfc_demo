@@ -54,6 +54,8 @@ void demo::generate( idemo::generate_request_ptr req, idemo::generate_callback c
   if (cb==nullptr)
     return;
 
+  /*cb(nullptr);
+  return;*/
   auto resp = std::make_unique<response::generate>();
   resp->data= std::make_unique<data_type>();
   if (req != nullptr )

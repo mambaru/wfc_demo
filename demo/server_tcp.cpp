@@ -59,26 +59,30 @@ struct generate_method
 {
   /* {"method":"generate", "id":1, "params":{"size":10000000}};  */
   /* {"method":"generate", "id":1, "params":{"size":1000}};  */
+  
   typedef request::generate_json::type  invoke_request;
   typedef response::generate_json::type invoke_response;
+  
   const char* name() const { return "generate";}
   
-  template<typename T,  typename C>
-  void request(T& t,  idemo::generate_request_ptr req,  int , C callback)
+  template<typename T, typename C>
+  void request(T& t,  idemo::generate_request_ptr req,  int, C callback)
   {
     if (auto demo = t.context().demo.lock() )
     {
       demo->generate( std::move(req), [&t, callback](idemo::generate_response_ptr resp) {
         callback( std::move(resp), nullptr);
-        //!!! t.close();
+        //!!! 
+        //std::cout << "generate_method t.shutdown()" << std::endl;
+        //t.shutdown();
         return wfc::callback_status::ready;
       } );
     }
   }
 };
 
-template<typename T>
-struct context: T
+//template<typename T>
+struct demo_context//: T
 {
   std::weak_ptr<idemo> demo;
 };
@@ -90,7 +94,8 @@ struct aspect_methods: fas::aspect<
 > {};
 
 struct aspect_tcp_connection: wfc::jsonrpc::jsonrpc<
-  wfc::inet::context< context< wfc::inet::connection_context > >, 
+  //wfc::inet::context< wfc::jsonrpc::context_stream<demo_context> >,
+  wfc::inet::context< demo_context >, 
   aspect_methods
 > {};
   
@@ -102,6 +107,7 @@ public:
   server_tcp_impl(std::weak_ptr< wfc::global > g, const wfc::jsonrpc::server_tcp_config& conf)
     : super(g, conf)
   {
+    
   }
 };
 
