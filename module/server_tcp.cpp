@@ -1,6 +1,6 @@
 
 #include "server_tcp.hpp"
-#include "idemo.hpp"
+#include <demo/idemo.hpp>
 
 #include <wfc/jsonrpc/server_tcp.hpp>
 #include <wfc/inet/conn/connection_context.hpp>

@@ -1,12 +1,13 @@
 #pragma once
 
 
-#include "idemo.hpp"
+#include "api/api_json.hpp"
 #include "demo_config.hpp"
 #include <wfc/core/global.hpp>
 #include <wfc/jsonrpc/server_tcp_config.hpp>
 #include <string>
 #include <memory>
+#include <demo/idemo.hpp>
 
 namespace wamba{ namespace demo{
   

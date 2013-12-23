@@ -1,5 +1,5 @@
 #include "demo_instance.hpp"
-#include "demo.hpp"
+#include <demo/demo.hpp>
 
 namespace wamba{ namespace demo{
 

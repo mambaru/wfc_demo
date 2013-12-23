@@ -7,6 +7,8 @@ set(CMAKE_MODULE_PATH "${CMAKE_MODULE_PATH};${CMAKE_SOURCE_DIR}/wfc/cmake")
 include(Wfc)
 
 include_directories(wfc)
+include_directories(.)
 
 add_subdirectory(demo)
+add_subdirectory(module)
 #add_subdirectory(tests)
