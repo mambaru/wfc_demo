@@ -32,6 +32,7 @@ void demo_instance::initialize()
 void demo_instance::start()
 {
   _tcp->start();
+  _domain->start();
 }
 
 void demo_instance::stop()

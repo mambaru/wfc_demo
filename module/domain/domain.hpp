@@ -3,6 +3,9 @@
 #include <demo/demo.hpp>
 #include "domain_config.hpp"
 #include <memory>
+#include <wfc/thread/delayed_queue.hpp>
+#include <thread>
+#include <list>
 
 namespace wamba{ namespace demo{
 
@@ -14,6 +17,8 @@ public:
 
   virtual ~domain();
   domain(const domain_config& conf);
+  
+  void start();
   
   void reconfigure(const domain_config& conf);
   
@@ -28,6 +33,8 @@ private:
   domain_config _conf;
   std::shared_ptr<demo> _demo;
   std::weak_ptr<idemo> _master;
+  std::vector<std::thread> _generate_threads;
+  wfc::delayed_queue _delayed_queue;
 };
 
 }}

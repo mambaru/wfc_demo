@@ -2,6 +2,7 @@
 
 #include <demo/idemo.hpp>
 #include "../../api/generate_json.hpp"
+#include <wfc/logger.hpp>
 
 namespace wamba{ namespace demo{
 
@@ -22,10 +23,18 @@ struct generate_method
   {
     if (auto demo = t.context().demo.lock() )
     {
-      demo->generate( std::move(req), [&t, callback](idemo::generate_response_ptr resp) 
+      demo->generate( std::move(req), [&t, callback](idemo::generate_response_ptr resp)  
       {
-        callback( std::move(resp), nullptr);
-        return wfc::callback_status::ready;
+        wfc::callback_status s = callback( std::move(resp), nullptr);
+        if ( s == wfc::callback_status::died )
+        {
+          COMMON_LOG_MESSAGE("generate Умерло")
+        }
+        else
+        {
+          COMMON_LOG_MESSAGE("generate sended " << int(s) )
+        }
+        
       });
     }
   }

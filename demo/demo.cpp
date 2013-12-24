@@ -1,6 +1,8 @@
 #include <wfc/memory.hpp>
 #include "demo.hpp"
 
+#include <unistd.h>
+
 namespace wamba{ namespace demo{
 
 demo::~demo()
@@ -18,6 +20,7 @@ void demo::set( idemo::set_request_ptr req, idemo::set_callback cb )
   _data[ std::move(req->name) ] = std::move(req->data);
   if (cb != nullptr )
     cb( std::make_unique<response::set>(response::set{true}));
+    
 }
 
 void demo::get( idemo::get_request_ptr req, idemo::get_callback cb )
@@ -54,6 +57,7 @@ void demo::generate( idemo::generate_request_ptr req, idemo::generate_callback c
   if (cb==nullptr)
     return;
 
+  //sleep(10);
   /*cb(nullptr);
   return;*/
   auto resp = std::make_unique<response::generate>();

@@ -5,8 +5,6 @@
 
 namespace wamba{ namespace demo{
 
-/// get
-
 namespace request
 {
   struct get 

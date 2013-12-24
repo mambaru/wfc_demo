@@ -19,6 +19,7 @@ server_tcp::server_tcp(std::weak_ptr< wfc::global > g, const wfc::jsonrpc::serve
 {
   
 }
+
 void server_tcp::reconfigure(const wfc::jsonrpc::server_tcp_config& conf)
 {
   _impl->reconfigure(conf);
