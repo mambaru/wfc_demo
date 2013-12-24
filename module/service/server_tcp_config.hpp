@@ -4,9 +4,12 @@
 
 namespace wamba{ namespace demo{
 
+/*
 struct server_tcp_config: 
   wfc::jsonrpc::server_tcp_config
 {
 };
+*/
+
 
 }}

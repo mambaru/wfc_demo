@@ -6,7 +6,8 @@ include(BuildInfo)
 SET(
   wfc_demo_source_list
   demo_instance.cpp
-  server_tcp.cpp
+  service/server_tcp.cpp
+  domain/domain.cpp
 )
 
 add_library(

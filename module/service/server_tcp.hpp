@@ -1,8 +1,6 @@
 #pragma once
 
 
-#include "api/api_json.hpp"
-#include "demo_config.hpp"
 #include <wfc/core/global.hpp>
 #include <wfc/jsonrpc/server_tcp_config.hpp>
 #include <string>

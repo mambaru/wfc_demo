@@ -6,6 +6,7 @@
 
 namespace wamba{ namespace demo{
 
+/*
 struct server_tcp_config_json
 {
   typedef wfc::json::object<
@@ -17,5 +18,7 @@ struct server_tcp_config_json
   
   typedef type::serializer serializer; 
 };
+*/
+
 
 }}
