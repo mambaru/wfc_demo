@@ -11,4 +11,4 @@ include_directories(.)
 
 add_subdirectory(demo)
 add_subdirectory(module)
-#add_subdirectory(tests)
+add_subdirectory(tests)

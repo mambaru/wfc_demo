@@ -10,12 +10,15 @@ struct demo_config
   : domain_config
 {
   bool enabled;
-  //server_tcp_config tcp;
   wfc::jsonrpc::server_tcp_config tcp;
+  
   demo_config()
-    : enabled(true)
+    : domain_config()
+    , enabled(true)
     , tcp()
-  {}
+  {
+  }
+  
 };
 
 }}

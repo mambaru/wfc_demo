@@ -38,7 +38,6 @@ void domain::start()
         this->_delayed_queue.run();
       }));
     }
-
   }
 }
 
@@ -53,7 +52,6 @@ void domain::initialize()
   
 void domain::set( idemo::set_request_ptr req, idemo::set_callback cb )
 {
-  std::cout << "void domain::set( idemo::set_request_ptr req, idemo::set_callback cb )" << std::endl;
   if ( auto m = _master.lock() )
   {
     idemo::set_request_ptr cpy;
@@ -65,13 +63,12 @@ void domain::set( idemo::set_request_ptr req, idemo::set_callback cb )
       {
         cpy->data = std::make_unique<data_type>( req->data->begin(), req->data->end());
       }
+      m->set( std::move(cpy), nullptr );
     }
-    m->set( std::move(cpy), nullptr );
   }
   
   if ( _demo != nullptr )
   {
-    std::cout << "void domain::set( idemo::set_request_ptr req, idemo::set_callback cb ) 2" << std::endl;
     _demo->set( std::move(req), cb);
   }
 }
@@ -106,19 +103,12 @@ void domain::generate( idemo::generate_request_ptr req, idemo::generate_callback
   }
   else
   {
-    std::cout <<  "post" << std::endl;
     auto wrp = wfc::unique_wrap( std::move(req) );
     _delayed_queue.delayed_post(std::chrono::seconds(10), [this, wrp,  cb]() 
     {
       _demo->generate( wfc::unique_unwrap(wrp), cb);
     });
   }
-
-      /*
-  {
-    if (req != nullptr )
-      _demo->generate( std::move(req), cb);
-  }*/
 }
 
 }}

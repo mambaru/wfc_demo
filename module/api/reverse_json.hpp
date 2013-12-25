@@ -7,8 +7,6 @@
 
 namespace wamba{ namespace demo{
 
-/// reverse
-
 namespace request
 {
 }
