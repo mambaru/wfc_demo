@@ -103,10 +103,12 @@ void domain::generate( idemo::generate_request_ptr req, idemo::generate_callback
   }
   else
   {
-    auto wrp = wfc::unique_wrap( std::move(req) );
+    //auto wrp = wfc::unique_wrap( std::move(req) );
+    auto wrp = std::make_shared<idemo::generate_request_ptr>( std::move(req) );
     _delayed_queue.delayed_post(std::chrono::seconds(10), [this, wrp,  cb]() 
     {
-      _demo->generate( wfc::unique_unwrap(wrp), cb);
+      //_demo->generate( wfc::unique_unwrap(wrp), cb);
+      _demo->generate( std::move(*wrp), cb);
     });
   }
 }
