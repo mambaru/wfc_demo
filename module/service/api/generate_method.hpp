@@ -12,6 +12,7 @@ struct generate_method
 {
   /* {"method":"generate", "id":1, "params":{"size":10000000}};  */
   /* {"method":"generate", "id":1, "params":{"size":1000}};  */
+  /* {"method":"generate", "id":1, "params":{"size":1}};  */
   
   typedef request::generate_json::type  invoke_request;
   typedef response::generate_json::type invoke_response;
