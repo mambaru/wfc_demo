@@ -2,7 +2,7 @@
 
 
 #include <wfc/core/global.hpp>
-#include <wfc/jsonrpc/server_tcp_config.hpp>
+//#include <wfc/jsonrpc/server_tcp_config.hpp>
 #include <string>
 #include <memory>
 #include <demo/idemo.hpp>
@@ -15,8 +15,8 @@ class server_tcp
 {
 public:
   virtual ~server_tcp();
-  server_tcp(std::weak_ptr< wfc::global > g, const wfc::jsonrpc::server_tcp_config& conf);
-  void reconfigure(const wfc::jsonrpc::server_tcp_config& conf);
+  // server_tcp(std::weak_ptr< wfc::global > g, const wfc::jsonrpc::server_tcp_config& conf);
+  // void reconfigure(const wfc::jsonrpc::server_tcp_config& conf);
   void initialize(std::weak_ptr<idemo> demo);
   void start();
   void stop();
