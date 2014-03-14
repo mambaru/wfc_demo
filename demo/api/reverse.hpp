@@ -9,7 +9,7 @@ namespace request
 {
   struct reverse 
   {
-  
+    data_ptr data;
   };
 }
 
@@ -17,7 +17,7 @@ namespace response
 {
   struct reverse 
   {
-  
+    data_ptr data;
   };
 }
 

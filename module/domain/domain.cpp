@@ -1,5 +1,5 @@
 #include <wfc/memory.hpp>
-#include <wfc/jsonrpc/errors/error.hpp>
+//#include <wfc/jsonrpc/errors/error.hpp>
 #include <memory>
 #include "domain.hpp"
 

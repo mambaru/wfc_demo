@@ -2,6 +2,7 @@
 #include "demo.hpp"
 
 #include <unistd.h>
+#include <algorithm>
 
 namespace wamba{ namespace demo{
 
@@ -47,9 +48,16 @@ void demo::get( idemo::get_request_ptr req, idemo::get_callback cb )
 
 }
 
-void demo::reverse( idemo::reverse_request_ptr /*req*/, idemo::reverse_callback /*cb*/ )
+void demo::reverse( idemo::reverse_request_ptr req, idemo::reverse_callback cb )
 {
-  
+  auto resp = std::make_unique< response::reverse >();
+  if ( req->data!=nullptr )
+  {
+    resp->data = std::move(req->data);
+    std::reverse(resp->data->begin(), resp->data->end());
+  }
+  if ( cb != nullptr )
+    cb( std::move(resp) );
 }
 
 void demo::generate( idemo::generate_request_ptr req, idemo::generate_callback cb )

@@ -1,8 +1,9 @@
 #pragma once
 
+#include <wfc/service.hpp>
 
 #include "demo_config.hpp"
-#include "service/server_tcp.hpp"
+//#include "service/server_tcp.hpp"
 #include <wfc/core/global.hpp>
 #include "domain/domain.hpp"
 #include <string>
@@ -34,7 +35,11 @@ private:
   std::weak_ptr< wfc::global > _global;
   demo_config _conf;
   std::shared_ptr<domain> _domain;
+  typedef wfc::service::rn::jsonrpc::service service_type;
+  std::shared_ptr< service_type > _service;
+  /*
   std::shared_ptr<server_tcp> _tcp;
+  */
   
 };
 
