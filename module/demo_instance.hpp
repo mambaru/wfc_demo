@@ -35,12 +35,8 @@ private:
   std::weak_ptr< wfc::global > _global;
   demo_config _conf;
   std::shared_ptr<domain> _domain;
-  typedef wfc::service::rn::jsonrpc::service service_type;
-  std::shared_ptr< service_type > _service;
-  /*
-  std::shared_ptr<server_tcp> _tcp;
-  */
-  
+  typedef wfc::service::rn::jsonrpc::service_list service_list;
+  std::shared_ptr< service_list > _services;
 };
 
 }}
