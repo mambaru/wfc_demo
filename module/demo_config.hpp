@@ -12,17 +12,6 @@ struct demo_config
 {
   bool enabled = true;
   wfc::service::rn::jsonrpc::service_list_config services;
-  
-  /*//wfc::jsonrpc::server_tcp_config tcp;
-  
-  demo_config()
-    : domain_config()
-    , enabled(true)
-    //, tcp()
-  {
-  }
-  */
-  
 };
 
 }}
