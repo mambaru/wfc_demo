@@ -41,4 +41,11 @@ void demo_instance::stop()
   _services->stop();
 }
 
+demo_config demo_instance::create_config(std::string type)
+{
+  demo_config conf;
+  conf.services = service_list::create_config(type);
+  return conf;
+}
+
 }}

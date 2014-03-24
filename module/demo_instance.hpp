@@ -29,6 +29,8 @@ public:
   
   void stop();
   
+  static demo_config create_config(std::string type);
+  
 private:
   
   std::string _name;
