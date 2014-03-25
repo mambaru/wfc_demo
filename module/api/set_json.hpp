@@ -21,6 +21,10 @@ namespace request
         wfc::json::member<n_data, set, data_ptr,    &set::data, data_ptr_json >
       >::type
     > type;
+    
+    typedef type::target     target;
+    typedef type::serializer serializer;
+
   };
 }
 
@@ -36,6 +40,10 @@ namespace response
         wfc::json::member<n_status, set, bool, &set::status>
       >::type
     > type;
+    
+    typedef type::target     target;
+    typedef type::serializer serializer;
+
   };
 }
 

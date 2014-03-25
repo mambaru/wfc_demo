@@ -19,6 +19,10 @@ namespace request{
         wfc::json::member<n_size, generate, size_t, &generate::size>
       >::type
     > type;
+    
+    typedef type::target     target;
+    typedef type::serializer serializer;
+
   };
 }
 
@@ -34,6 +38,10 @@ namespace response
         wfc::json::member<n_data, generate, data_ptr,    &generate::data, data_ptr_json >
       >::type
     > type;
+    
+    typedef type::target     target;
+    typedef type::serializer serializer;
+
   };
 }
 

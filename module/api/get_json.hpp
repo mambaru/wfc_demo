@@ -19,6 +19,9 @@ namespace request
         wfc::json::member<n_name, get, std::string, &get::name>
       >::type
     > type;
+    
+    typedef type::target     target;
+    typedef type::serializer serializer;
   };
 }
 
@@ -36,6 +39,9 @@ namespace response
         wfc::json::member<n_data, get, data_ptr,    &get::data, data_ptr_json >
       >::type
     > type;
+    
+    typedef type::target     target;
+    typedef type::serializer serializer;
   };
 }
 

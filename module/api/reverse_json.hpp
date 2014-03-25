@@ -19,6 +19,10 @@ namespace request
         wfc::json::member<n_data, reverse, data_ptr,    &reverse::data, data_ptr_json >
       >::type
     > type;
+    
+    typedef type::target     target;
+    typedef type::serializer serializer;
+
   };
 }
 
@@ -34,6 +38,9 @@ namespace response
         wfc::json::member<n_data, reverse, data_ptr,    &reverse::data, data_ptr_json >
       >::type
     > type;
+    
+    typedef type::target     target;
+    typedef type::serializer serializer;
   };
 
 }

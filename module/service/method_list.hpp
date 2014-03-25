@@ -18,10 +18,10 @@ JSONRPC_TAG(reverse)
 struct method_list: wfc::jsonrpc::method_list
 <
   wfc::jsonrpc::target<idemo>,
-  wfc::jsonrpc::invoke_method< _set_,      request::set_json::type,      response::set_json::type,      idemo, &idemo::set>,
-  wfc::jsonrpc::invoke_method< _get_,      request::get_json::type,      response::get_json::type,      idemo, &idemo::get>,
-  wfc::jsonrpc::invoke_method< _generate_, request::generate_json::type, response::generate_json::type, idemo, &idemo::generate>,
-  wfc::jsonrpc::invoke_method< _reverse_,  request::reverse_json::type,  response::reverse_json::type,  idemo, &idemo::reverse>
+  wfc::jsonrpc::invoke_method< _set_,      request::set_json,      response::set_json,      idemo, &idemo::set>,
+  wfc::jsonrpc::invoke_method< _get_,      request::get_json,      response::get_json,      idemo, &idemo::get>,
+  wfc::jsonrpc::invoke_method< _generate_, request::generate_json, response::generate_json, idemo, &idemo::generate>,
+  wfc::jsonrpc::invoke_method< _reverse_,  request::reverse_json,  response::reverse_json,  idemo, &idemo::reverse>
 >
 {};
 
