@@ -54,6 +54,7 @@ void domain::set( idemo::set_request_ptr req, idemo::set_callback cb )
 {
   if ( auto m = _master.lock() )
   {
+    // TODO: сделать через конструктор копии
     idemo::set_request_ptr cpy;
     if ( req!=nullptr )
     {
