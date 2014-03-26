@@ -32,15 +32,17 @@ void demo::get( idemo::get_request_ptr req, idemo::get_callback cb )
   auto itr = _data.find(req->name);
   if (itr == _data.end() )
   {
-    cb( std::make_unique<response::get>(response::get{req->name, nullptr}));
+    auto resp = std::make_unique<response::get>();
+    resp->name = std::move(req->name);
+    cb( std::move(resp) );
     return;
   }
     
-  if (itr->second->size() < 1024 )
+  if (itr->second.size() < 1024 )
   {
     get_response_ptr res = std::make_unique<response::get>();
     res->name = std::move(req->name);
-    res->data = std::make_unique<data_type>(itr->second->begin(),  itr->second->end());
+    res->data.assign(itr->second.begin(),  itr->second.end());
     cb( std::move(res) );
   }
   else

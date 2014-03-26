@@ -6,9 +6,12 @@
 #include <wfc/thread/delayed_queue.hpp>
 #include <thread>
 #include <list>
+#include <wfc/gateway/provider.hpp>
 
 namespace wamba{ namespace demo{
 
+typedef wfc::gateway::provider<idemo> provider_type;
+  
 class domain: public idemo
 {
 public:
@@ -22,7 +25,7 @@ public:
   
   void reconfigure(const domain_config& conf);
   
-  void initialize();
+  void initialize(std::weak_ptr<provider_type> provider);
   
   virtual void set(set_request_ptr req, set_callback cb );
   virtual void get(get_request_ptr req, get_callback cb );
@@ -32,7 +35,7 @@ public:
 private:
   domain_config _conf;
   std::shared_ptr<demo> _demo;
-  std::weak_ptr<idemo> _master;
+  std::weak_ptr<provider_type> _provider;
   std::vector<std::thread> _generate_threads;
   wfc::delayed_queue _delayed_queue;
 };

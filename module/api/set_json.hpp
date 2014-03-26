@@ -18,7 +18,7 @@ namespace request
       set,
       fas::type_list_n<
         wfc::json::member<n_name, set, std::string, &set::name>,
-        wfc::json::member<n_data, set, data_ptr,    &set::data, data_ptr_json >
+        wfc::json::member<n_data, set, data_type,    &set::data, data_type_json >
       >::type
     > type;
     

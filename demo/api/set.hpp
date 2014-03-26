@@ -10,7 +10,7 @@ namespace request
   struct set 
   {
     std::string name;
-    data_ptr data;
+    data_type data;
   };  
 }
 

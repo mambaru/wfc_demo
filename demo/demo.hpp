@@ -21,7 +21,7 @@ public:
 
 private:
   
-  std::unordered_map< std::string, data_ptr> _data;
+  std::unordered_map< std::string, data_type> _data;
 };
 
 }}

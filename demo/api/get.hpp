@@ -18,7 +18,7 @@ namespace response
   struct get 
   {
     std::string name;
-    data_ptr data;
+    data_type data;
   };
 }
 

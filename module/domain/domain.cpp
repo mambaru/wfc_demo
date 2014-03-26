@@ -42,19 +42,25 @@ void domain::start()
 }
 
   
-void domain::initialize()
+void domain::initialize(std::weak_ptr<provider_type> provider)
 {
   if ( _demo==nullptr )
     _demo = std::make_shared<demo>();
   
-  _master = std::weak_ptr<idemo>();
+  _provider = provider;
 }
   
 void domain::set( idemo::set_request_ptr req, idemo::set_callback cb )
 {
-  if ( auto m = _master.lock() )
+  if ( auto p = _provider.lock() )
   {
+    if ( auto cli = p->get().lock() )
+    {
+      std::cout << "gateway::set ready" << std::endl;
+      cli->set( std::make_unique<request::set>(*req), nullptr );
+    }
     // TODO: сделать через конструктор копии
+    /*
     idemo::set_request_ptr cpy;
     if ( req!=nullptr )
     {
@@ -66,6 +72,11 @@ void domain::set( idemo::set_request_ptr req, idemo::set_callback cb )
       }
       m->set( std::move(cpy), nullptr );
     }
+    */
+  }
+  else
+  {
+    std::cout << "gateway::set not ready" << std::endl;
   }
   
   if ( _demo != nullptr )
