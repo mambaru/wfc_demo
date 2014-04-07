@@ -6,6 +6,7 @@
 #include "api/get_json.hpp"
 #include "api/set_json.hpp"
 #include <wfc/jsonrpc.hpp>
+#include <wfc/jsonrpc/handler/call.hpp>
 
 
 namespace wamba{ namespace demo{ namespace gateway{
@@ -18,12 +19,7 @@ JSONRPC_TAG(reverse)
   
 struct method_list: wfc::jsonrpc::method_list
 <
-  wfc::jsonrpc::target<idemo>,
-  wfc::jsonrpc::provider< provider_type >,
-  wfc::jsonrpc::interface_<idemo>,
-  ::wfc::jsonrpc::shutdown< ::wfc::jsonrpc::mem_fun_shutdown< provider_type, &provider_type::shutdown> >,
-  ::wfc::jsonrpc::startup< ::wfc::jsonrpc::mem_fun_startup< idemo, provider_type,  &provider_type::startup> >, 
-
+  wfc::jsonrpc::dual_interface<idemo, provider_type>,
   wfc::jsonrpc::dual_method< _set_,      request::set_json,      response::set_json,      idemo, &idemo::set>,
   wfc::jsonrpc::dual_method< _get_,      request::get_json,      response::get_json,      idemo, &idemo::get>,
   wfc::jsonrpc::dual_method< _generate_, request::generate_json, response::generate_json, idemo, &idemo::generate>,
@@ -32,24 +28,35 @@ struct method_list: wfc::jsonrpc::method_list
 {
   void set(set_request_ptr req, set_callback cb ) 
   {
-    this->call<_set_>( std::move(req), cb, nullptr);
+    this->call<_set_>( std::move(req), cb, [cb]( std::unique_ptr<wfc::jsonrpc::error> ) 
+    {
+      cb(nullptr);
+    } );
   }
   
-  void get(get_request_ptr , get_callback  )
+  void get(get_request_ptr req, get_callback cb )
   {
-    
+    this->call<_get_>( std::move(req), cb, [cb]( std::unique_ptr<wfc::jsonrpc::error> ) 
+    {
+      cb(nullptr);
+    });
   }
   
-  void reverse(reverse_request_ptr , reverse_callback  )
+  void reverse(reverse_request_ptr req, reverse_callback cb )
   {
-    
+    this->call<_reverse_>( std::move(req), cb, [cb]( std::unique_ptr<wfc::jsonrpc::error> ) 
+    {
+      cb(nullptr);
+    });
   }
   
-  void generate(generate_request_ptr , generate_callback  )
+  void generate(generate_request_ptr req, generate_callback cb )
   {
-    
+    this->call<_generate_>( std::move(req), cb, [cb]( std::unique_ptr<wfc::jsonrpc::error> ) 
+    {
+      cb(nullptr);
+    });
   }
-
 };
 
 }}}
