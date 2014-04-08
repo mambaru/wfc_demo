@@ -46,11 +46,9 @@ domain::~domain()
 }
 
 domain::domain( const domain_config& conf)
-  : /*_main_stand( std::make_shared<strand_type>(_io_service) )
-  ,*/ _conf(conf)
-  , _provider( std::make_shared<provider_type>() )
+  : _provider( std::make_shared<provider_type>() )
 {
-  
+  this->reconfigure(conf);
 }
 
 void domain::reconfigure(const domain_config& conf)
@@ -71,6 +69,7 @@ void domain::reconfigure(const domain_config& conf)
 
 void domain::start()
 {
+  /*
   if ( _conf.generate_threads < _generate_threads.size() )
   {
     _generate_threads.resize(_conf.generate_threads);
@@ -85,6 +84,7 @@ void domain::start()
       }));
     }
   }
+  */
 }
 
 std::weak_ptr<provider_type> domain::provider() const 
@@ -103,38 +103,37 @@ void domain::initialize(std::weak_ptr<provider_type> provider)
 void domain::set( idemo::set_request_ptr req, idemo::set_callback cb )
 {
   std::lock_guard<mutex_type> lk(_mutex);
-  
-  /*if ( auto p = _provider.lock() )
-  {*/
-    if ( auto cli = _provider->get().lock() )
-    {
-      std::cout << "gateway::set ready" << std::endl;
-      cli->set( std::make_unique<request::set>(*req), nullptr );
-    }
-    // TODO: сделать через конструктор копии
-    /*
-    idemo::set_request_ptr cpy;
-    if ( req!=nullptr )
-    {
-      cpy = std::make_unique<request::set>();
-      cpy->name = req->name;
-      if ( req->data )
-      {
-        cpy->data = std::make_unique<data_type>( req->data->begin(), req->data->end());
-      }
-      m->set( std::move(cpy), nullptr );
-    }
-    */
-  /*}
-  else
+  auto cli = _provider->get().lock();
+  if ( _demo==nullptr && cli==nullptr )
   {
-    std::cout << "gateway::set not ready" << std::endl;
-  }*/
+    return cb(nullptr);
+  }
   
-  if ( _demo != nullptr )
+  idemo::set_request_ptr req_cpy = nullptr;
+  if ( cli!=nullptr && _demo!= nullptr )
+  {
+    req_cpy = std::make_unique<request::set>(*req);
+  }
+
+  if ( _demo!=nullptr )
   {
     _demo->set( std::move(req), cb);
+    if ( cli!=nullptr )
+      req = std::move(req_cpy);
   }
+  
+  if ( cli!=nullptr )
+  {
+    if ( _demo!=nullptr )
+    {
+      cli->set( std::move(req), nullptr);
+    }
+    else
+    {
+      cli->set( std::move(req), cb);
+    }
+  }
+
 }
 
 void domain::get( idemo::get_request_ptr req, idemo::get_callback cb )
@@ -144,6 +143,10 @@ void domain::get( idemo::get_request_ptr req, idemo::get_callback cb )
   if ( _demo != nullptr )
   {
     _demo->get( std::move(req), cb);
+  }
+  else if (auto cli = _provider->get().lock() )
+  {
+    cli->get( std::move(req), cb);
   }
 }
 
@@ -155,10 +158,26 @@ void domain::reverse( idemo::reverse_request_ptr req, idemo::reverse_callback cb
   {
     _demo->reverse( std::move(req), cb);
   }
+  else if (auto cli = _provider->get().lock() )
+  {
+    cli->reverse( std::move(req), cb);
+  }
 }
 
 void domain::generate( idemo::generate_request_ptr req, idemo::generate_callback cb )
 {
+  std::lock_guard<mutex_type> lk(_mutex);
+  
+  if ( _demo != nullptr )
+  {
+    _demo->generate( std::move(req), cb);
+  }
+  else if (auto cli = _provider->get().lock() )
+  {
+    cli->generate( std::move(req), cb);
+  }
+
+  /*
   std::lock_guard<mutex_type> lk(_mutex);
   
   if ( _demo == nullptr )
@@ -181,6 +200,7 @@ void domain::generate( idemo::generate_request_ptr req, idemo::generate_callback
       _demo->generate( std::move(*wrp), cb);
     });
   }
+  */
 }
 
 }}

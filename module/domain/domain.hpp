@@ -8,6 +8,7 @@
 #include <list>
 #include <wfc/gateway/provider.hpp>
 #include <wfc/io_service.hpp>
+#include <wfc/callback/callback_owner.hpp>
 
 namespace wamba{ namespace demo{
 
@@ -38,6 +39,7 @@ public:
   virtual void generate(generate_request_ptr req, generate_callback cb );
 
 private:
+  wfc::callback_owner _owner;
   //wfc::io_service _io_service;
   //stand_ptr _main_stand;
   typedef std::mutex mutex_type;
@@ -45,8 +47,8 @@ private:
   domain_config _conf;
   std::shared_ptr<demo> _demo;
   std::shared_ptr<provider_type> _provider;
-  std::vector<std::thread> _generate_threads;
-  wfc::delayed_queue _delayed_queue;
+  //std::vector<std::thread> _generate_threads;
+  //wfc::delayed_queue _delayed_queue;
 };
 
 }}

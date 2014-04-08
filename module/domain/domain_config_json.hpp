@@ -19,6 +19,8 @@ struct domain_config_json
     >::type
   > type;
   
+  typedef type::target target;
+  typedef type::member_list member_list; 
   typedef type::serializer serializer; 
 };
 

@@ -28,10 +28,10 @@ struct demo_config_json
   typedef wfc::json::object<
     demo_config,
     fas::type_list_n<
-      wfc::json::base<domain_config_json::type>,
+      wfc::json::base<domain_config_json>,
       wfc::json::member<n_enabled,  demo_config, bool,              &demo_config::enabled>,
-      wfc::json::member<n_services, demo_config, service_list_config, &demo_config::services, service_list_config_json::type>, 
-      wfc::json::member<n_gateways, demo_config, gateway_list_config, &demo_config::gateways, gateway_list_config_json::type>
+      wfc::json::member<n_services, demo_config, service_list_config, &demo_config::services, service_list_config_json>, 
+      wfc::json::member<n_gateways, demo_config, gateway_list_config, &demo_config::gateways, gateway_list_config_json>
       >::type
   > type;
   typedef type::target target;
