@@ -45,14 +45,20 @@ void demo_instance::start()
 
 void demo_instance::stop()
 {
-  
   _services->stop();
-  
   _gateways->stop();
-  //_domain->stop();
-  std::cout << _services.use_count() << std::endl;
-  _services.reset();
   
+  _services.reset();
+  _gateways.reset();
+  _domain.reset();
+}
+
+void demo_instance::shutdown()
+{
+  _services->shutdown();
+  _gateways->shutdown();
+  
+  _services.reset();
   _gateways.reset();
   _domain.reset();
 }

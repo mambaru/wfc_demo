@@ -126,7 +126,7 @@ void domain::set( idemo::set_request_ptr req, idemo::set_callback cb )
   {
     if ( _demo!=nullptr )
     {
-      cli->set( std::move(req), nullptr);
+      _provider->post( &idemo::set, std::move(req), idemo::set_callback(nullptr) );
     }
     else
     {

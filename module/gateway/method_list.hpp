@@ -26,11 +26,12 @@ struct method_list: wfc::jsonrpc::method_list
   wfc::jsonrpc::dual_method< _reverse_,  request::reverse_json,  response::reverse_json,  idemo, &idemo::reverse>
 >
 {
-  void set(set_request_ptr req, set_callback cb ) 
+  virtual void set(set_request_ptr req, set_callback cb ) 
   {
     this->call<_set_>( std::move(req), cb, [cb]( std::unique_ptr<wfc::jsonrpc::error> ) 
     {
-      cb(nullptr);
+      if ( cb!=nullptr )
+        cb(nullptr);
     } );
   }
   
@@ -38,7 +39,8 @@ struct method_list: wfc::jsonrpc::method_list
   {
     this->call<_get_>( std::move(req), cb, [cb]( std::unique_ptr<wfc::jsonrpc::error> ) 
     {
-      cb(nullptr);
+      if ( cb!=nullptr )
+        cb(nullptr);
     });
   }
   
@@ -46,7 +48,8 @@ struct method_list: wfc::jsonrpc::method_list
   {
     this->call<_reverse_>( std::move(req), cb, [cb]( std::unique_ptr<wfc::jsonrpc::error> ) 
     {
-      cb(nullptr);
+      if ( cb!=nullptr )
+        cb(nullptr);
     });
   }
   
@@ -54,7 +57,8 @@ struct method_list: wfc::jsonrpc::method_list
   {
     this->call<_generate_>( std::move(req), cb, [cb]( std::unique_ptr<wfc::jsonrpc::error> ) 
     {
-      cb(nullptr);
+      if ( cb!=nullptr )
+        cb(nullptr);
     });
   }
 };

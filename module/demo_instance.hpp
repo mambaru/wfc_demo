@@ -30,6 +30,8 @@ public:
   
   void stop();
   
+  void shutdown();
+  
   static demo_config create_config(std::string type);
   
 private:
