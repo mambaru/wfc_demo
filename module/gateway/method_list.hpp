@@ -6,7 +6,6 @@
 #include "api/get_json.hpp"
 #include "api/set_json.hpp"
 #include <wfc/jsonrpc.hpp>
-#include <wfc/jsonrpc/handler/call.hpp>
 
 
 namespace wamba{ namespace demo{ namespace gateway{
@@ -35,7 +34,7 @@ struct method_list: wfc::jsonrpc::method_list
     } );
   }
   
-  void get(get_request_ptr req, get_callback cb )
+  virtual void get(get_request_ptr req, get_callback cb )
   {
     this->call<_get_>( std::move(req), cb, [cb]( std::unique_ptr<wfc::jsonrpc::error> ) 
     {
@@ -44,7 +43,7 @@ struct method_list: wfc::jsonrpc::method_list
     });
   }
   
-  void reverse(reverse_request_ptr req, reverse_callback cb )
+  virtual void reverse(reverse_request_ptr req, reverse_callback cb )
   {
     this->call<_reverse_>( std::move(req), cb, [cb]( std::unique_ptr<wfc::jsonrpc::error> ) 
     {
@@ -53,7 +52,7 @@ struct method_list: wfc::jsonrpc::method_list
     });
   }
   
-  void generate(generate_request_ptr req, generate_callback cb )
+  virtual void generate(generate_request_ptr req, generate_callback cb )
   {
     this->call<_generate_>( std::move(req), cb, [cb]( std::unique_ptr<wfc::jsonrpc::error> ) 
     {

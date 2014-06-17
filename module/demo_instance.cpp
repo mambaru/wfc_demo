@@ -38,8 +38,11 @@ void demo_instance::initialize()
 
 void demo_instance::start()
 {
+  DEBUG_LOG_MESSAGE("void demo_instance::start()")
   _gateways->start();
+  DEBUG_LOG_BEGIN("_services->start()")
   _services->start();
+  DEBUG_LOG_END("_services->start()")
   _domain->start();
 }
 
