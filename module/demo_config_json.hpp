@@ -2,6 +2,7 @@
 
 #include <wfc/service/rn/jsonrpc/service_config_json.hpp>
 #include <wfc/gateway/rn/jsonrpc/gateway_config_json.hpp>
+#include <wfc/gateway/provider_config_json.hpp>
 #include <wfc/json/json.hpp>
 #include <wfc/json/name.hpp>
 
@@ -15,6 +16,7 @@ struct demo_config_json
 {
   JSON_NAME(enabled)
   JSON_NAME(is_proxy)
+  JSON_NAME(provider)
   JSON_NAME(services)
   JSON_NAME(gateways)
   
@@ -29,7 +31,8 @@ struct demo_config_json
     demo_config,
     fas::type_list_n<
       wfc::json::base<domain_config_json>,
-      wfc::json::member<n_enabled,  demo_config, bool,              &demo_config::enabled>,
+      wfc::json::member<n_enabled,  demo_config, bool,                &demo_config::enabled>,
+      wfc::json::member<n_provider, demo_config, ::wfc::gateway::provider_config,     &demo_config::provider, ::wfc::gateway::provider_config_json>,
       wfc::json::member<n_services, demo_config, service_list_config, &demo_config::services, service_list_config_json>, 
       wfc::json::member<n_gateways, demo_config, gateway_list_config, &demo_config::gateways, gateway_list_config_json>
       >::type

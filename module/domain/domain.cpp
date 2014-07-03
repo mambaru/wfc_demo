@@ -45,8 +45,8 @@ domain::~domain()
   
 }
 
-domain::domain( const domain_config& conf)
-  : _provider( std::make_shared<provider_type>() )
+domain::domain( const domain_config& conf, std::shared_ptr<provider_type> provider)
+  : _provider( provider )
 {
   this->reconfigure(conf);
 }
@@ -87,10 +87,12 @@ void domain::start()
   */
 }
 
+/*
 std::weak_ptr<provider_type> domain::provider() const 
 {
   return _provider;
 }
+*/
 /*
 void domain::initialize(std::weak_ptr<provider_type> provider)
 {
@@ -115,12 +117,15 @@ void domain::set( idemo::set_request_ptr req, idemo::set_callback cb )
     req_cpy = std::make_unique<request::set>(*req);
   }
 
+ 
   if ( _demo!=nullptr )
   {
     _demo->set( std::move(req), cb);
     if ( cli!=nullptr )
       req = std::move(req_cpy);
   }
+  
+  //std::cout << "data size " << req->data.size() << std::endl;
   
   if ( cli!=nullptr )
   {

@@ -12,17 +12,18 @@ demo_instance::demo_instance(const std::string& name, std::weak_ptr< wfc::global
   : _name(name)
   , _global(g)
   , _conf(conf)
-  , _domain(std::make_shared<domain>(static_cast<const domain_config&>(conf)))
 {
   _services = std::make_shared< service_list >( g, conf.services );
   _gateways = std::make_shared< gateway_list >( g, conf.gateways );
-  _provider = std::make_shared< provider >( );
+  _provider = std::make_shared< provider >( conf.provider );
+  _domain   = std::make_shared<domain>(conf, _provider);
 }
 
 void demo_instance::reconfigure(const demo_config& conf)
 {
   _conf = conf;
   _domain->reconfigure( static_cast<const domain_config&>(conf) );
+  _provider->reconfigure(conf.provider);
   _services->reconfigure(conf.services);
   _gateways->reconfigure(conf.gateways);
 }
@@ -32,7 +33,7 @@ void demo_instance::initialize()
   namespace sj = wfc::service::rn::jsonrpc;
   namespace gj = wfc::gateway::rn::jsonrpc;
   _services->initialize( sj::make_factory< service::method_list >(_domain) );
-  _gateways->initialize( gj::make_factory< gateway::method_list >(_domain, _domain->provider() ) );
+  _gateways->initialize( gj::make_factory< gateway::method_list >(_domain->get_demo(), _provider ) );
   //_domain->initialize(_provider);
 }
 

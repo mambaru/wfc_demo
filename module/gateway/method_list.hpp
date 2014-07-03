@@ -27,11 +27,19 @@ struct method_list: wfc::jsonrpc::method_list
 {
   virtual void set(set_request_ptr req, set_callback cb ) 
   {
-    this->call<_set_>( std::move(req), cb, [cb]( std::unique_ptr<wfc::jsonrpc::error> ) 
+    //std::cout << "########### method_list " << (cb!=nullptr) <<std::endl;
+    if ( cb != nullptr )
     {
-      if ( cb!=nullptr )
-        cb(nullptr);
-    } );
+      this->call<_set_>( std::move(req), cb, [cb]( std::unique_ptr<wfc::jsonrpc::error> ) 
+      {
+        if ( cb!=nullptr )
+          cb(nullptr);
+      } );
+    }
+    else
+    {
+      this->call<_set_>( std::move(req), nullptr );
+    }
   }
   
   virtual void get(get_request_ptr req, get_callback cb )
