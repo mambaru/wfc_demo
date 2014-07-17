@@ -105,7 +105,7 @@ void domain::initialize(std::weak_ptr<provider_type> provider)
 void domain::set( idemo::set_request_ptr req, idemo::set_callback cb )
 {
   std::lock_guard<mutex_type> lk(_mutex);
-  auto cli = _provider->get().lock();
+  auto cli = _provider->get();
   if ( _demo==nullptr && cli==nullptr )
   {
     return cb(nullptr);
@@ -149,7 +149,7 @@ void domain::get( idemo::get_request_ptr req, idemo::get_callback cb )
   {
     _demo->get( std::move(req), cb);
   }
-  else if (auto cli = _provider->get().lock() )
+  else if (auto cli = _provider->get() )
   {
     cli->get( std::move(req), cb);
   }
@@ -163,7 +163,7 @@ void domain::reverse( idemo::reverse_request_ptr req, idemo::reverse_callback cb
   {
     _demo->reverse( std::move(req), cb);
   }
-  else if (auto cli = _provider->get().lock() )
+  else if (auto cli = _provider->get() )
   {
     cli->reverse( std::move(req), cb);
   }
@@ -177,7 +177,7 @@ void domain::generate( idemo::generate_request_ptr req, idemo::generate_callback
   {
     _demo->generate( std::move(req), cb);
   }
-  else if (auto cli = _provider->get().lock() )
+  else if (auto cli = _provider->get() )
   {
     cli->generate( std::move(req), cb);
   }
