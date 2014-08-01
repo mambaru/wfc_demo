@@ -169,17 +169,17 @@ void domain::reverse( idemo::reverse_request_ptr req, idemo::reverse_callback cb
   }
 }
 
-void domain::generate( idemo::generate_request_ptr req, idemo::generate_callback cb )
+void domain::generate( idemo::generate_request_ptr req, idemo::generate_callback cb, size_t io_id,  generate_repli repli)
 {
   std::lock_guard<mutex_type> lk(_mutex);
   
   if ( _demo != nullptr )
   {
-    _demo->generate( std::move(req), cb);
+    _demo->generate( std::move(req), cb, io_id, repli);
   }
   else if (auto cli = _provider->get() )
   {
-    cli->generate( std::move(req), cb);
+    cli->generate( std::move(req), cb, io_id, repli);
   }
 
   /*

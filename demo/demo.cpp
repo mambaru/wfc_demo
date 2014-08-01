@@ -62,7 +62,7 @@ void demo::reverse( idemo::reverse_request_ptr req, idemo::reverse_callback cb )
     cb( std::move(resp) );
 }
 
-void demo::generate( idemo::generate_request_ptr req, idemo::generate_callback cb )
+void demo::generate( idemo::generate_request_ptr req, idemo::generate_callback cb, size_t,  generate_repli )
 {
   if (cb==nullptr)
     return;

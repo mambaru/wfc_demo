@@ -10,6 +10,7 @@ namespace request
   struct generate 
   {
     size_t size;
+    size_t count = 10;
   };
 }
 
@@ -17,6 +18,7 @@ namespace response
 {
   struct generate 
   {
+    size_t n;
     data_ptr data;
   };
 }
