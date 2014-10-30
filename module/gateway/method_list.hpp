@@ -10,7 +10,7 @@
 
 namespace wamba{ namespace demo{ namespace gateway{
 
-typedef wfc::gateway::provider<idemo> provider_type;
+typedef wfc::provider::provider<idemo> provider_type;
 JSONRPC_TAG(push)
 JSONRPC_TAG(set)
 JSONRPC_TAG(get)

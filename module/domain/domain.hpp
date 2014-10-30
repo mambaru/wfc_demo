@@ -6,13 +6,13 @@
 #include <wfc/thread/delayed_queue.hpp>
 #include <thread>
 #include <list>
-#include <wfc/gateway/provider.hpp>
+#include <wfc/provider/provider.hpp>
 #include <wfc/io_service.hpp>
 #include <wfc/callback/callback_owner.hpp>
 
 namespace wamba{ namespace demo{
 
-typedef wfc::gateway::provider<idemo> provider_type;
+typedef wfc::provider::provider<idemo> provider_type;
 
 class stand;
   

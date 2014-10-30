@@ -42,7 +42,7 @@ private:
   std::shared_ptr<domain> _domain;
   typedef wfc::service::rn::jsonrpc::service_list service_list;
   typedef wfc::gateway::rn::jsonrpc::gateway_list gateway_list;
-  typedef wfc::gateway::provider<idemo> provider;
+  typedef wfc::provider::provider<idemo> provider;
   std::shared_ptr< service_list > _services;
   std::shared_ptr< gateway_list > _gateways;
   std::shared_ptr< provider > _provider;

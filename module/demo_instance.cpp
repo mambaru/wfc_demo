@@ -15,7 +15,7 @@ demo_instance::demo_instance(const std::string& name, std::weak_ptr< wfc::global
 {
   _services = std::make_shared< service_list >( g, conf.services );
   _gateways = std::make_shared< gateway_list >( g, conf.gateways );
-  _provider = std::make_shared< provider >( conf.provider );
+  _provider = std::make_shared< provider >( g.lock()->io_service, conf.provider );
   _domain   = std::make_shared<domain>(conf, _provider);
 }
 
