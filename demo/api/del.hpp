@@ -7,19 +7,17 @@ namespace wamba{ namespace demo{
 
 namespace request
 {
-  struct generate 
+  struct del
   {
-    size_t size;
-    size_t count = 10;
+    std::string name;
   };
 }
 
 namespace response
 {
-  struct generate 
+  struct del
   {
-    size_t n;
-    data_ptr data;
+    bool status = false;
   };
 }
 

@@ -10,4 +10,5 @@ include_directories(wfc)
 include_directories(.)
 
 add_subdirectory(demo)
+add_subdirectory(hash)
 add_subdirectory(module)

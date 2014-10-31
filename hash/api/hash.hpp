@@ -4,22 +4,20 @@
 #include <string>
 
 namespace wamba{ namespace demo{
-
+  
 namespace request
 {
-  struct get 
+  struct hash
   {
-    std::string name;
-  };
+    std::string text;
+  };  
 }
 
 namespace response
 {
-  struct get 
+  struct hash
   {
-    std::string name;
-    data_type data;
-    bool status;
+    size_t result;
   };
 }
 

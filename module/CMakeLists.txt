@@ -7,7 +7,7 @@ include_directories(.)
 SET(
   wfc_demo_source_list
   demo_instance.cpp
-  #service/server_tcp.cpp
+  hash_instance.cpp
   domain/domain.cpp
 )
 
@@ -17,4 +17,5 @@ add_library(
 )
 
 build_info(wfc_demo demo)
+build_info(wfc_demo hash)
 

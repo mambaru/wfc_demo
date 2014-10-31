@@ -7,19 +7,19 @@ namespace wamba{ namespace demo{
 
 namespace request
 {
-  struct get 
+  struct inc 
   {
     std::string name;
+    int value = 1;
   };
 }
 
 namespace response
 {
-  struct get 
+  struct inc
   {
-    std::string name;
-    data_type data;
-    bool status;
+    bool status = false;
+    int value = 0;
   };
 }
 

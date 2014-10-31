@@ -33,7 +33,7 @@ void demo_instance::initialize()
   namespace sj = wfc::service::rn::jsonrpc;
   namespace gj = wfc::gateway::rn::jsonrpc;
   _services->initialize( sj::make_factory< service::method_list >(_domain) );
-  _gateways->initialize( gj::make_factory< gateway::method_list >(_domain->get_demo(), _provider ) );
+  _gateways->initialize( gj::make_factory< gateway::demo_api >(_domain->get_demo(), _provider ) );
   //_domain->initialize(_provider);
 }
 

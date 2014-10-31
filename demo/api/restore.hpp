@@ -7,19 +7,16 @@ namespace wamba{ namespace demo{
 
 namespace request
 {
-  struct get 
+  struct restore 
   {
-    std::string name;
   };
 }
 
 namespace response
 {
-  struct get 
+  struct restore
   {
-    std::string name;
-    data_type data;
-    bool status;
+    size_t count;
   };
 }
 
