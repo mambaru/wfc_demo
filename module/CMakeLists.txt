@@ -8,6 +8,8 @@ SET(
   wfc_demo_source_list
   demo_instance.cpp
   hash_instance.cpp
+  hash_module.cpp
+  demo_module.cpp
   domain/domain.cpp
 )
 

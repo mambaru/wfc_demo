@@ -8,13 +8,10 @@
 
 namespace wamba{ namespace demo{ namespace service{
 
-//JSONRPC_TAG(push)
 JSONRPC_TAG(set)
 JSONRPC_TAG(get)
-//JSONRPC_TAG(generate)
-//JSONRPC_TAG(reverse)
   
-struct method_list: wfc::jsonrpc::method_list
+struct demo_api: wfc::jsonrpc::method_list
 <
   wfc::jsonrpc::target<idemo>,
   wfc::jsonrpc::invoke_method< _set_,      request::set_json,      response::set_json,      idemo, &idemo::set>,
