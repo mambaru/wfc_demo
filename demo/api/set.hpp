@@ -11,6 +11,7 @@ namespace request
   {
     std::string name;
     data_type data;
+    bool hash = false;
   };  
 }
 
@@ -18,7 +19,7 @@ namespace response
 {
   struct set
   {
-    bool status;
+    bool status = false;
   };
 }
 

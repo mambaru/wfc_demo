@@ -5,7 +5,6 @@
 #include "api/inc.hpp"
 #include "api/del.hpp"
 #include "api/get_range.hpp"
-#include "api/restore.hpp"
 
 
 #include <memory>

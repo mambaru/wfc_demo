@@ -9,6 +9,7 @@ namespace wamba{ namespace demo{
 
 class demo
   : public idemo
+  , std::enable_shared_from_this<demo>
 {
 public:
   typedef std::shared_ptr<idemo>      demo_ptr;
@@ -21,7 +22,10 @@ public:
   
   virtual void set(set_request_ptr req, set_callback cb );
   virtual void get(get_request_ptr req, get_callback cb );
-  
+
+protected:
+  void set_(set_request_ptr req, set_callback cb);
+  void set_hash_(set_request_ptr req, set_callback cb);
 private:
   std::mutex _mutex;
   std::unordered_map< std::string, data_type> _data;
