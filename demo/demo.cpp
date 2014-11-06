@@ -35,7 +35,7 @@ demo::demo(demo_ptr repli, hash_ptr hash)
 {
 }
 
-void demo::set_(set_request_ptr req, set_callback cb)
+void demo::set_(request::set::ptr req, response::set::callback cb)
 {
   auto resp = make_unique_if<response::set>(cb!=nullptr);
   auto repli = make_unique_if<request::set>(_repli!=nullptr, *req);
@@ -54,7 +54,7 @@ void demo::set_(set_request_ptr req, set_callback cb)
   }
 }
 
-void demo::set_hash_(set_request_ptr req, set_callback cb)
+void demo::set_hash_(request::set::ptr req, response::set::callback cb)
 {
   if ( auto req_hash = make_unique_if<request::hash>(
                           this->_hash != nullptr, 
@@ -62,7 +62,7 @@ void demo::set_hash_(set_request_ptr req, set_callback cb)
                        ) 
      ) 
   {
-    auto preq = std::make_shared<set_request_ptr>(std::move(req));
+    auto preq = std::make_shared<request::set::ptr>(std::move(req));
     auto pthis = this->shared_from_this();
     this->_hash->hash(std::move(req_hash), [pthis, preq, cb](std::unique_ptr<response::hash> resp) {
       if ( resp == nullptr )
@@ -87,7 +87,7 @@ void demo::set_hash_(set_request_ptr req, set_callback cb)
 }
 
 
-void demo::set( set_request_ptr req, set_callback callback )
+void demo::set( request::set::ptr req, response::set::callback callback )
 {
   if ( !check_params( req, callback) )
     return;
@@ -103,7 +103,7 @@ void demo::set( set_request_ptr req, set_callback callback )
     
 }
 
-void demo::get( idemo::get_request_ptr req, idemo::get_callback cb )
+void demo::get( request::get::ptr req, response::get::callback cb )
 {
   if (cb==nullptr)
     return;

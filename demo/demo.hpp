@@ -20,12 +20,12 @@ public:
   virtual ~demo();
   demo(demo_ptr repli, hash_ptr hash);
   
-  virtual void set(set_request_ptr req, set_callback cb );
-  virtual void get(get_request_ptr req, get_callback cb );
+  virtual void set(request::set::ptr req, response::set::callback cb );
+  virtual void get(request::get::ptr req, response::get::callback cb );
 
 protected:
-  void set_(set_request_ptr req, set_callback cb);
-  void set_hash_(set_request_ptr req, set_callback cb);
+  void set_(request::set::ptr req, response::set::callback cb);
+  void set_hash_(request::set::ptr req, response::set::callback cb);
 private:
   std::mutex _mutex;
   std::unordered_map< std::string, data_type> _data;

@@ -1,7 +1,6 @@
 #pragma once
 
 #include <demo/api/types.hpp>
-#include <string>
 
 namespace wamba{ namespace demo{
 
@@ -9,7 +8,8 @@ namespace request
 {
   struct get 
   {
-    std::string name;
+    key_type name;
+    typedef std::unique_ptr<get> ptr;
   };
 }
 
@@ -17,9 +17,11 @@ namespace response
 {
   struct get 
   {
-    std::string name;
+    key_type name;
     data_type data;
     bool status;
+    typedef std::unique_ptr<get> ptr;
+    typedef std::function< void(ptr)> callback;
   };
 }
 

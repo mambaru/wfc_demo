@@ -30,7 +30,7 @@ void domain::start()
 {
 }
 
-void domain::set( idemo::set_request_ptr req, idemo::set_callback cb )
+void domain::set( request::set::ptr req, response::set::callback cb )
 {
   /*
   std::lock_guard<mutex_type> lk(_mutex);
@@ -71,7 +71,7 @@ void domain::set( idemo::set_request_ptr req, idemo::set_callback cb )
 
 }
 
-void domain::get( idemo::get_request_ptr req, idemo::get_callback cb )
+void domain::get( request::get::ptr req, response::get::callback cb )
 {
   /*
   std::lock_guard<mutex_type> lk(_mutex);

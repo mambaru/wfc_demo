@@ -31,8 +31,8 @@ public:
   
   void reconfigure(const domain_config& conf);
   
-  virtual void set(set_request_ptr req, set_callback cb );
-  virtual void get(get_request_ptr req, get_callback cb );
+  virtual void set(request::set::ptr req, response::set::callback cb );
+  virtual void get(request::get::ptr req, response::get::callback cb );
   
   std::shared_ptr<demo> get_demo() 
   {
