@@ -43,7 +43,8 @@ void demo::set_(set_request_ptr req, set_callback cb)
   {
     std::lock_guard<std::mutex> lk(_mutex);
     _data[ std::move(req->name) ] = std::move(req->data);
-    _repli->set( std::move(repli), nullptr );
+    if ( _repli != nullptr )
+      _repli->set( std::move(repli), nullptr );
   }
   
   if ( resp!=nullptr )
@@ -80,9 +81,9 @@ void demo::set_hash_(set_request_ptr req, set_callback cb)
   else
   {
     // TODO: bad gateway
+    if ( cb!=nullptr )
+      cb(nullptr);
   }
-
-  
 }
 
 
@@ -118,7 +119,7 @@ void demo::get( idemo::get_request_ptr req, idemo::get_callback cb )
   if ( itr == _data.end() )
   {
     resp->status = false;
-    cb( std::move(resp) );
+    //cb( std::move(resp) );
   }
   else
   {

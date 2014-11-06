@@ -9,7 +9,7 @@ namespace wamba{ namespace demo{
 
 class demo
   : public idemo
-  , std::enable_shared_from_this<demo>
+  , public std::enable_shared_from_this<demo>
 {
 public:
   typedef std::shared_ptr<idemo>      demo_ptr;
