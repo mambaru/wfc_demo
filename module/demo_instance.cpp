@@ -15,6 +15,7 @@ demo_instance::demo_instance(const std::string& name, std::shared_ptr< wfc::glob
   , _global(g)
   , _conf(conf)
 {
+  _global->idle.push_back([](){std::cout << "Demo idle" << std::endl;});
   _services = std::make_shared< service_list >( g, conf.services );
   _gateways = std::make_shared< gateway_list >( g, conf.gateways );
   _provider = std::make_shared< provider >( g->io_service, conf.provider );
