@@ -30,7 +30,7 @@ void domain::start()
 {
 }
 
-void domain::set( request::set::ptr req, response::set::callback cb )
+void domain::set( request::set::ptr, response::set::callback)
 {
   /*
   std::lock_guard<mutex_type> lk(_mutex);
@@ -71,7 +71,7 @@ void domain::set( request::set::ptr req, response::set::callback cb )
 
 }
 
-void domain::get( request::get::ptr req, response::get::callback cb )
+void domain::get( request::get::ptr, response::get::callback)
 {
   /*
   std::lock_guard<mutex_type> lk(_mutex);
