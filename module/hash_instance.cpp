@@ -10,8 +10,8 @@ hash_instance::~hash_instance()
 
 hash_instance::hash_instance(const std::string& /*name*/, std::weak_ptr< wfc::global > g, const hash_config& conf)
 {
-  _services = std::make_shared< service_list >( g, conf );
-  _demo_hash   = std::make_shared<demo_hash>();
+  _services  = std::make_shared< service_list >( g, conf );
+  _demo_hash = std::make_shared<demo_hash>();
 }
 
 void hash_instance::reconfigure(const hash_config& conf)

@@ -12,12 +12,16 @@
 #include <memory>
 #include <demo/demo.hpp>
 #include "demo_config.hpp"
-#include "gateway/method_list.hpp"
+//
 
 namespace wamba{ namespace demo{
   
 class demo;
 class demo_proxy;
+namespace gateway
+{
+  class hash_proxy;
+}
   
 class demo_instance
 {
@@ -25,7 +29,7 @@ public:
   
   virtual ~demo_instance();
   
-  demo_instance(const std::string& name, std::weak_ptr< wfc::global > g, const demo_config& conf);
+  demo_instance(const std::string& name, std::shared_ptr< wfc::global > g, const demo_config& conf);
   
   void reconfigure(const demo_config& conf);
   
@@ -42,7 +46,7 @@ public:
 private:
   
   std::string _name;
-  std::weak_ptr< wfc::global > _global;
+  std::shared_ptr< wfc::global > _global;
   demo_config _conf;
   //std::shared_ptr<domain> _domain;
   typedef wfc::service::rn::jsonrpc::service_list service_list;

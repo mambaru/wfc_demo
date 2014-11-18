@@ -3,24 +3,24 @@
 #include "service/method_list.hpp"
 #include "gateway/method_list.hpp"
 
+
 namespace wamba{ namespace demo{
 
 demo_instance::~demo_instance()
 {
 }
 
-demo_instance::demo_instance(const std::string& name, std::weak_ptr< wfc::global > g, const demo_config& conf)
+demo_instance::demo_instance(const std::string& name, std::shared_ptr< wfc::global > g, const demo_config& conf)
   : _name(name)
   , _global(g)
   , _conf(conf)
 {
   _services = std::make_shared< service_list >( g, conf.services );
   _gateways = std::make_shared< gateway_list >( g, conf.gateways );
-  _provider = std::make_shared< provider >( g.lock()->io_service, conf.provider );
-  _hash_provider = std::make_shared< hash_provider >( g.lock()->io_service, conf.provider );
+  _provider = std::make_shared< provider >( g->io_service, conf.provider );
+  _hash_provider = std::make_shared< hash_provider >( g->io_service, conf.provider );
   _hash_proxy = std::make_shared< gateway::hash_proxy>(_hash_provider);
   _demo   = std::make_shared<demo>(nullptr, nullptr);
-  //_domain   = std::make_shared<domain>(conf, _provider);
 }
 
 void demo_instance::reconfigure(const demo_config& conf)

@@ -1,7 +1,6 @@
 #pragma once
 
 #include <wfc/module/imodule.hpp>
-
 namespace wamba{ namespace demo{
 
 namespace demo_module_impl
@@ -12,9 +11,6 @@ namespace demo_module_impl
 struct demo_module: demo_module_impl::module{};
   
 }}
-
-
-
 
 /*
 #pragma once
