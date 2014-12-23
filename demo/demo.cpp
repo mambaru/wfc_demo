@@ -42,9 +42,13 @@ void demo::set_(request::set::ptr req, response::set::callback cb)
   
   {
     std::lock_guard<std::mutex> lk(_mutex);
+    std::cout <<  "DEMO SET " <<  std::endl;
     _data[ std::move(req->name) ] = std::move(req->data);
     if ( _repli != nullptr )
+    {
       _repli->set( std::move(repli), nullptr );
+      std::cout <<  "DEMO SET REPLI" <<  std::endl;
+    }
   }
   
   if ( resp!=nullptr )
@@ -105,6 +109,8 @@ void demo::set( request::set::ptr req, response::set::callback callback )
 
 void demo::get( request::get::ptr req, response::get::callback cb )
 {
+  std::cout <<  "DEMO GET -1-" <<  std::endl;
+
   if (cb==nullptr)
     return;
 
@@ -118,14 +124,18 @@ void demo::get( request::get::ptr req, response::get::callback cb )
   
   if ( itr == _data.end() )
   {
+    std::cout <<  "DEMO GET -2.1-" <<  std::endl;
+
     resp->status = false;
     //cb( std::move(resp) );
   }
   else
   {
+    std::cout <<  "DEMO GET -2.2- [" <<  itr->second << "]" <<  std::endl;
     resp->status = true;
     resp->data = itr->second;
   }
+  std::cout <<  "DEMO GET -2-" <<  std::endl;
   cb( std::move(resp) );
 }
 
