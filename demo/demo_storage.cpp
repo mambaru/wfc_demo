@@ -2,6 +2,7 @@
 
 namespace wamba{ namespace demo{
 
+
 void demo_storage::set(const key_type& name,  const data_type& data)
 {
   _storage[ name ] = data;

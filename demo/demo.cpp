@@ -43,6 +43,15 @@ void demo::set_(request::set::ptr req, response::set::callback cb)
   {
     std::lock_guard<std::mutex> lk(_mutex);
     _data[ std::move(req->name) ] = std::move(req->data);
+    
+    /*
+    auto itr = _data.find(req->name);
+    if (itr==_data.end())
+      _data.insert( std::make_pair(std::move(req->name), std::move(req->data) ) );
+    else
+      itr->second = std::move(req->data);
+      */
+      
     if ( _repli != nullptr )
     {
       _repli->set( std::move(repli), nullptr );
@@ -91,6 +100,9 @@ void demo::set_hash_(request::set::ptr req, response::set::callback cb)
 
 void demo::set( request::set::ptr req, response::set::callback callback )
 {
+  //callback(nullptr);
+  //return;
+  
   if ( !check_params( req, callback) )
     return;
   

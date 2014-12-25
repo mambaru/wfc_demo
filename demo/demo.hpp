@@ -3,6 +3,7 @@
 #include "idemo.hpp"
 #include <hash/idemo_hash.hpp>
 #include <unordered_map>
+#include <map>
 #include <mutex>
 
 namespace wamba{ namespace demo{
@@ -28,7 +29,7 @@ protected:
   void set_hash_(request::set::ptr req, response::set::callback cb);
 private:
   std::mutex _mutex;
-  std::unordered_map< std::string, data_type> _data;
+  std::map< std::string, data_type> _data;
   demo_ptr _repli;
   hash_ptr _hash;
 };
