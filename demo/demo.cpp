@@ -37,6 +37,11 @@ demo::demo(demo_ptr repli, hash_ptr hash)
 
 void demo::set_(request::set::ptr req, response::set::callback cb)
 {
+  std::cout << "-------------------" << std::endl;
+  std::cout << req->name << std::endl;
+  std::cout << req->data << std::endl;
+
+  
   auto resp = make_unique_if<response::set>(cb!=nullptr);
   auto repli = make_unique_if<request::set>(_repli!=nullptr, *req);
   
@@ -128,7 +133,7 @@ void demo::get( request::get::ptr req, response::get::callback cb )
   auto resp = std::make_unique<response::get>();
   
   auto itr = _data.find(req->name);
-  std::swap(resp->name, req->name);
+  //std::swap(resp->name, req->name);
   
   if ( itr == _data.end() )
   {
@@ -140,6 +145,8 @@ void demo::get( request::get::ptr req, response::get::callback cb )
     resp->status = true;
     resp->data = itr->second;
   }
+  std::cout << "-------------------" << std::endl;
+  std::cout << resp->data << std::endl;
   cb( std::move(resp) );
 }
 

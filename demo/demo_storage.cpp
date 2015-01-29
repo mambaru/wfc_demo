@@ -1,5 +1,6 @@
 #include "demo_storage.hpp"
 
+#include <iostream>
 namespace wamba{ namespace demo{
 
 
@@ -18,8 +19,11 @@ bool demo_storage::get(const key_type& name,  data_type& data)
   auto itr = _storage.find(name);
   if (itr == _storage.end() )
   {
+    data.clear();
     return false;
   }
+  std::cout << "-------------------" << std::endl;
+  std::cout << data << std::endl;
   data = itr->second;
   return true;
 }

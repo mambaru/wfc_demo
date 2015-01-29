@@ -36,7 +36,7 @@ namespace response
     typedef wfc::json::object<
       get,
       fas::type_list_n<
-        wfc::json::member<n_name, get, std::string, &get::name>,
+        /*wfc::json::member<n_name, get, std::string, &get::name>,*/
         wfc::json::member<n_data, get, std::string, &get::data >,
         wfc::json::member<n_status, get, bool,      &get::status >
       >::type
