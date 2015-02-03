@@ -9,7 +9,7 @@ namespace request
   struct set 
   {
     key_type name;
-    data_type data;
+    data_type value;
     bool hash = false;
     typedef std::unique_ptr<set> ptr;
   };

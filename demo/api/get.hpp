@@ -18,7 +18,7 @@ namespace response
   struct get 
   {
     /*key_type name;*/
-    data_type data;
+    data_type value;
     bool status;
     typedef std::unique_ptr<get> ptr;
     typedef std::function< void(ptr)> callback;

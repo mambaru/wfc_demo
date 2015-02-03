@@ -12,14 +12,14 @@ namespace request
   struct set_json
   {
     JSON_NAME(name)
-    JSON_NAME(data)
+    JSON_NAME(value)
     JSON_NAME(hash)
     
     typedef wfc::json::object<
       set,
       fas::type_list_n<
         wfc::json::member<n_name, set, std::string, &set::name>,
-        wfc::json::member<n_data, set, std::string, &set::data >,
+        wfc::json::member<n_value, set, std::string, &set::value >,
         wfc::json::member<n_hash, set, bool, &set::hash >
       >::type
     > type;

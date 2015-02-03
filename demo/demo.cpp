@@ -39,7 +39,7 @@ void demo::set_(request::set::ptr req, response::set::callback cb)
 {
   std::cout << "-------------------" << std::endl;
   std::cout << req->name << std::endl;
-  std::cout << req->data << std::endl;
+  std::cout << req->value << std::endl;
 
   
   auto resp = make_unique_if<response::set>(cb!=nullptr);
@@ -47,7 +47,7 @@ void demo::set_(request::set::ptr req, response::set::callback cb)
   
   {
     std::lock_guard<std::mutex> lk(_mutex);
-    _data[ std::move(req->name) ] = std::move(req->data);
+    _data[ std::move(req->name) ] = std::move(req->value);
     
     /*
     auto itr = _data.find(req->name);
@@ -74,7 +74,7 @@ void demo::set_hash_(request::set::ptr req, response::set::callback cb)
 {
   if ( auto req_hash = make_unique_if<request::hash>(
                           this->_hash != nullptr, 
-                          std::move(request::hash{ std::move(req->data) })
+                          std::move(request::hash{ std::move(req->value) })
                        ) 
      ) 
   {
@@ -89,7 +89,7 @@ void demo::set_hash_(request::set::ptr req, response::set::callback cb)
       {
         char ch[32] = {0};
         sprintf(ch, "%lu", resp->result);
-        (*preq)->data = ch;
+        (*preq)->value = ch;
         pthis->set_( std::move(*preq), cb);
       }
     });
@@ -143,10 +143,10 @@ void demo::get( request::get::ptr req, response::get::callback cb )
   else
   {
     resp->status = true;
-    resp->data = itr->second;
+    resp->value = itr->second;
   }
   std::cout << "-------------------" << std::endl;
-  std::cout << resp->data << std::endl;
+  std::cout << resp->value << std::endl;
   cb( std::move(resp) );
 }
 
