@@ -47,7 +47,7 @@ void demo::set_(request::set::ptr req, response::set::callback cb)
   
   {
     std::lock_guard<std::mutex> lk(_mutex);
-    _data[ std::move(req->name) ] = std::move(req->value);
+    _data[ std::move(req->key) ] = std::move(req->value);
     
     /*
     auto itr = _data.find(req->name);
@@ -132,7 +132,7 @@ void demo::get( request::get::ptr req, response::get::callback cb )
 
   auto resp = std::make_unique<response::get>();
   
-  auto itr = _data.find(req->name);
+  auto itr = _data.find(req->key);
   //std::swap(resp->name, req->name);
   
   if ( itr == _data.end() )

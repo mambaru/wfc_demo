@@ -11,12 +11,12 @@ namespace request
 {
   struct get_json
   {
-    FAS_NAME(name)
+    FAS_NAME(key)
    
     typedef wfc::json::object<
       get,
       fas::type_list_n<
-        wfc::json::member<n_name, get, std::string, &get::name>
+        wfc::json::member<n_key, get, std::string, &get::key>
       >::type
     > type;
     
@@ -29,7 +29,6 @@ namespace response
 {
   struct get_json
   {
-    FAS_NAME(name)
     FAS_NAME(value)
     FAS_NAME(status)
     

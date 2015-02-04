@@ -8,7 +8,7 @@ namespace request
 {
   struct get 
   {
-    key_type name;
+    key_type key;
     typedef std::unique_ptr<get> ptr;
   };
 }

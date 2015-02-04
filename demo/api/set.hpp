@@ -8,7 +8,7 @@ namespace request
 {
   struct set 
   {
-    key_type name;
+    key_type key;
     data_type value;
     bool hash = false;
     typedef std::unique_ptr<set> ptr;
