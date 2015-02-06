@@ -1,4 +1,21 @@
+
 #pragma once
+
+#include <wfc/module/module.hpp>
+
+namespace wamba{ namespace demo{
+
+class demo_module
+  : public ::wfc::module
+{
+public:
+  demo_module();
+};
+  
+}}
+
+
+/*#pragma once
 
 #include <wfc/module/imodule.hpp>
 #include <sstream>
@@ -25,3 +42,4 @@ public:
   
 }}
 
+*/

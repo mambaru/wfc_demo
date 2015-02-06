@@ -2,8 +2,7 @@
 
 #include "types_json.hpp"
 #include <demo/api/get.hpp>
-#include <wfc/json/json.hpp>
-#include <wfc/json/name.hpp>
+#include <wfc/json.hpp>
 
 namespace wamba{ namespace demo{
 
@@ -11,7 +10,8 @@ namespace request
 {
   struct get_json
   {
-    FAS_NAME(key)
+    JSON_NAME(key)
+    JSON_NAME(keys)
    
     typedef wfc::json::object<
       get,
@@ -29,8 +29,8 @@ namespace response
 {
   struct get_json
   {
-    FAS_NAME(value)
-    FAS_NAME(status)
+    JSON_NAME(value)
+    JSON_NAME(status)
     
     typedef wfc::json::object<
       get,
