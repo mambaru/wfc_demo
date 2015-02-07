@@ -7,7 +7,6 @@
 #include <thread>
 #include <list>
 #include <wfc/provider/provider.hpp>
-#include <wfc/io_service.hpp>
 //#include <wfc/callback/callback_owner.hpp>
 
 namespace wamba{ namespace demo{

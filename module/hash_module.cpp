@@ -4,7 +4,6 @@
 #include "hash_instance.hpp"
 
 #include <wfc/module/multi_instance.hpp>
-#include <wfc/module/imodule.hpp>
 
 namespace wamba{ namespace demo{
 
