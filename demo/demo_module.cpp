@@ -4,25 +4,25 @@
 // Copyright: See COPYING file that comes with this distribution
 //
 
-#include "logger_module.hpp"
-#include "logger_object.hpp"
+#include "demo_module.hpp"
+#include "demo_object.hpp"
 #include <wfc/module/object_list.hpp>
 #include <wfc/name.hpp>
 
-namespace wfc{
+namespace wamba{ namespace demo{
 
-WFC_NAME2(logger_module_name, "logger")
+WFC_NAME2(demo_module_name, "demo")
 
-class logger_module_impl: public ::wfc::object_list<
-  logger_module_name,
-  logger_object
+class demo_module_impl: public ::wfc::object_list<
+  demo_module_name,
+  demo_object
 >
 {
 };
 
-logger_module::logger_module()
-  : module( std::make_shared<logger_module_impl>() )
+demo_module::demo_module()
+  : module( std::make_shared<demo_module_impl>() )
 {
 }
 
-}
+}}

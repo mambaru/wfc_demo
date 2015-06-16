@@ -8,16 +8,16 @@
 
 #include <wfc/module/module.hpp>
 
-namespace wfc{
+namespace wamba{ namespace demo{
 
-class logger_module_impl;
+class demo_module_impl;
 
-class logger_module
+class demo_module
   : public ::wfc::module
 {
 public:
-  logger_module();
+  demo_module();
 };
 
-}
+}}
 

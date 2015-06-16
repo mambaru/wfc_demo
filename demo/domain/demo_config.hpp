@@ -7,14 +7,11 @@
 #pragma once
 
 #include <string>
-#include "writer_config.hpp"
 
-namespace wfc{
+namespace wamba{ namespace demo{
 
-struct logger_config
-  : writer_config
+struct demo_config
 {
-  bool single = true;
 };
 
-}
+}}

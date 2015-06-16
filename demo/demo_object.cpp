@@ -4,29 +4,29 @@
 // Copyright: See COPYING file that comes with this distribution
 //
 
-#include "logger_object.hpp"
-#include "domain/logger_domain.hpp"
-#include "logger_config_json.hpp"
+#include "demo_object.hpp"
+#include "domain/demo_domain.hpp"
+#include "demo_config_json.hpp"
 
-#include <wfc/module/singleton.hpp>
+#include <wfc/module/multiton.hpp>
 #include <wfc/module/instance.hpp>
 #include <wfc/name.hpp>
 
-namespace wfc{
+namespace wamba{ namespace demo{
 
-WFC_NAME2(logger_object_name, "logger")
+WFC_NAME2(demo_object_name, "demo")
 
-class logger_object_impl: public ::wfc::singleton<
-  logger_object_name,
-  ::wfc::instance<logger_domain>,
-  logger_config_json
+class demo_object_impl: public ::wfc::multiton<
+  demo_object_name,
+  wfc::instance<demo_domain>,
+  demo_config_json
 >
 {  
 };
 
-logger_object::logger_object()
-  : object( std::make_shared<logger_object_impl>() )
+demo_object::demo_object()
+  : object( std::make_shared<demo_object_impl>() )
 {
 }
 
-}
+}}

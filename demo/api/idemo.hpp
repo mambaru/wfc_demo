@@ -1,14 +1,15 @@
 #pragma once
 
-#include "api/set.hpp"
+#include <demo/api/set.hpp>
+#include <demo/api/get.hpp>
 
-
+#include <wfc/iinterface.hpp>
 #include <memory>
 #include <functional>
 
 namespace wamba{ namespace demo{
 
-struct idemo
+struct idemo: public ::wfc::iinterface
 {
   virtual ~idemo() {}
   virtual void set(request::set::ptr req, response::set::callback cb ) = 0;

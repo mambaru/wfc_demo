@@ -7,39 +7,26 @@
 #pragma once
 
 #include <wfc/domain_object.hpp>
-#include "logger_config.hpp"
+#include "demo_config.hpp"
+#include <demo/api/idemo.hpp>
 #include <memory>
 #include <string>
 
 
-namespace wfc{
+namespace wamba{ namespace demo{
 
-class logger_writer;
+class demo_writer;
 
-class logger_domain
-  : public domain_object<iinterface, logger_config>
-  , public std::enable_shared_from_this<logger_domain>
+class demo_domain
+  : public ::wfc::domain_object<idemo, demo_config>
+  , public std::enable_shared_from_this<demo_domain>
 {
 public:
-  
-  virtual void reconfigure();
-  virtual void stop(const std::string& );
-  virtual void start(const std::string& );
-  
+  virtual void set(request::set::ptr req, response::set::callback cb ) override;
+  virtual void get(request::get::ptr req, response::get::callback cb ) override;
+  virtual void perform_io(data_ptr /*d*/, io_id_t /*io_id*/, outgoing_handler_t handler) override;
+
 private:
-  
-  void create_single_();
-  void create_multi_();
-  void reg_loggers_();
-  void unreg_loggers_();
-  
-private:
-  
-  std::shared_ptr<logger_writer> _config_log;
-  std::shared_ptr<logger_writer> _domain_log;
-  std::shared_ptr<logger_writer> _common_log;
-  std::shared_ptr<logger_writer> _debug_log;
-  std::shared_ptr<logger_writer> _syslog_log;
 };
 
-}
+}}

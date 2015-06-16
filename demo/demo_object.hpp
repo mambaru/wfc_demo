@@ -8,15 +8,15 @@
 
 #include <wfc/module/object.hpp>
 
-namespace wfc{
+namespace wamba{ namespace demo{
 
-class logger_object_impl;
+class demo_object_impl;
 
-class logger_object
+class demo_object
   : public ::wfc::object
 {
 public:
-  logger_object();
+  demo_object();
 };
 
-}
+}}

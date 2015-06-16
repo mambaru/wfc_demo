@@ -6,6 +6,7 @@ SET(
   demo_package.cpp
   demo_module.cpp
   demo_object.cpp
+  demo_service_object.cpp
   domain/demo_domain.cpp
 )
 
