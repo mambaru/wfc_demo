@@ -9,9 +9,10 @@ endif()
 
 include(Wfc)
 
-include_directories(wfc)
-include_directories(.)
+include_directories(./demo)
 
 add_subdirectory(demo)
-add_subdirectory(hash)
-add_subdirectory(module)
+
+if ( WFC_BUILD_ALL || DEMO_BUILD_ALL )
+  add_subdirectory(tests)
+endif()
