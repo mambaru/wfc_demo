@@ -19,12 +19,12 @@ WFC_NAME2(demo_service_object_name, "demo-service")
 class demo_service_object_impl: public ::wfc::multiton<
   demo_service_object_name,
   wfc::instance<demo_service>,
-  wfc::json::object<
-    /*wfc::jsonrpc::handler_base_options*/
+  wfc::jsonrpc::jsonrpc_options_json< demo_service::options_type >
+  /*wfc::json::object<
     demo_service::options_type,
     wfc::json::member_list<
     >
-  >
+  >*/
 >
 {
 };

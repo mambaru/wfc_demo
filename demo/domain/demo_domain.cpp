@@ -6,14 +6,21 @@
 
 #include "demo_domain.hpp"
 #include <wfc/logger.hpp>
+#include <wfc/memory.hpp>
 #include <iostream>
-#include <memory>
+
 
 
 namespace wamba{ namespace demo{
 
-void demo_domain::set(request::set::ptr req, response::set::callback cb )
+void demo_domain::set(request::set::ptr /*req*/, response::set::callback cb )
 {
+  if (cb!=nullptr)
+  {
+    auto resp = std::make_unique<response::set>();
+    resp->status = true;
+    cb( std::move(resp));
+  }
 
 }
 
