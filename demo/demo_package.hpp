@@ -10,8 +10,6 @@
 
 namespace wamba{ namespace demo{
 
-class demo_package_impl;
-
 class demo_package
   : public ::wfc::package
 {

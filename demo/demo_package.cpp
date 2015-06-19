@@ -13,7 +13,7 @@
 
 namespace wamba{ namespace demo{
 
-WFC_NAME2(demo_package_name, "logger")
+WFC_NAME2(demo_package_name, "demo")
 
 class demo_package_impl: public ::wfc::module_list<
   demo_build_info,
