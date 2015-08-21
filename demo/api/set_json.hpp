@@ -1,4 +1,4 @@
-#pragma once
+/*#pragma once
 
 #include "types_json.hpp"
 #include <demo/api/set.hpp>
@@ -50,3 +50,4 @@ namespace response
 }
 
 }}
+*/

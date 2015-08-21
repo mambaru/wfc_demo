@@ -2,10 +2,7 @@
 
 #include <demo/api/set.hpp>
 #include <demo/api/get.hpp>
-
 #include <wfc/iinterface.hpp>
-#include <memory>
-#include <functional>
 
 namespace wamba{ namespace demo{
 
