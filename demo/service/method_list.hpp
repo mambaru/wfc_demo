@@ -25,7 +25,7 @@ struct demo_serice_handler
 {};
 
 struct demo_service
-  : wfc::jsonrpc::jsonrpc<demo_serice_handler>
+  : wfc::jsonrpc::service<demo_serice_handler>
 {};
 
 }}

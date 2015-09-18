@@ -11,6 +11,8 @@
 
 
 
+#include "../gateway/method_list.hpp"
+
 namespace wamba{ namespace demo{
 
 void demo_domain::set(request::set::ptr /*req*/, response::set::callback cb )
@@ -26,7 +28,7 @@ void demo_domain::set(request::set::ptr /*req*/, response::set::callback cb )
 
 void demo_domain::get(request::get::ptr req, response::get::callback cb ) 
 {
-
+  demo_method_list1 ml;
 }
 
 void demo_domain::perform_io(data_ptr d, io_id_t /*io_id*/, outgoing_handler_t handler)
