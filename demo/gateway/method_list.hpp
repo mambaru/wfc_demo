@@ -48,13 +48,14 @@ struct demo_gateway
   
   virtual void set(request::set::ptr req, response::set::callback cb ) override
   {
-    DEBUG_LOG_TRACE("virtual void set(request::set::ptr req, response::set::callback cb ) override")
+    DEBUG_LOG_TRACE("-1- virtual void demo_gateway::set(request::set::ptr req, response::set::callback cb ) override")
     this->call<_set_>( std::move(req), cb, nullptr);
+    DEBUG_LOG_TRACE("-2- virtual void demo_gateway::set(request::set::ptr req, response::set::callback cb ) override")
   }
   
   virtual void get(request::get::ptr req, response::get::callback cb ) override
   {
-    DEBUG_LOG_TRACE("virtual void get(request::get::ptr req, response::get::callback cb ) override")
+    DEBUG_LOG_TRACE("virtual void demo_gateway::get(request::get::ptr req, response::get::callback cb ) override")
     this->call<_get_>( std::move(req), cb, nullptr);
   }
 
