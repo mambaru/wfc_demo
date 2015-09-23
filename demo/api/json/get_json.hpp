@@ -10,12 +10,13 @@ namespace request
   struct get_json
   {
     JSON_NAME(key)
-    JSON_NAME(keys)
+    JSON_NAME(hash)
 
     typedef wfc::json::object<
       get,
       wfc::json::member_list<
-        wfc::json::member<n_key, get, std::string, &get::key>
+        wfc::json::member<n_key, get, std::string, &get::key>,
+        wfc::json::member<n_hash, get, bool, &get::hash>
       >
     > type;
 

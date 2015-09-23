@@ -10,7 +10,6 @@ namespace request
   {
     key_type key;
     data_type value;
-    bool hash = false;
     typedef std::unique_ptr<set> ptr;
   };
 }
@@ -21,7 +20,7 @@ namespace response
   {
     bool status = false;
     typedef std::unique_ptr<set> ptr;
-    typedef std::function< void(ptr)> callback;
+    typedef std::function< void(ptr)> handler;
   };
 }
 

@@ -12,11 +12,14 @@ namespace wamba{ namespace demo{
 
 struct demo_config_json
 {
-  //using ::wfc::json::object;
-
+  JSON_NAME(repli_target)
+  JSON_NAME(hash_target)
+  
   typedef ::wfc::json::object<
     demo_config,
     ::wfc::json::member_list<
+      ::wfc::json::member< n_repli_target, demo_config, std::string, &demo_config::repli_target>,
+      ::wfc::json::member< n_hash_target, demo_config, std::string, &demo_config::hash_target>
     >
   > type;
 

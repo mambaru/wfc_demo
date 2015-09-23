@@ -9,26 +9,37 @@
 #include <wfc/memory.hpp>
 #include <iostream>
 
-
-
-#include "../gateway/method_list.hpp"
-
 namespace wamba{ namespace demo{
-
-void demo_domain::set(request::set::ptr /*req*/, response::set::callback cb )
+  
+void demo_domain::reconfigure()
 {
+  std::string repli_name = this->options().repli_target;
+  _reply = this->global()->registry.get<idemo>(repli_name);
+  
+}
+
+void demo_domain::set(request::set::ptr req, response::set::handler cb )
+{
+  DOMAIN_LOG_DEBUG("void demo_domain::set(request::set::ptr req, response::set::handler cb ) cb==" << (cb!=nullptr))
+  // TODO: mutex
   if (cb!=nullptr)
   {
     auto resp = std::make_unique<response::set>();
     resp->status = true;
     cb( std::move(resp));
   }
-
+  
+  if ( _reply != nullptr )
+  {
+    DOMAIN_LOG_DEBUG("set reply  {{{{ ")
+    _reply->set( std::move(req), nullptr );
+    DOMAIN_LOG_DEBUG("}}}}   set reply")
+    
+  }
 }
 
-void demo_domain::get(request::get::ptr req, response::get::callback cb ) 
+void demo_domain::get(request::get::ptr req, response::get::handler cb ) 
 {
-  demo_method_list1 ml;
 }
 
 void demo_domain::perform_io(data_ptr d, io_id_t /*io_id*/, outgoing_handler_t handler)

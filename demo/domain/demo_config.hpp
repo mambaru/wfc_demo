@@ -12,6 +12,8 @@ namespace wamba{ namespace demo{
 
 struct demo_config
 {
+  std::string repli_target;
+  std::string hash_target;
 };
 
 }}

@@ -11,14 +11,12 @@ namespace request
   {
     JSON_NAME(key)
     JSON_NAME(value)
-    JSON_NAME(hash)
 
     typedef wfc::json::object<
       set,
       wfc::json::member_list<
         wfc::json::member<n_key, set, std::string, &set::key>,
-        wfc::json::member<n_value, set, std::string, &set::value >,
-        wfc::json::member<n_hash, set, bool, &set::hash >
+        wfc::json::member<n_value, set, std::string, &set::value >
       >
     > type;
 

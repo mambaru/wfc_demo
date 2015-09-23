@@ -9,10 +9,8 @@ namespace wamba{ namespace demo{
 struct idemo: public ::wfc::iinterface
 {
   virtual ~idemo() {}
-  virtual void set(request::set::ptr req, response::set::callback cb ) = 0;
-  virtual void get(request::get::ptr req, response::get::callback cb ) = 0;
+  virtual void set(request::set::ptr req, response::set::handler cb ) = 0;
+  virtual void get(request::get::ptr req, response::get::handler cb ) = 0;
 };
-
-
 
 }}

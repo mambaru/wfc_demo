@@ -22,11 +22,12 @@ class demo_domain
   , public std::enable_shared_from_this<demo_domain>
 {
 public:
-  virtual void set(request::set::ptr req, response::set::callback cb ) override;
-  virtual void get(request::get::ptr req, response::get::callback cb ) override;
+  virtual void reconfigure() override;
+  virtual void set(request::set::ptr req, response::set::handler cb ) override;
+  virtual void get(request::get::ptr req, response::get::handler cb ) override;
   virtual void perform_io(data_ptr /*d*/, io_id_t /*io_id*/, outgoing_handler_t handler) override;
-
 private:
+  std::shared_ptr<idemo> _reply;
 };
 
 }}

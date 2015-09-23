@@ -10,6 +10,7 @@ namespace request
   struct get 
   {
     key_type key;
+    bool hash;
     typedef std::unique_ptr<get> ptr;
   };
 }
@@ -21,7 +22,7 @@ namespace response
     data_type value;
     bool status;
     typedef std::unique_ptr<get> ptr;
-    typedef std::function< void(ptr)> callback;
+    typedef std::function< void(ptr)> handler;
   };
 }
 
