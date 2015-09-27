@@ -29,6 +29,8 @@ void demo_domain::set(request::set::ptr req, response::set::handler cb )
     cb( std::move(resp));
   }
   
+  auto tmp1 = this->wrap( cb );
+  auto tmp2 = this->wrap(cb, [](){});
   if ( _reply != nullptr )
   {
     DOMAIN_LOG_DEBUG("set reply  {{{{ ")
