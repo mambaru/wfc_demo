@@ -4,7 +4,7 @@
 // Copyright: See COPYING file that comes with this distribution
 //
 
-#include "demo_domain.hpp"
+#include "demo.hpp"
 #include <wfc/logger.hpp>
 #include <wfc/memory.hpp>
 #include <iostream>

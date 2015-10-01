@@ -10,11 +10,11 @@
 
 namespace wamba{ namespace demo{
 
-class demo_object
+class pingpong_service_multiton
   : public ::wfc::object
 {
 public:
-  demo_object();
+  pingpong_service_multiton();
 };
 
 }}

@@ -1,6 +1,6 @@
 #pragma once
 
-#include <demo/api/types.hpp>
+#include <demo/api/demo/types.hpp>
 #include <unordered_map>
 
 namespace wamba{ namespace demo{

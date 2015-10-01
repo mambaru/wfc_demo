@@ -10,11 +10,11 @@
 
 namespace wamba{ namespace demo{
 
-class demo_gateway_object
+class demo_gateway_multiton
   : public ::wfc::object
 {
 public:
-  demo_gateway_object();
+  demo_gateway_multiton();
 };
 
 }}

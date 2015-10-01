@@ -3,11 +3,18 @@ include(BuildInfo)
 SET(
   wfc_demo_source_list
   demo_package.cpp
-  demo_module.cpp
-  demo_object.cpp
-  demo_service_object.cpp
-  demo_gateway_object.cpp
-  domain/demo_domain.cpp
+  module/demo_module.cpp
+
+  module/demo_multiton.cpp
+  module/demo_service_multiton.cpp
+  module/demo_gateway_multiton.cpp
+
+  module/pingpong_multiton.cpp
+  module/pingpong_service_multiton.cpp
+  module/pingpong_gateway_multiton.cpp
+
+  demo/demo.cpp
+  pingpong/pingpong.cpp
 )
 
 add_library(

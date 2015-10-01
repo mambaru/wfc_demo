@@ -1,8 +1,8 @@
 #pragma once
 
 #include <demo/api/idemo.hpp>
-#include <demo/api/json/get_json.hpp>
-#include <demo/api/json/set_json.hpp>
+#include <demo/api/demo/get_json.hpp>
+#include <demo/api/demo/set_json.hpp>
 #include <wfc/jsonrpc.hpp>
 
 

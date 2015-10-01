@@ -5,9 +5,11 @@
 //
 
 #include "demo_module.hpp"
-#include "demo_object.hpp"
-#include "demo_service_object.hpp"
-#include "demo_gateway_object.hpp"
+#include "demo_multiton.hpp"
+#include "demo_service_multiton.hpp"
+#include "demo_gateway_multiton.hpp"
+#include "pingpong_service_multiton.hpp"
+#include "pingpong_gateway_multiton.hpp"
 #include <wfc/module/object_list.hpp>
 #include <wfc/name.hpp>
 
@@ -17,9 +19,11 @@ WFC_NAME2(demo_module_name, "demo")
 
 class demo_module_impl: public ::wfc::object_list<
   demo_module_name,
-  demo_object,
-  demo_service_object,
-  demo_gateway_object
+  demo_multiton,
+  demo_service_multiton,
+  demo_gateway_multiton,
+  pingpong_service_multiton,
+  pingpong_gateway_multiton
 >
 {
 };

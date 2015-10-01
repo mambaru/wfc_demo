@@ -1,8 +1,8 @@
 #pragma once
 
 #include <demo/api/idemo.hpp>
-#include <demo/api/json/get_json.hpp>
-#include <demo/api/json/set_json.hpp>
+#include <demo/api/demo/get_json.hpp>
+#include <demo/api/demo/set_json.hpp>
 #include <wfc/jsonrpc.hpp>
 
 
@@ -18,6 +18,15 @@ struct demo_method_list1: wfc::jsonrpc::method_list
   wfc::jsonrpc::call_method< _get_,      request::get_json,      response::get_json>
 >
 {
+  virtual void set(request::set::ptr req, response::set::handler cb ) override
+  {
+    this->call<_set_>( std::move(req), cb, nullptr);
+  }
+  
+  virtual void get(request::get::ptr req, response::get::handler cb ) override
+  {
+    this->call<_get_>( std::move(req), cb, nullptr);
+  }
 };
 
 struct demo_gateway_handler
@@ -28,19 +37,16 @@ struct demo_gateway_handler
 struct demo_gateway
   : wfc::jsonrpc::gateway<demo_gateway_handler>
 {
-  
   virtual void set(request::set::ptr req, response::set::handler cb ) override
   {
-    DEBUG_LOG_TRACE("-1- virtual void demo_gateway::set(request::set::ptr req, response::set::callback cb ) override")
     this->call<_set_>( std::move(req), cb, nullptr);
-    DEBUG_LOG_TRACE("-2- virtual void demo_gateway::set(request::set::ptr req, response::set::callback cb ) override")
   }
   
   virtual void get(request::get::ptr req, response::get::handler cb ) override
   {
-    DEBUG_LOG_TRACE("virtual void demo_gateway::get(request::get::ptr req, response::get::callback cb ) override")
     this->call<_get_>( std::move(req), cb, nullptr);
   }
+  
 };
 
 }}

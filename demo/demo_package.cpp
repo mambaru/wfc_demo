@@ -7,7 +7,7 @@
 
 #include "demo_build_info.h"
 #include "demo_package.hpp"
-#include "demo_module.hpp"
+#include "module/demo_module.hpp"
 #include <wfc/module/module_list.hpp>
 #include <wfc/name.hpp>
 

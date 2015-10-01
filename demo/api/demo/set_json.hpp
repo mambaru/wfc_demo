@@ -1,22 +1,22 @@
 #pragma once
 
-#include <demo/api/get.hpp>
+#include <demo/api/demo/set.hpp>
 #include <wfc/json.hpp>
 
 namespace wamba{ namespace demo{
 
 namespace request
 {
-  struct get_json
+  struct set_json
   {
     JSON_NAME(key)
-    JSON_NAME(hash)
+    JSON_NAME(value)
 
     typedef wfc::json::object<
-      get,
+      set,
       wfc::json::member_list<
-        wfc::json::member<n_key, get, std::string, &get::key>,
-        wfc::json::member<n_hash, get, bool, &get::hash>
+        wfc::json::member<n_key, set, std::string, &set::key>,
+        wfc::json::member<n_value, set, std::string, &set::value >
       >
     > type;
 
@@ -27,16 +27,13 @@ namespace request
 
 namespace response
 {
-  struct get_json
+  struct set_json
   {
-    JSON_NAME(value)
     JSON_NAME(status)
-
     typedef wfc::json::object<
-      get,
+      set,
       wfc::json::member_list<
-        wfc::json::member<n_value,  get, std::string, &get::value >,
-        wfc::json::member<n_status, get, bool,        &get::status >
+        wfc::json::member<n_status, set, bool, &set::status>
       >
     > type;
 

@@ -5,7 +5,7 @@
 //
 #pragma once
 
-#include "domain/demo_config.hpp"
+#include "../demo/demo_config.hpp"
 #include <wfc/json.hpp>
 
 namespace wamba{ namespace demo{

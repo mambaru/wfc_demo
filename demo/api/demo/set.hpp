@@ -1,6 +1,6 @@
 #pragma once
 
-#include <demo/api/types.hpp>
+#include <demo/api/demo/types.hpp>
 
 namespace wamba{ namespace demo{
   
