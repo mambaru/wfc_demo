@@ -8,6 +8,7 @@
 #include "demo_multiton.hpp"
 #include "demo_service_multiton.hpp"
 #include "demo_gateway_multiton.hpp"
+#include "pingpong_multiton.hpp"
 #include "pingpong_service_multiton.hpp"
 #include "pingpong_gateway_multiton.hpp"
 #include <wfc/module/object_list.hpp>
@@ -22,6 +23,7 @@ class demo_module_impl: public ::wfc::object_list<
   demo_multiton,
   demo_service_multiton,
   demo_gateway_multiton,
+  pingpong_multiton,
   pingpong_service_multiton,
   pingpong_gateway_multiton
 >

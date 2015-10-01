@@ -23,6 +23,7 @@ class pingpong
 public:
   virtual void reconfigure() override;
   virtual void ping(request::ping::ptr req, response::ping::handler cb, io_id_t, std::shared_ptr<ipingpong> ) override;
+  virtual void ping2(request::ping::ptr, response::ping::handler, io_id_t, pong_handler ) override;
   virtual void pong(request::pong::ptr req, response::pong::handler cb ) override;
 private:
   typedef std::shared_ptr<ipingpong> pingpong_ptr;
