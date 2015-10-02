@@ -11,6 +11,8 @@
 #include <wfc/module/instance.hpp>
 #include <wfc/name.hpp>
 
+#include <memory>
+
 namespace wamba{ namespace demo{
 
 WFC_NAME2(pingpong_service_name, "pingpong-service")

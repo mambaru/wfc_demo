@@ -22,14 +22,17 @@ struct pingpong_method_list: wfc::jsonrpc::method_list
     request::pong, response::pong,
     ipingpong, &ipingpong::ping2,
     ipingpong, &ipingpong::pong>,
-  wfc::jsonrpc::dual_method<    _pong_, request::pong_json, response::pong_json, ipingpong,  &ipingpong::pong>
+  wfc::jsonrpc::dual_method<    _pong_, request::pong_json, response::pong_json, ipingpong,  &ipingpong::pong>,
+  
+  wfc::jsonrpc::peeper<ipingpong>,
+  wfc::jsonrpc::startup_method< ipingpong, ipingpong, &ipingpong::startup >
 >
 {};
 
 struct pingpong_serice_handler
   : wfc::jsonrpc::handler<pingpong_method_list>
 {
-  virtual void ping(request::ping::ptr req, response::ping::handler cb, io_id_t, std::shared_ptr<ipingpong> ) override
+  virtual void ping(request::ping::ptr req, response::ping::handler cb, io_id_t, std::weak_ptr<ipingpong> ) override
   {
     std::cout << "pingpong_serice_handler::ping" << std::endl;
     abort();
@@ -48,9 +51,10 @@ struct pingpong_serice_handler
   virtual void pong(request::pong::ptr req, response::pong::handler cb ) override
   {
     std::cout << "pingpong_serice_handler::pong " << (cb!=nullptr) << std::endl;
-    if (cb==nullptr) abort();
     this->call<_pong_>( std::move(req), cb, nullptr);
   }
+  
+  virtual void startup(io_id_t, std::weak_ptr<ipingpong> ) override {}
 };
 
 struct pingpong_service

@@ -21,7 +21,7 @@ struct gateway_method_list: wfc::jsonrpc::method_list
   wfc::jsonrpc::call_method< _pong_,      request::pong_json,      response::pong_json>*/
 >
 {
-  virtual void ping(request::ping::ptr req, response::ping::handler cb, io_id_t, std::shared_ptr<ipingpong> ) override
+  virtual void ping(request::ping::ptr req, response::ping::handler cb, io_id_t, std::weak_ptr<ipingpong> ) override
   {
     this->call<_ping_>( std::move(req), cb, nullptr);
   }
@@ -31,12 +31,13 @@ struct gateway_method_list: wfc::jsonrpc::method_list
     this->call<_ping2_>( std::move(req), cb, nullptr);
   }
 
-  virtual void pong(request::pong::ptr req, response::pong::handler cb ) override
+  virtual void pong(request::pong::ptr , response::pong::handler cb ) override
   {
     if ( cb!=nullptr )
       cb(nullptr);
   }
   
+  virtual void startup(io_id_t, std::weak_ptr<ipingpong> ) override {}
 
 };
 
@@ -49,7 +50,7 @@ struct gateway
   : wfc::jsonrpc::gateway<gateway_handler>
 {
   
-  virtual void ping(request::ping::ptr req, response::ping::handler cb, io_id_t, std::shared_ptr<ipingpong> ) override
+  virtual void ping(request::ping::ptr req, response::ping::handler cb, io_id_t, std::weak_ptr<ipingpong> ) override
   {
     this->call<_ping_>( std::move(req), cb, nullptr);
   }
@@ -59,11 +60,13 @@ struct gateway
     this->call<_ping2_>( std::move(req), cb, nullptr);
   }
 
-  virtual void pong(request::pong::ptr req, response::pong::handler cb ) override
+  virtual void pong(request::pong::ptr , response::pong::handler cb ) override
   {
     if ( cb!=nullptr )
       cb(nullptr);
   }
+  
+  virtual void startup(io_id_t, std::weak_ptr<ipingpong> ) override {}
 };
 
 }}
