@@ -32,7 +32,7 @@ struct pingpong_method_list: wfc::jsonrpc::method_list
 struct pingpong_serice_handler
   : wfc::jsonrpc::handler<pingpong_method_list>
 {
-  virtual void ping(request::ping::ptr req, response::ping::handler cb, io_id_t, std::weak_ptr<ipingpong> ) override
+  virtual void ping(request::ping::ptr /*req*/, response::ping::handler cb, io_id_t, std::weak_ptr<ipingpong> ) override
   {
     std::cout << "pingpong_serice_handler::ping" << std::endl;
     abort();

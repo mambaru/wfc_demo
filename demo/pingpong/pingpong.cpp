@@ -21,7 +21,6 @@ void pingpong::reconfigure()
     if (auto p = this->global()->registry.get<ipingpong>(name))
     {
       _targets.push_back(p);
-      
     }
   }
 }

@@ -6,12 +6,12 @@
 
 #pragma once
 
-#include <wfc/module/object.hpp>
+#include <wfc/module/component.hpp>
 
 namespace wamba{ namespace demo{
 
 class demo_multiton
-  : public ::wfc::object
+  : public ::wfc::component
 {
 public:
   demo_multiton();

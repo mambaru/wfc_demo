@@ -26,7 +26,7 @@ class demo_multiton_impl: public ::wfc::multiton<
 };
 
 demo_multiton::demo_multiton()
-  : object( std::make_shared<demo_multiton_impl>() )
+  : component( std::make_shared<demo_multiton_impl>() )
 {
 }
 

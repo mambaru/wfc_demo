@@ -6,12 +6,12 @@
 
 #pragma once
 
-#include <wfc/module/object.hpp>
+#include <wfc/module/component.hpp>
 
 namespace wamba{ namespace demo{
 
 class pingpong_multiton
-  : public ::wfc::object
+  : public ::wfc::component
 {
 public:
   pingpong_multiton();

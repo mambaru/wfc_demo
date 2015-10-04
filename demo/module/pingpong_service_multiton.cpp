@@ -26,7 +26,7 @@ class pingpong_service_multiton_impl: public ::wfc::multiton<
 };
 
 pingpong_service_multiton::pingpong_service_multiton()
-  : wfc::object( std::make_shared<pingpong_service_multiton_impl>() )
+  : wfc::component( std::make_shared<pingpong_service_multiton_impl>() )
 {
 }
 

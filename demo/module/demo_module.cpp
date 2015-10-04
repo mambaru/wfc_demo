@@ -11,14 +11,14 @@
 #include "pingpong_multiton.hpp"
 #include "pingpong_service_multiton.hpp"
 #include "pingpong_gateway_multiton.hpp"
-#include <wfc/module/object_list.hpp>
+#include <wfc/module/component_list.hpp>
 #include <wfc/name.hpp>
 
 namespace wamba{ namespace demo{
 
 WFC_NAME2(demo_module_name, "demo")
 
-class demo_module_impl: public ::wfc::object_list<
+class demo_module_impl: public ::wfc::component_list<
   demo_module_name,
   demo_multiton,
   demo_service_multiton,

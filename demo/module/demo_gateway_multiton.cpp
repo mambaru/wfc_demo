@@ -25,7 +25,7 @@ class demo_gateway_multiton_impl: public ::wfc::multiton<
 };
 
 demo_gateway_multiton::demo_gateway_multiton()
-  : wfc::object( std::make_shared<demo_gateway_multiton_impl>() )
+  : wfc::component( std::make_shared<demo_gateway_multiton_impl>() )
 {
 }
 
