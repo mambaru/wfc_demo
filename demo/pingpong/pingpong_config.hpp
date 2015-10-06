@@ -14,7 +14,7 @@ struct pingpong_config
 {
   std::vector<std::string> target_list;
   bool deny_pong = false;
-  int stress_ping = 0;
+  size_t stress_ping = 0;
 };
 
 }}

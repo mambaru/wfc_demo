@@ -25,6 +25,10 @@ class demo_module::impl: public ::wfc::component_list<
   demo_gateway_multiton
 >
 {
+  virtual std::string description() const override
+  {
+    return "Demo module description";
+  }
 };
 
 demo_module::demo_module()

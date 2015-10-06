@@ -11,22 +11,12 @@
 #include <atomic>
 #include <memory>
 
+#define PINGPONG_LOG_MESSAGE(message) WFC_LOG_MESSAGE("pingpong", message)
+
 namespace wamba{ namespace pingpong{
-  
-void pingpong::reconfigure()
-{
-  _targets.clear();
-  for ( auto name: this->options().target_list)
-  {
-    if (auto p = this->global()->registry.get<ipingpong>(name))
-    {
-      _targets.push_back(p);
-    }
-  }
-}
 
 namespace {
-  
+
   inline void pong_result_ping(response::ping::handler cb, response::pong::ptr res)
   {
     auto ping_res = std::make_unique<response::ping>();
@@ -87,8 +77,40 @@ namespace {
       }
     };
   }
-  
 }
+
+void pingpong::reconfigure()
+{
+  auto& opt = this->options();
+  _deny_pong = opt.deny_pong;
+  _stress_ping = opt.stress_ping;
+
+  _targets.clear();
+  for ( auto name: opt.target_list)
+  {
+    if (auto p = this->global()->registry.get<ipingpong>(name))
+    {
+      _targets.push_back(p);
+    }
+  }
+}
+
+void pingpong::reg_io(io_id_t io_id, std::weak_ptr<iinterface> witf)
+{
+  if ( auto p = witf.lock() )
+  {
+    p->perform_io( ::iow::io::make("Hello World"), 0, nullptr );
+  }
+}
+
+void pingpong::startup(io_id_t, std::weak_ptr<ipingpong> witf)
+{
+  if ( auto p = witf.lock() )
+  {
+    p->pong(std::make_unique<request::pong>(), nullptr);
+  }
+}
+
 
 
 /**
@@ -103,7 +125,7 @@ void pingpong::reping_(request::ping::ptr req, response::ping::handler cb, io_id
   req_ping.pong_count = req->pong_count;
 
   auto callback = make_response_wrapper(_targets.size(), std::move(cb), std::move(pong_reqester) );
-    
+
   for (auto t : _targets )
   {
     // TODO: сделать domain::get_io_id;
@@ -135,27 +157,32 @@ void pingpong::ping2(request::ping::ptr req, response::ping::handler cb, io_id_t
 
 void pingpong::pong(request::pong::ptr req, response::pong::handler cb ) 
 {
-  if ( cb == nullptr ) return;
+  if ( cb == nullptr ) 
+    return;
+
   auto res = std::make_unique<response::pong>();
   res->ping_count = req->ping_count;
   res->pong_count = req->pong_count+1;
   cb( std::move(res) );
 }
 
-void pingpong::reg_io(io_id_t io_id, std::weak_ptr<iinterface> witf)
+void pingpong::stress_ping_( size_t stress_ping)
 {
-  if ( auto p = witf.lock() )
+  std::atomic<size_t> wait_count;
+  wait_count = 0;
+  for ( size_t i=0; i < stress_ping; ++i)
   {
-    p->perform_io( ::iow::io::make("Hello World"), 0, nullptr );
+    ++wait_count;
+    auto req = std::make_unique<request::ping>();
+    this->ping2(std::move(req), [this, &wait_count](response::ping::ptr)
+    {
+    }, 0, nullptr );
   }
 }
 
-void pingpong::startup(io_id_t, std::weak_ptr<ipingpong> witf)
+void pingpong::stress_result_( response::ping::ptr res)
 {
-  if ( auto p = witf.lock() )
-  {
-    p->pong(std::make_unique<request::pong>(), nullptr);
-  }
+  
 }
 
 }}

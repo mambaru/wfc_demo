@@ -16,7 +16,24 @@ namespace wamba{ namespace pingpong{
 
 WFC_NAME2(pingpong_gateway_name, "pingpong-gateway")
 
-typedef ::wfc::jsonrpc::gateway_multiton<pingpong_gateway_name, pingpong::gateway_method_list, pingpong::pingpong_interface> impl;
+class pingpong_gateway_multiton::impl:
+  public ::wfc::jsonrpc::gateway_multiton<
+    pingpong_gateway_name, 
+    pingpong::gateway_method_list, 
+    pingpong::pingpong_interface
+  >
+{
+public:
+  virtual std::string interface_name() const override
+  {
+    return "ipingpong";
+  }
+
+  virtual std::string description() const override
+  {
+    return "pingpong description";
+  }
+};
 
 pingpong_gateway_multiton::pingpong_gateway_multiton()
   : wfc::component( std::make_shared<impl>() )

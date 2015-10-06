@@ -20,7 +20,7 @@ struct pingpong_config_json
     pingpong_config,
     ::wfc::json::member_list<
       ::wfc::json::member< n_deny_pong, pingpong_config, bool, &pingpong_config::deny_pong>,
-      ::wfc::json::member< n_stress_ping, pingpong_config, int, &pingpong_config::stress_ping>,
+      ::wfc::json::member< n_stress_ping, pingpong_config, size_t, &pingpong_config::stress_ping>,
       ::wfc::json::member< n_target_list, pingpong_config, std::vector<std::string>, &pingpong_config::target_list,
         ::wfc::json::array< std::vector< ::wfc::json::value<std::string> > >
       >
