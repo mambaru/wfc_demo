@@ -13,6 +13,7 @@ namespace wamba{ namespace demo{
 class demo_multiton
   : public ::wfc::component
 {
+  class impl;
 public:
   demo_multiton();
 };

@@ -15,11 +15,9 @@
 
 namespace wamba{ namespace demo{
 
-class demo_writer;
-
-class demo_domain
+class demo
   : public ::wfc::domain_object<idemo, demo_config>
-  , public std::enable_shared_from_this<demo_domain>
+  , public std::enable_shared_from_this<demo>
 {
 public:
   virtual void reconfigure() override;
@@ -31,3 +29,4 @@ private:
 };
 
 }}
+

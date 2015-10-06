@@ -13,17 +13,18 @@ namespace wamba{ namespace pingpong{
 struct pingpong_config_json
 {
   JSON_NAME(target_list)
+  JSON_NAME(stress_ping)
+  JSON_NAME(deny_pong)
   
   typedef ::wfc::json::object<
     pingpong_config,
     ::wfc::json::member_list<
+      ::wfc::json::member< n_deny_pong, pingpong_config, bool, &pingpong_config::deny_pong>,
+      ::wfc::json::member< n_stress_ping, pingpong_config, int, &pingpong_config::stress_ping>,
       ::wfc::json::member< n_target_list, pingpong_config, std::vector<std::string>, &pingpong_config::target_list,
         ::wfc::json::array< std::vector< ::wfc::json::value<std::string> > >
       >
-      /*
-      ::wfc::json::member< n_repli_target, demo_config, std::string, &demo_config::repli_target>,
-      ::wfc::json::member< n_hash_target, demo_config, std::string, &demo_config::hash_target>
-      */
+      
     >
   > type;
 

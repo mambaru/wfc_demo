@@ -13,20 +13,21 @@
 #include <wfc/module/instance.hpp>
 #include <wfc/name.hpp>
 
-namespace wamba{ namespace demo{
+namespace wamba{ namespace pingpong{
 
 WFC_NAME2(pingpong_object_name, "pingpong")
 
-class pingpong_multiton_impl: public ::wfc::multiton<
+class pingpong_multiton::impl: public ::wfc::multiton<
   pingpong_object_name,
-  wfc::instance<pingpong::pingpong>,
-  pingpong::pingpong_config_json
+  wfc::instance<pingpong>,
+  pingpong_config_json
 >
 {  
 };
 
+
 pingpong_multiton::pingpong_multiton()
-  : component( std::make_shared<pingpong_multiton_impl>() )
+  : component( std::make_shared<impl>() )
 {
 }
 

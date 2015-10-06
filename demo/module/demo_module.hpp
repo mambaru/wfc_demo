@@ -13,6 +13,7 @@ namespace wamba{ namespace demo{
 class demo_module
   : public ::wfc::module
 {
+  class impl;
 public:
   demo_module();
 };

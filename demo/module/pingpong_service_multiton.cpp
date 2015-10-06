@@ -13,20 +13,14 @@
 
 #include <memory>
 
-namespace wamba{ namespace demo{
+namespace wamba{ namespace pingpong{
 
 WFC_NAME2(pingpong_service_name, "pingpong-service")
 
-class pingpong_service_multiton_impl: public ::wfc::multiton<
-  pingpong_service_name,
-  wfc::instance< pingpong::pingpong_service>,
-  wfc::jsonrpc::jsonrpc_options_json< pingpong::pingpong_service::options_type >
->
-{
-};
+typedef ::wfc::jsonrpc::service_multiton<pingpong_service_name, pingpong::pingpong_method_list, pingpong::pingpong_interface> impl;
 
 pingpong_service_multiton::pingpong_service_multiton()
-  : wfc::component( std::make_shared<pingpong_service_multiton_impl>() )
+  : wfc::component( std::make_shared<impl>() )
 {
 }
 

@@ -20,12 +20,4 @@ struct demo_method_list: wfc::jsonrpc::method_list
 {
 };
 
-struct demo_serice_handler
-  : wfc::jsonrpc::handler<demo_method_list>
-{};
-
-struct demo_service
-  : wfc::jsonrpc::service<demo_serice_handler>
-{};
-
 }}

@@ -12,10 +12,9 @@ namespace wamba{ namespace pingpong{
 
 struct pingpong_config
 {
-  /*std::string repli_target;
-  std::string hash_target;
-  */
   std::vector<std::string> target_list;
+  bool deny_pong = false;
+  int stress_ping = 0;
 };
 
 }}

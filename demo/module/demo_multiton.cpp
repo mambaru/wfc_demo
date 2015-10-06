@@ -17,16 +17,17 @@ namespace wamba{ namespace demo{
 
 WFC_NAME2(demo_object_name, "demo")
 
-class demo_multiton_impl: public ::wfc::multiton<
+class demo_multiton::impl: public ::wfc::multiton<
   demo_object_name,
-  wfc::instance<demo_domain>,
+  wfc::instance<demo>,
   demo_config_json
 >
 {  
 };
 
+
 demo_multiton::demo_multiton()
-  : component( std::make_shared<demo_multiton_impl>() )
+  : component( std::make_shared<impl>() )
 {
 }
 

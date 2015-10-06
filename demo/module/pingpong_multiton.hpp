@@ -8,11 +8,12 @@
 
 #include <wfc/module/component.hpp>
 
-namespace wamba{ namespace demo{
+namespace wamba{ namespace pingpong{
 
 class pingpong_multiton
   : public ::wfc::component
 {
+  class impl;
 public:
   pingpong_multiton();
 };

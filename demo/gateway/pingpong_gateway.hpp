@@ -12,6 +12,37 @@ JSONRPC_TAG(ping)
 JSONRPC_TAG(ping2)
 JSONRPC_TAG(pong)
 
+
+template<typename A>
+class pingpong_interface
+  : public ::wfc::jsonrpc::interface_implementation<A>
+{
+public:
+  typedef ::wfc::jsonrpc::interface_implementation<A> super;
+  typedef typename super::io_id_t io_id_t;
+  typedef typename super::pong_handler pong_handler;
+
+  virtual void ping(request::ping::ptr req, response::ping::handler cb, io_id_t, std::weak_ptr<ipingpong> ) override
+  {
+    this->template call<_ping_>( std::move(req), cb, nullptr);
+  }
+
+  virtual void ping2(request::ping::ptr req, response::ping::handler cb, io_id_t, pong_handler ) override
+  {
+    this->template call<_ping2_>( std::move(req), cb, nullptr);
+  }
+
+  virtual void pong(request::pong::ptr , response::pong::handler cb ) override
+  {
+    if ( cb!=nullptr )
+      cb(nullptr);
+  }
+  
+  virtual void startup(io_id_t, std::weak_ptr<ipingpong> ) override {}
+};
+
+
+
 struct gateway_method_list: wfc::jsonrpc::method_list
 <
   wfc::jsonrpc::interface_<ipingpong>,
@@ -21,6 +52,7 @@ struct gateway_method_list: wfc::jsonrpc::method_list
   wfc::jsonrpc::call_method< _pong_,      request::pong_json,      response::pong_json>*/
 >
 {
+  /*
   virtual void ping(request::ping::ptr req, response::ping::handler cb, io_id_t, std::weak_ptr<ipingpong> ) override
   {
     this->call<_ping_>( std::move(req), cb, nullptr);
@@ -38,18 +70,20 @@ struct gateway_method_list: wfc::jsonrpc::method_list
   }
   
   virtual void startup(io_id_t, std::weak_ptr<ipingpong> ) override {}
-
+  */
 };
 
+/*
 struct gateway_handler
   : wfc::jsonrpc::handler<gateway_method_list>
 {
-};
+};*/
 
 struct gateway
-  : wfc::jsonrpc::gateway<gateway_handler>
+  : wfc::jsonrpc::gateway<gateway_method_list, pingpong_interface>
 {
   
+  /*
   virtual void ping(request::ping::ptr req, response::ping::handler cb, io_id_t, std::weak_ptr<ipingpong> ) override
   {
     this->call<_ping_>( std::move(req), cb, nullptr);
@@ -67,6 +101,7 @@ struct gateway
   }
   
   virtual void startup(io_id_t, std::weak_ptr<ipingpong> ) override {}
+  */
 };
 
 }}

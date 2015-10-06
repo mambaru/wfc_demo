@@ -26,6 +26,7 @@ void pingpong::reconfigure()
 }
 
 namespace {
+  
   inline void pong_result_ping(response::ping::handler cb, response::pong::ptr res)
   {
     auto ping_res = std::make_unique<response::ping>();
@@ -71,7 +72,14 @@ namespace {
         {
           res->ping_count += ping_counter;
         }
-        ::wamba::pingpong::pong_send_( std::move(res), std::move(cb), std::move(pong_reqester) );
+        if ( pong_reqester!=nullptr )
+        {
+          ::wamba::pingpong::pong_send_( std::move(res), std::move(cb), std::move(pong_reqester) );
+        }
+        else if (cb != nullptr )
+        {
+          cb( std::move(res) );
+        }
       }
       else if ( res != nullptr )
       {
@@ -146,9 +154,7 @@ void pingpong::startup(io_id_t, std::weak_ptr<ipingpong> witf)
 {
   if ( auto p = witf.lock() )
   {
-    std::cout << "-1- void pingpong::startup(io_id_t, std::weak_ptr<ipingpong> witf)" << std::endl;
     p->pong(std::make_unique<request::pong>(), nullptr);
-    std::cout << "-1- void pingpong::startup(io_id_t, std::weak_ptr<ipingpong> witf)" << std::endl;
   }
 }
 

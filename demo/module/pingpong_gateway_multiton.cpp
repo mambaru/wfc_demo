@@ -12,20 +12,14 @@
 #include <wfc/module/instance.hpp>
 #include <wfc/name.hpp>
 
-namespace wamba{ namespace demo{
+namespace wamba{ namespace pingpong{
 
 WFC_NAME2(pingpong_gateway_name, "pingpong-gateway")
 
-class pingpong_gateway_multiton_impl: public ::wfc::multiton<
-  pingpong_gateway_name,
-  wfc::instance<pingpong::gateway>,
-  wfc::jsonrpc::jsonrpc_options_json< pingpong::gateway::options_type >
->
-{
-};
+typedef ::wfc::jsonrpc::gateway_multiton<pingpong_gateway_name, pingpong::gateway_method_list, pingpong::pingpong_interface> impl;
 
 pingpong_gateway_multiton::pingpong_gateway_multiton()
-  : wfc::component( std::make_shared<pingpong_gateway_multiton_impl>() )
+  : wfc::component( std::make_shared<impl>() )
 {
 }
 

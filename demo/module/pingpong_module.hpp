@@ -6,15 +6,17 @@
 
 #pragma once
 
-#include <wfc/module/component.hpp>
+#include <wfc/module/module.hpp>
 
 namespace wamba{ namespace pingpong{
 
-class pingpong_gateway_multiton
-  : public ::wfc::component
+class pingpong_module
+  : public ::wfc::module
 {
+  class impl;
 public:
-  pingpong_gateway_multiton();
+  pingpong_module();
 };
 
 }}
+
