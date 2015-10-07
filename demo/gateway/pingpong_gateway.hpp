@@ -48,7 +48,7 @@ struct gateway_method_list: wfc::jsonrpc::method_list
   wfc::jsonrpc::call_method< _ping_,      request::ping_json,      response::ping_json>,
   wfc::jsonrpc::call_method< _ping2_,      request::ping_json,      response::ping_json>,
 
-#error Тутова не работает 
+#warning Тутова не работает 
   wfc::jsonrpc::target<ipingpong>,
   wfc::jsonrpc::invoke_method< _pong_,      request::pong_json,      response::pong_json, ipingpong, &ipingpong::pong>
 >

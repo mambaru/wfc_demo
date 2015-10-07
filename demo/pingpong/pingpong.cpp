@@ -115,7 +115,7 @@ void pingpong::startup(io_id_t, std::weak_ptr<ipingpong> witf)
 {
   if ( auto p = witf.lock() )
   {
-    //p->pong(std::make_unique<request::pong>(), nullptr);
+    p->pong(std::make_unique<request::pong>(), nullptr);
   }
 }
 
