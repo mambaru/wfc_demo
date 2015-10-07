@@ -10,6 +10,7 @@
 #include <iostream>
 #include <atomic>
 #include <memory>
+#include <chrono>
 
 #define PINGPONG_LOG_MESSAGE(message) WFC_LOG_MESSAGE("pingpong", message)
 
@@ -85,6 +86,7 @@ void pingpong::reconfigure()
   _deny_pong = opt.deny_pong;
   _stress_ping = opt.stress_ping;
 
+  PINGPONG_LOG_MESSAGE("void pingpong::reconfigure()  _stress_ping= " << _stress_ping)
   _targets.clear();
   for ( auto name: opt.target_list)
   {
@@ -93,7 +95,13 @@ void pingpong::reconfigure()
       _targets.push_back(p);
     }
   }
+  
+  this->global()->after_start.push_back([this]()
+  {
+    this->stress_ping_();
+  });
 }
+
 
 void pingpong::reg_io(io_id_t io_id, std::weak_ptr<iinterface> witf)
 {
@@ -107,7 +115,7 @@ void pingpong::startup(io_id_t, std::weak_ptr<ipingpong> witf)
 {
   if ( auto p = witf.lock() )
   {
-    p->pong(std::make_unique<request::pong>(), nullptr);
+    //p->pong(std::make_unique<request::pong>(), nullptr);
   }
 }
 
@@ -166,23 +174,33 @@ void pingpong::pong(request::pong::ptr req, response::pong::handler cb )
   cb( std::move(res) );
 }
 
-void pingpong::stress_ping_( size_t stress_ping)
+void pingpong::stress_ping_( )
 {
-  std::atomic<size_t> wait_count;
-  wait_count = 0;
-  for ( size_t i=0; i < stress_ping; ++i)
+  //PINGPONG_LOG_MESSAGE("void pingpong::stress_ping_( size_t stress_ping)")
+  using namespace std::placeholders;
+  size_t size = _stress_ping;
+  for ( size_t i=0; i < size; ++i)
   {
-    ++wait_count;
     auto req = std::make_unique<request::ping>();
-    this->ping2(std::move(req), [this, &wait_count](response::ping::ptr)
-    {
-    }, 0, nullptr );
+    auto start = std::chrono::high_resolution_clock::now();
+    this->ping2(std::move(req), this->wrap( std::bind(&pingpong::stress_result_, this, _1, start) ) , 0, nullptr );
   }
 }
 
-void pingpong::stress_result_( response::ping::ptr res)
+void pingpong::stress_result_( response::ping::ptr, std::chrono::high_resolution_clock::time_point start )
 {
-  
+  auto finish = std::chrono::high_resolution_clock::now();
+  //auto interval = start - finish;
+  auto tm_ms = std::chrono::duration_cast< std::chrono::nanoseconds >( finish - start ).count();
+  auto rate = tm_ms > 0 ? 1000000000.0/tm_ms : -1 ;
+  PINGPONG_LOG_MESSAGE("STRESS RESULT!!! " << rate << " " << tm_ms)
+  this->global()->io_service.post( this->wrap( [this]()
+  {
+    auto start = std::chrono::high_resolution_clock::now();
+    using namespace std::placeholders;
+    auto req = std::make_unique<request::ping>();
+    this->ping2(std::move(req), this->wrap( std::bind(&pingpong::stress_result_, this, _1, start) ) , 0, nullptr );
+  }));
 }
 
 }}
