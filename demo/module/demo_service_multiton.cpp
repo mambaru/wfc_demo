@@ -16,7 +16,7 @@ namespace wamba{ namespace demo{
 
 WFC_NAME2(demo_service_name, "demo-service")
 
-typedef ::wfc::jsonrpc::service_multiton<demo_service_name, demo_method_list> impl;
+typedef ::wfc::jsonrpc::service_multiton< demo_service_name, service::demo_method_list> impl;
 
 demo_service_multiton::demo_service_multiton()
   : wfc::component( std::make_shared<impl>() )

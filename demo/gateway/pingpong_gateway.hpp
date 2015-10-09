@@ -6,7 +6,7 @@
 #include <wfc/jsonrpc.hpp>
 
 
-namespace wamba{ namespace pingpong{
+namespace wamba{ namespace pingpong{ namespace gateway{
 
 JSONRPC_TAG(ping)
 JSONRPC_TAG(ping2)
@@ -55,4 +55,4 @@ struct gateway_method_list: wfc::jsonrpc::method_list
 {
 };
 
-}}
+}}}

@@ -17,7 +17,7 @@ namespace wamba{ namespace pingpong{
 
 WFC_NAME2(pingpong_service_name, "pingpong-service")
 
-typedef ::wfc::jsonrpc::service_multiton<pingpong_service_name, pingpong::pingpong_method_list, pingpong::pingpong_interface> impl;
+typedef ::wfc::jsonrpc::service_multiton<pingpong_service_name, service::pingpong_method_list, service::pingpong_interface> impl;
 
 pingpong_service_multiton::pingpong_service_multiton()
   : wfc::component( std::make_shared<impl>() )

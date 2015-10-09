@@ -19,8 +19,8 @@ WFC_NAME2(pingpong_gateway_name, "pingpong-gateway")
 class pingpong_gateway_multiton::impl:
   public ::wfc::jsonrpc::gateway_multiton<
     pingpong_gateway_name, 
-    pingpong::gateway_method_list, 
-    pingpong::pingpong_interface
+    gateway::gateway_method_list, 
+    gateway::pingpong_interface
   >
 {
 public:

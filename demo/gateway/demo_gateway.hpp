@@ -6,7 +6,7 @@
 #include <wfc/jsonrpc.hpp>
 
 
-namespace wamba{ namespace demo{
+namespace wamba{ namespace demo{ namespace gateway{
 
 JSONRPC_TAG(set)
 JSONRPC_TAG(get)
@@ -37,4 +37,4 @@ public:
 };
 
 
-}}
+}}}

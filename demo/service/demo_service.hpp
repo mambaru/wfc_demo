@@ -6,7 +6,7 @@
 #include <wfc/jsonrpc.hpp>
 
 
-namespace wamba{ namespace demo{
+namespace wamba{ namespace demo{ namespace service{
 
 JSONRPC_TAG(set)
 JSONRPC_TAG(get)
@@ -20,4 +20,4 @@ struct demo_method_list: wfc::jsonrpc::method_list
 {
 };
 
-}}
+}}}

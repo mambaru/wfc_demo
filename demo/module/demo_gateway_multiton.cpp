@@ -15,7 +15,7 @@ namespace wamba{ namespace demo{
 
 WFC_NAME2(demo_gateway_name, "demo-gateway")
 
-typedef ::wfc::jsonrpc::gateway_multiton<demo_gateway_name, demo_method_list, demo_interface > impl;
+typedef ::wfc::jsonrpc::gateway_multiton<demo_gateway_name, gateway::demo_method_list, gateway::demo_interface > impl;
 
 demo_gateway_multiton::demo_gateway_multiton()
   : wfc::component( std::make_shared<impl>() )
