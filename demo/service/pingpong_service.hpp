@@ -54,7 +54,7 @@ struct pingpong_method_list: wfc::jsonrpc::method_list
   wfc::jsonrpc::dual_method<    _pong_, request::pong_json, response::pong_json, ipingpong,  &ipingpong::pong>,
 
   wfc::jsonrpc::peeper<ipingpong>,
-  wfc::jsonrpc::startup_method< ipingpong, ipingpong, &ipingpong::startup >
+  wfc::jsonrpc::connect_method< ipingpong, ipingpong, &ipingpong::startup >
 >
 {
 };

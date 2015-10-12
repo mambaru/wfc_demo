@@ -4,7 +4,6 @@
 // Copyright: See COPYING file that comes with this distribution
 //
 
-
 #include "demo_build_info.h"
 #include "demo_package.hpp"
 #include "module/demo_module.hpp"
@@ -21,7 +20,7 @@ class demo_package_impl: public ::wfc::module_list<
   demo::demo_module,
   pingpong::pingpong_module
 >
-{  
+{
 };
 
 demo_package::demo_package()
