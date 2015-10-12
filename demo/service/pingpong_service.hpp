@@ -11,12 +11,11 @@ JSONRPC_TAG(pong)
 JSONRPC_TAG(ping)
 JSONRPC_TAG(ping2)
 
-template<typename A>
-class pingpong_interface
-  : public ::wfc::jsonrpc::interface_implementation<A>
+template<typename Base>
+class pingpong_interface: public Base
 {
 public:
-  typedef ::wfc::jsonrpc::interface_implementation<A> super;
+  typedef Base super;
   typedef typename super::io_id_t io_id_t;
   typedef typename super::pong_handler pong_handler;
 

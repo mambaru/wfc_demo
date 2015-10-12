@@ -22,14 +22,14 @@ struct demo_method_list: wfc::jsonrpc::method_list
 
 template<typename Base>
 class demo_interface
-  : public ::wfc::jsonrpc::interface_implementation<Base>
+  : public Base
 {
 public:
   virtual void set(request::set::ptr req, response::set::handler cb ) override
   {
     this->template call< _set_ >( std::move(req), cb, nullptr);
   }
-  
+
   virtual void get(request::get::ptr req, response::get::handler cb ) override
   {
     this->template call< _get_ >( std::move(req), cb, nullptr);
