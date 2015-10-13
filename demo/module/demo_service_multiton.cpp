@@ -7,7 +7,6 @@
 #include "demo_service_multiton.hpp"
 #include "../service/demo_service.hpp"
 
-#include <wfc/jsonrpc/options_json.hpp>
 #include <wfc/module/multiton.hpp>
 #include <wfc/module/instance.hpp>
 #include <wfc/name.hpp>

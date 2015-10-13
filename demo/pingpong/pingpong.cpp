@@ -20,10 +20,17 @@ namespace {
 
   inline void pong_result_ping(response::ping::handler cb, response::pong::ptr res)
   {
-    auto ping_res = std::make_unique<response::ping>();
-    ping_res->ping_count = res->ping_count;
-    ping_res->pong_count = res->pong_count;
-    cb( std::move(ping_res) );
+    if ( res != nullptr )
+    {
+      auto ping_res = std::make_unique<response::ping>();
+      ping_res->ping_count = res->ping_count;
+      ping_res->pong_count = res->pong_count;
+      cb( std::move(ping_res) );
+    }
+    else
+    {
+      PINGPONG_LOG_MESSAGE("Pong result nullptr: Bad Gateway")
+    }
   }
 
   template<typename T>
@@ -165,6 +172,8 @@ void pingpong::ping2(request::ping::ptr req, response::ping::handler cb, io_id_t
 
 void pingpong::pong(request::pong::ptr req, response::pong::handler cb ) 
 {
+  PINGPONG_LOG_MESSAGE("void pingpong::pong(request::pong::ptr req, response::pong::handler cb )")
+
   if ( cb == nullptr ) 
     return;
 
