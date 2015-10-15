@@ -218,14 +218,14 @@ void pingpong::stress_result_( response::ping::ptr res, std::chrono::high_resolu
 
   this->stat_(tm_ms, res->ping_count, res->pong_count);
   
-  this->global()->io_service.post( this->wrap( [this]()
-  {
-    auto start = std::chrono::high_resolution_clock::now();
+  /*this->global()->io_service.post( this->wrap( [this]()
+  {*/
+    auto start1 = std::chrono::high_resolution_clock::now();
     using namespace std::placeholders;
     auto req = std::make_unique<request::ping>();
     req->ping_count = -1; // Локальный не считаем
-    this->ping2(std::move(req), this->wrap( std::bind(&pingpong::stress_result_, this, _1, start) ) , 0, nullptr );
-  }));
+    this->ping2(std::move(req), this->wrap( std::bind(&pingpong::stress_result_, this, _1, start1) ) , 0, nullptr );
+  //}));
 }
 
 static inline long ns2rate(time_t ns, int count = 1)
@@ -249,6 +249,7 @@ static inline std::string rate_fmt(std::vector<time_t>& i, size_t perc, size_t k
 
 void pingpong::stat_( time_t ms, size_t pingc, size_t pongc )
 {
+  static const size_t MAX_STAT = 100;
   _stat_count += 1;
   std::vector<time_t> i;
   time_t now = time(0);
@@ -259,10 +260,10 @@ void pingpong::stat_( time_t ms, size_t pingc, size_t pongc )
       return;
       
     _intervals.push_back(ms);
-    if ( _intervals.size() == 1000 )
+    if ( _intervals.size() == MAX_STAT )
     {
       _intervals.swap(i);
-      _intervals.reserve(1000);
+      _intervals.reserve(MAX_STAT);
     }
   }
 
