@@ -15,7 +15,6 @@ void demo::reconfigure()
 {
   std::string repli_name = this->options().repli_target;
   _reply = this->global()->registry.get<idemo>(repli_name);
-  
 }
 
 void demo::set(request::set::ptr req, response::set::handler cb )
