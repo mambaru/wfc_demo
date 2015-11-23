@@ -9,9 +9,10 @@
 #include <wfc/domain_object.hpp>
 #include <demo/storage/storage_config.hpp>
 #include <demo/storage/istorage.hpp>
+#include <demo/hash/ihash.hpp>
 #include <memory>
 #include <string>
-
+#include <map>
 
 namespace wamba{ namespace demo{ namespace storage{
 
@@ -19,6 +20,8 @@ class storage
   : public ::wfc::domain_object<istorage, storage_config>
   , public std::enable_shared_from_this<storage>
 {
+  typedef std::map<std::string, std::string> map_type;
+  typedef ::wamba::demo::hash::ihash ihash;
 public:
   virtual void reconfigure() override;
   virtual void set(request::set::ptr req, response::set::handler cb ) override;
@@ -26,6 +29,8 @@ public:
   virtual void perform_io(data_ptr d, io_id_t io_id, outgoing_handler_t handler) override;
 private:
   std::shared_ptr<istorage> _reply;
+  std::shared_ptr<ihash> _hash;
+  map_type _storage;
 };
 
 }}}
