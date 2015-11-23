@@ -6,16 +6,14 @@
 
 #pragma once
 
-#include <wfc/module/package.hpp>
+#include <string>
 
-namespace wamba{
+namespace wamba{ namespace demo{ namespace storage{
 
-class demo_package
-  : public ::wfc::package
+struct storage_config
 {
-  class impl;
-public:
-  demo_package();
+  std::string repli_target;
+  std::string hash_target;
 };
 
-}
+}}}
