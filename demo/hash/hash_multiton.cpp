@@ -6,8 +6,8 @@
 
 
 #include "hash_multiton.hpp"
-#include "hash.hpp"
 #include "hash_config_json.hpp"
+#include "hash.hpp"
 
 #include <wfc/module/multiton.hpp>
 #include <wfc/module/instance.hpp>
@@ -19,7 +19,7 @@ WFC_NAME2(hash_object_name, "demo-hash")
 
 class hash_multiton::impl: public ::wfc::multiton<
   hash_object_name,
-  wfc::instance<hash>,
+  ::wfc::instance<hash>,
   hash_config_json
 >
 {  

@@ -9,10 +9,6 @@
 #include <wfc/domain_object.hpp>
 #include <demo/hash/hash_config.hpp>
 #include <demo/hash/ihash.hpp>
-#include <demo/hash/api/get_hash.hpp>
-#include <memory>
-#include <string>
-
 
 namespace wamba{ namespace demo{ namespace hash{
 

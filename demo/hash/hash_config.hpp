@@ -6,8 +6,6 @@
 
 #pragma once
 
-#include <string>
-
 namespace wamba{ namespace demo{ namespace hash{
 
 struct hash_config

@@ -12,12 +12,10 @@ namespace wamba{ namespace demo{ namespace hash{
 
 struct hash_config_json
 {
-  JSON_NAME(repli_target)
-  JSON_NAME(hash_target)
-  
   typedef ::wfc::json::object<
     hash_config,
     ::wfc::json::member_list<
+      /* список полей */
     >
   > type;
 

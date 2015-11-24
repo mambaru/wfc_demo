@@ -3,7 +3,7 @@
 #include <demo/hash/api/types.hpp>
 
 namespace wamba{ namespace demo{ namespace hash{
-  
+
 namespace request
 {
   struct get_hash 
