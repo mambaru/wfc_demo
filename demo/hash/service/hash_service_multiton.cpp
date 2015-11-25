@@ -8,7 +8,6 @@
 #include "hash_service.hpp"
 
 #include <wfc/module/multiton.hpp>
-#include <wfc/module/instance.hpp>
 #include <wfc/name.hpp>
 
 namespace wamba{ namespace demo{ namespace hash{

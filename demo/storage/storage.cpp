@@ -21,6 +21,8 @@ void storage::reconfigure()
 
 void storage::set(request::set::ptr req, response::set::handler cb )
 {
+  std::lock_guard< std::recursive_mutex > lk(_mutex);
+  
   if ( req!=nullptr )
   {
     if ( _reply != nullptr )
@@ -49,6 +51,8 @@ void storage::set(request::set::ptr req, response::set::handler cb )
 
 void storage::get(request::get::ptr req, response::get::handler cb ) 
 {
+  std::lock_guard< std::recursive_mutex > lk(_mutex);
+  
   if ( cb == nullptr )
     return;
   if ( req == nullptr )
