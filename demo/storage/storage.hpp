@@ -31,7 +31,7 @@ private:
   std::shared_ptr<istorage> _reply;
   std::shared_ptr<ihash> _hash;
   map_type _storage;
-  mutable std::recursive_mutex::mutex _mutex;
+  mutable std::recursive_mutex _mutex;
 };
 
 }}}

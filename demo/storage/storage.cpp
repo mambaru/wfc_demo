@@ -17,6 +17,15 @@ void storage::reconfigure()
   std::string hash_name = this->options().hash_target;
   _reply = this->global()->registry.get<istorage>(repli_name);
   _hash = this->global()->registry.get<ihash>(hash_name);
+  
+  auto req = std::make_unique< ::wamba::demo::hash::request::get_hash >();
+  req->value = "hello";
+  
+  _hash->get_hash( std::move(req), []( ::wamba::demo::hash::response::get_hash::ptr res )
+  {
+    std::cout << res->value << std::endl;
+  });
+  
 }
 
 void storage::set(request::set::ptr req, response::set::handler cb )
@@ -96,7 +105,6 @@ void storage::get(request::get::ptr req, response::get::handler cb )
 
 void storage::perform_io(data_ptr d, io_id_t /*io_id*/, outgoing_handler_t handler)
 {
-  std::cout << "storage::perform_io" << std::endl;
   if (handler!=nullptr)
   {
     std::reverse(d->begin(), d->end()-2);
