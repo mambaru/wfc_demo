@@ -112,15 +112,15 @@ void pingpong::reconfigure()
     }
   }
   
-  this->global()->after_start.push_back([this]()->bool
+  this->global()->after_start.push_back( this->wrap([this]()->bool
   {
     this->stress_ping_();
     return true;
-  });
+  }));
 }
 
 
-void pingpong::reg_io(io_id_t io_id, std::weak_ptr<iinterface> witf)
+void pingpong::reg_io(io_id_t /*io_id*/, std::weak_ptr<iinterface> witf)
 {
   if ( auto p = witf.lock() )
   {
@@ -142,9 +142,8 @@ void pingpong::startup(io_id_t, std::weak_ptr<ipingpong> witf)
  * Рассылает входящий ping по целям и собирает ответы. 
  * Собрав все ответы, делает запрос pong источнику пинга
  */
-void pingpong::reping_(request::ping::ptr req, response::ping::handler cb, io_id_t io_id, pong_handler pong_reqester)
+void pingpong::reping_(request::ping::ptr req, response::ping::handler cb, io_id_t /*io_id*/, pong_handler pong_reqester)
 {
-  using namespace std::placeholders;
   request::ping req_ping;
   req_ping.ping_count = req->ping_count;
   req_ping.pong_count = req->pong_count;
@@ -153,8 +152,8 @@ void pingpong::reping_(request::ping::ptr req, response::ping::handler cb, io_id
 
   for (auto t : _targets )
   {
-    // TODO: сделать domain::get_io_id;
     std::shared_ptr<pingpong> pthis; // shared_from_this, wthis
+    using namespace std::placeholders;
     t->ping2( std::make_unique<request::ping>(req_ping), callback, -1, std::bind( &ipingpong::pong, pthis, _1, _2) );
   }
 }
