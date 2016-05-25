@@ -205,15 +205,16 @@ void pingpong::pong(request::pong::ptr req, response::pong::handler cb )
 
 void pingpong::stress_ping_( )
 {
+  
   //PINGPONG_LOG_MESSAGE("void pingpong::stress_ping_( size_t stress_ping)")
   _stat_time = std::chrono::high_resolution_clock::now();
-  using namespace std::placeholders;
   size_t size = _stress_ping;
   for ( size_t i=0; i < size; ++i)
   {
     auto req = std::make_unique<request::ping>();
     req->ping_count = -1; // Локальный не считаем
     auto start = std::chrono::high_resolution_clock::now();
+    using namespace std::placeholders;
     this->ping2(std::move(req), this->wrap( std::bind(&pingpong::stress_result_, this, _1, start) ) , 0, nullptr );
   }
 }
@@ -223,6 +224,11 @@ void pingpong::stress_result_( response::ping::ptr res, std::chrono::high_resolu
   if ( res == nullptr )
   {
     PINGPONG_LOG_MESSAGE("stress_result_: BAD GATEWAY")
+    auto req = std::make_unique<request::ping>();
+    req->ping_count = -1; // Локальный не считаем
+    auto start = std::chrono::high_resolution_clock::now();
+    using namespace std::placeholders;
+    this->ping2(std::move(req), this->wrap( std::bind(&pingpong::stress_result_, this, _1, start) ) , 0, nullptr );
     return;
   }
   
