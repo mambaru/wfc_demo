@@ -98,6 +98,33 @@ namespace {
 
 void pingpong::reconfigure()
 {
+  /*this->get_workflow()->start();
+  this->get_workflow()->post([](){abort();return true;});
+  */
+  
+  /*
+  ::wfc::workflow_options tmpopt;
+  auto tmp = this->get_workflow();
+  tmp->start();
+  if ( !tmp->post([](){abort();return true;}) )
+    abort();
+    */
+  
+  /*
+  this->global()->after_start.push_back([this]()
+  {
+    std::cout << "get_workflow??2" << std::endl;
+    this->get_workflow()->start();
+    this->get_workflow()->create_timer(
+      std::chrono::seconds(1), 
+      []()
+      { 
+        std::cout << "pingpong timer 1s" << std::endl; return true;
+      }
+    );
+    return true;
+  });
+  */
   auto& opt = this->options();
   _deny_pong = opt.deny_pong;
   _stress_ping = opt.stress_ping;
@@ -223,12 +250,16 @@ void pingpong::stress_result_( response::ping::ptr res, std::chrono::high_resolu
 {
   if ( res == nullptr )
   {
-    PINGPONG_LOG_MESSAGE("stress_result_: BAD GATEWAY")
-    auto req = std::make_unique<request::ping>();
-    req->ping_count = -1; // Локальный не считаем
-    auto start = std::chrono::high_resolution_clock::now();
-    using namespace std::placeholders;
-    this->ping2(std::move(req), this->wrap( std::bind(&pingpong::stress_result_, this, _1, start) ) , 0, nullptr );
+    PINGPONG_LOG_MESSAGE("stress_result_: BAD GATEWAY1")
+    this->get_workflow()->post(this->wrap([this]()
+    {
+      PINGPONG_LOG_MESSAGE("stress_result_: BAD GATEWAY2")
+      auto req = std::make_unique<request::ping>();
+      req->ping_count = -1; // Локальный не считаем
+      auto start = std::chrono::high_resolution_clock::now();
+      using namespace std::placeholders;
+      this->ping2(std::move(req), this->wrap( std::bind(&pingpong::stress_result_, this, _1, start) ) , 0, nullptr );
+    }));
     return;
   }
   
@@ -237,14 +268,14 @@ void pingpong::stress_result_( response::ping::ptr res, std::chrono::high_resolu
 
   this->stat_(tm_ms, res->ping_count, res->pong_count);
   
-  /*this->global()->io_service.post( this->wrap( [this]()
-  {*/
+  this->get_workflow()->post( this->wrap( [this]()
+  {
     auto start1 = std::chrono::high_resolution_clock::now();
     using namespace std::placeholders;
     auto req = std::make_unique<request::ping>();
     req->ping_count = -1; // Локальный не считаем
     this->ping2(std::move(req), this->wrap( std::bind(&pingpong::stress_result_, this, _1, start1) ) , 0, nullptr );
-  //}));
+  }));
 }
 
 static inline long ns2rate(time_t ns, int count = 1)
