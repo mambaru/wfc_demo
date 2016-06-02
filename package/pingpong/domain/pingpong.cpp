@@ -251,15 +251,18 @@ void pingpong::stress_result_( response::ping::ptr res, std::chrono::high_resolu
   if ( res == nullptr )
   {
     PINGPONG_LOG_MESSAGE("stress_result_: BAD GATEWAY1")
-    this->get_workflow()->post(this->wrap([this]()
-    {
-      PINGPONG_LOG_MESSAGE("stress_result_: BAD GATEWAY2")
-      auto req = std::make_unique<request::ping>();
-      req->ping_count = -1; // Локальный не считаем
-      auto start = std::chrono::high_resolution_clock::now();
-      using namespace std::placeholders;
-      this->ping2(std::move(req), this->wrap( std::bind(&pingpong::stress_result_, this, _1, start) ) , 0, nullptr );
-    }));
+    this->get_workflow()->post(
+      std::chrono::milliseconds(1000),
+      this->wrap([this]()
+      {
+        PINGPONG_LOG_MESSAGE("stress_result_: BAD GATEWAY2")
+        auto req = std::make_unique<request::ping>();
+        req->ping_count = -1; // Локальный не считаем
+        auto start = std::chrono::high_resolution_clock::now();
+        using namespace std::placeholders;
+        this->ping2(std::move(req), this->wrap( std::bind(&pingpong::stress_result_, this, _1, start) ) , 0, nullptr );
+      })
+    );
     return;
   }
   
@@ -292,8 +295,17 @@ static inline std::string rate_fmt(std::vector<time_t>& i, size_t perc, size_t k
   auto rate = ns2rate(i[pos]);
   std::stringstream ss;
   ss << perc << "% "
-  << std::setprecision(3) <<  std::fixed
-  << i[pos]/1000000.0 << "ms " << std::internal << rate << "("<< rate*k <<")ps\t";
+  << std::setprecision(3) << std::fixed
+  << "\t" << i[pos]/1000000.0 << "ms"  
+  << "\t" << std::setw(10) << rate << "ps"
+  << "\t"<< std::setw(10) << rate*k << "ps";
+
+  /*ss << perc << "% "
+  << std::setprecision(3) << std::fixed
+  << "\tвремя=" << i[pos]/1000000.0 << "ms"  
+  << "\tскорость(запрос)=" << std::setw(10) << rate << "ps"
+  << "\tскорость(сообщение)="<< std::setw(10) << rate*k << "ps";
+  */
   return ss.str();
 }
 
@@ -328,19 +340,29 @@ void pingpong::stat_( time_t ms, size_t pingc, size_t pongc )
     size_t k = (pingc + pongc)*2; // Количество сообщений запросы+ответы
     std::sort(i.begin(), i.end());
 
-    PINGPONG_LOG_MESSAGE(
-      rate_fmt(i, 0, k) <<
-      rate_fmt(i, 50, k) <<
-      rate_fmt(i, 80, k) <<
-      rate_fmt(i, 95, k) <<
-      rate_fmt(i, 99, k) <<
-      rate_fmt(i, 100, k) )
+    PINGPONG_LOG_MESSAGE( 
+      "Статистика:" << std::endl << 
+      "\tПерц.\tВремя\tЗапросов/сек\tСообщений/сек" << std::endl  << 
+      "\t" << rate_fmt(i, 0, k) << std::endl << 
+      "\t" << rate_fmt(i, 50, k) << std::endl << 
+      "\t" << rate_fmt(i, 80, k) << std::endl <<  
+      "\t" << rate_fmt(i, 95, k) << std::endl << 
+      "\t" << rate_fmt(i, 99, k) << std::endl << 
+      "\t" << rate_fmt(i, 100, k)<< std::endl << 
+      "\tОбщее время :" << tm_ns/1000000.0 << "ms" << std::endl <<
+      "\tЗапросов 'ping' :" << pingc << ", 'pong': " << pongc << std::endl << 
+      "\tВсего запросов: " << _stat_count << ", сообщений: " << k*_stat_count << std::endl << 
+      "\tРасчетная скорость  :" << ns2rate(tm_ns, _stat_count) << " запросов/сек, " <<
+      ns2rate(tm_ns, k*_stat_count) << " сообщений/сек" << std::endl
+    )
+    /*
     PINGPONG_LOG_MESSAGE( 
       "Totals ping=" << pingc << " pong=" << pongc
       << std::setprecision(3) << std::fixed
       << " count=" << _stat_count << " time=" <<  tm_ns/1000000.0
-      << "ms rate=" << ns2rate(tm_ns, _stat_count) << " req+res=" << k*_stat_count << "(rate: " << ns2rate(tm_ns, k*_stat_count) /*ns2rate(tm_ns, _stat_count)*k*/ << ")" 
+      << "ms rate=" << ns2rate(tm_ns, _stat_count) << " req+res=" << k*_stat_count << "(rate: " << ns2rate(tm_ns, k*_stat_count)  << ")" 
     )
+    */
     _show_time = now;
     _stat_time = std::chrono::high_resolution_clock::now();
     _stat_count = 0;
