@@ -96,7 +96,7 @@ namespace {
     };
   }
 
-void pingpong::reconfigure()
+void pingpong::ready()
 {
   /*this->get_workflow()->start();
   this->get_workflow()->post([](){abort();return true;});
@@ -142,7 +142,7 @@ void pingpong::reconfigure()
   this->global()->after_start.push_back( this->wrap([this]()->bool
   {
     this->stress_ping_();
-    return true;
+    return false;
   }));
 }
 

@@ -19,7 +19,7 @@
 
 namespace wamba{ namespace pingpong{
 
-void tank::reconfigure()
+void tank::ready()
 {
 }
 

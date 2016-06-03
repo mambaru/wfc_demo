@@ -22,7 +22,7 @@ class tank
   
 public:
   // domain_object
-  virtual void reconfigure() override;
+  virtual void ready() override;
 private:
 };
 

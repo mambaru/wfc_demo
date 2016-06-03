@@ -24,12 +24,12 @@ class pingpong_gateway_multiton::impl:
   >
 {
 public:
-  virtual std::string interface_name() const override
+  virtual std::string interface_name() override
   {
     return "ipingpong";
   }
 
-  virtual std::string description() const override
+  virtual std::string description() override
   {
     return "pingpong description";
   }
