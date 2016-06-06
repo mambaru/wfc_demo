@@ -300,30 +300,26 @@ static inline std::string rate_fmt(std::vector<time_t>& i, size_t perc, size_t k
   << "\t" << std::setw(10) << rate << "ps"
   << "\t"<< std::setw(10) << rate*k << "ps";
 
-  /*ss << perc << "% "
-  << std::setprecision(3) << std::fixed
-  << "\tвремя=" << i[pos]/1000000.0 << "ms"  
-  << "\tскорость(запрос)=" << std::setw(10) << rate << "ps"
-  << "\tскорость(сообщение)="<< std::setw(10) << rate*k << "ps";
-  */
   return ss.str();
 }
 
 void pingpong::stat_( time_t ms, size_t pingc, size_t pongc )
 {
-  static const size_t MAX_STAT = 100;
+  static const size_t MAX_STAT = 1000;
   _stat_count += 1;
   std::vector<time_t> i;
-  time_t now = time(0);
-  
+  time_t now = ::time(0);
+
   {
     std::lock_guard<mutex_type> lk( _mutex );
-    
+    if ( _intervals.size() < MAX_STAT )
+      _intervals.push_back(ms);
+
     if ( _show_time == now )
       return;
-      
-    _intervals.push_back(ms);
-    if ( _intervals.size() == MAX_STAT )
+
+
+    if ( _intervals.size() >= MAX_STAT )
     {
       _intervals.swap(i);
       _intervals.reserve(MAX_STAT);
@@ -341,7 +337,7 @@ void pingpong::stat_( time_t ms, size_t pingc, size_t pongc )
     std::sort(i.begin(), i.end());
 
     PINGPONG_LOG_MESSAGE( 
-      "Статистика:" << std::endl << 
+      "Статистика [" << i.size() << "]: " << std::endl << 
       "\tПерц.\tВремя\tЗапросов/сек\tСообщений/сек" << std::endl  << 
       "\t" << rate_fmt(i, 0, k) << std::endl << 
       "\t" << rate_fmt(i, 50, k) << std::endl << 
@@ -355,14 +351,6 @@ void pingpong::stat_( time_t ms, size_t pingc, size_t pongc )
       "\tРасчетная скорость  :" << ns2rate(tm_ns, _stat_count) << " запросов/сек, " <<
       ns2rate(tm_ns, k*_stat_count) << " сообщений/сек" << std::endl
     )
-    /*
-    PINGPONG_LOG_MESSAGE( 
-      "Totals ping=" << pingc << " pong=" << pongc
-      << std::setprecision(3) << std::fixed
-      << " count=" << _stat_count << " time=" <<  tm_ns/1000000.0
-      << "ms rate=" << ns2rate(tm_ns, _stat_count) << " req+res=" << k*_stat_count << "(rate: " << ns2rate(tm_ns, k*_stat_count)  << ")" 
-    )
-    */
     _show_time = now;
     _stat_time = std::chrono::high_resolution_clock::now();
     _stat_count = 0;
