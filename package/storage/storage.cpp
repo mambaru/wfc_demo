@@ -17,15 +17,20 @@ void storage::reconfigure()
   std::string hash_name = this->options().hash_target;
   _reply = this->global()->registry.get<istorage>(repli_name);
   _hash = this->global()->registry.get<ihash>(hash_name);
-  
+
   auto req = std::make_unique< ::wamba::demo::hash::request::get_hash >();
   req->value = "hello";
-  
-  _hash->get_hash( std::move(req), []( ::wamba::demo::hash::response::get_hash::ptr res )
+
+  if ( _hash!=nullptr )
   {
-    std::cout << res->value << std::endl;
-  });
-  
+    _hash->get_hash( std::move(req), []( ::wamba::demo::hash::response::get_hash::ptr res )
+    {
+      if ( res != nullptr )
+        std::cout << "reconfigure get_hash: " << res->value << std::endl;
+      else
+        std::cout << "reconfigure get_hash: " << "nullptr" << std::endl;
+    });
+  }
 }
 
 void storage::set(request::set::ptr req, response::set::handler cb )

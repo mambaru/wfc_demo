@@ -139,7 +139,7 @@ void pingpong::ready()
     }
   }
   
-  this->global()->after_start.push_back( this->wrap([this]()->bool
+  this->global()->after_start.insert( this->wrap([this]()->bool
   {
     this->stress_ping_();
     return false;
