@@ -112,8 +112,9 @@ void storage::perform_io(data_ptr d, io_id_t /*io_id*/, outgoing_handler_t handl
 {
   if (handler!=nullptr)
   {
-    std::reverse(d->begin(), d->end()-2);
-    return handler( std::move(d) );
+    std::reverse(d->begin(), d->end());
+    handler( std::move(d) );
+    //handler( nullptr );
   }
 }
 

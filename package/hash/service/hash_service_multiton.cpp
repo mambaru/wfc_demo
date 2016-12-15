@@ -14,9 +14,13 @@ namespace wamba{ namespace demo{ namespace hash{
 
 WFC_NAME2(hash_service_name, "hash-service")
 
-class hash_service_multiton::impl
-  : public ::wfc::jsonrpc::service_multiton< hash_service_name, service_method_list> 
-{};
+namespace 
+{
+  class impl
+    : public ::wfc::jsonrpc::service_multiton< hash_service_name, service_method_list> 
+  {};
+  
+}
 
 hash_service_multiton::hash_service_multiton()
   : wfc::component( std::make_shared<impl>() )
