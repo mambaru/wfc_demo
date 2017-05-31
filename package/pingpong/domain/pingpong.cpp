@@ -261,7 +261,8 @@ void pingpong::stress_result_( response::ping::ptr res, std::chrono::high_resolu
         auto start = std::chrono::high_resolution_clock::now();
         using namespace std::placeholders;
         this->ping2(std::move(req), this->wrap( std::bind(&pingpong::stress_result_, this, _1, start) ) , 0, nullptr );
-      })
+      }),
+      nullptr
     );
     return;
   }
@@ -278,7 +279,7 @@ void pingpong::stress_result_( response::ping::ptr res, std::chrono::high_resolu
     auto req = std::make_unique<request::ping>();
     req->ping_count = -1; // Локальный не считаем
     this->ping2(std::move(req), this->wrap( std::bind(&pingpong::stress_result_, this, _1, start1) ) , 0, nullptr );
-  }));
+  }), nullptr);
 }
 
 static inline long ns2rate(time_t ns, int count = 1)
