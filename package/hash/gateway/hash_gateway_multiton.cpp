@@ -13,15 +13,17 @@
 
 namespace wamba{ namespace demo{ namespace hash{
 
-WFC_NAME2(hash_gateway_name, "hash-gateway")
-
-class hash_gateway_multiton::impl: public ::wfc::jsonrpc::gateway_multiton
-< 
-  hash_gateway_name, 
-  gateway_method_list, 
-  hash_interface 
-> 
-{};
+namespace 
+{
+  WFC_NAME2(hash_gateway_name, "hash-gateway")
+  class impl: public ::wfc::jsonrpc::gateway_multiton
+  < 
+    hash_gateway_name, 
+    gateway_method_list, 
+    hash_interface 
+  > 
+  {};
+}
 
 hash_gateway_multiton::hash_gateway_multiton()
   : wfc::component( std::make_shared<impl>() )
