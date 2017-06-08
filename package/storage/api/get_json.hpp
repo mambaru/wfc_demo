@@ -10,7 +10,6 @@ namespace request
   struct get_json
   {
     JSON_NAME(key)
-    JSON_NAME(hash)
 
     typedef wfc::json::object<
       get,
