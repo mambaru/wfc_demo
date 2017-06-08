@@ -15,15 +15,22 @@
 
 namespace wamba{ namespace demo{ namespace hash{
 
-WFC_NAME2(hash_object_name, "demo-hash")
+namespace
+{
+  WFC_NAME2(object_name, "hash")
 
-class hash_multiton::impl: public ::wfc::multiton<
-  hash_object_name,
-  ::wfc::instance<hash>,
-  hash_config_json
->
-{  
-};
+  class impl: public ::wfc::multiton<
+    object_name,
+    ::wfc::instance<hash>,
+    hash_config_json
+  >
+  {
+    virtual std::string interface_name() override
+    {
+      return "ihash";
+    }
+  };
+}
 
 hash_multiton::hash_multiton()
   : component( std::make_shared<impl>() )

@@ -13,7 +13,6 @@ namespace wamba{ namespace demo{ namespace hash{
 class hash_multiton
   : public ::wfc::component
 {
-  class impl;
 public:
   hash_multiton();
 };

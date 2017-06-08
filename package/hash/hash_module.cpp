@@ -13,23 +13,27 @@
 
 namespace wamba{ namespace demo{ namespace hash{
 
-WFC_NAME2(hash_module_name, "demo-hash")
-
-class hash_module::impl: public ::wfc::component_list<
-  hash_module_name,
-  hash_multiton,
-  hash_service_multiton,
-  hash_gateway_multiton
->
+namespace
 {
-  virtual std::string description() const override
+  WFC_NAME2(module_name, "hash-module")
+
+  class impl: public ::wfc::component_list<
+    module_name,
+    hash_multiton,
+    hash_service_multiton,
+    hash_gateway_multiton
+  >
   {
-    return "Demo-hash module description";
-  }
-};
+  public:
+    virtual std::string description() const override
+    {
+      return "Demo-hash module description";
+    }
+  };
+}
 
 hash_module::hash_module()
-  : module( std::make_shared<hash_module::impl>() )
+  : module( std::make_shared<impl>() )
 {
 }
 

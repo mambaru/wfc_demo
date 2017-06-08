@@ -13,64 +13,29 @@ namespace wamba{ namespace demo{ namespace storage{
 
 void storage::reconfigure()
 {
-  std::string repli_name = this->options().repli_target;
   std::string hash_name = this->options().hash_target;
-  _reply = this->global()->registry.get<istorage>(repli_name);
   _hash = this->global()->registry.get<ihash>(hash_name);
-
-  auto req = std::make_unique< ::wamba::demo::hash::request::get_hash >();
-  req->value = "hello";
-
-  if ( _hash!=nullptr )
-  {
-    _hash->get_hash( std::move(req), []( ::wamba::demo::hash::response::get_hash::ptr res )
-    {
-      if ( res != nullptr )
-        std::cout << "reconfigure get_hash: " << res->value << std::endl;
-      else
-        std::cout << "reconfigure get_hash: " << "nullptr" << std::endl;
-    });
-  }
 }
 
 void storage::set(request::set::ptr req, response::set::handler cb )
 {
-  std::lock_guard< std::recursive_mutex > lk(_mutex);
+  if ( this->bad_request<response::set>(req, cb) )
+    return;
   
-  if ( req!=nullptr )
-  {
-    if ( _reply != nullptr )
-    {
-      _storage[req->key]=req->value;
-    }
-    else
-    {
-      _storage[ std::move(req->key) ]= std::move(req->value);
-    }
-  }
+  std::lock_guard< mutex_type > lk(_mutex);
+  
+  _storage[req->key]=req->value;
 
   if (cb!=nullptr)
-  {
-    auto resp = std::make_unique<response::set>();
-    resp->status = (req!=nullptr);
-    cb( std::move(resp));
-    cb=nullptr;
-  }
-
-  if ( _reply != nullptr )
-  {
-    _reply->set( std::move(req), nullptr );
-  }
+    cb( std::make_unique<response::set>() );
 }
 
 void storage::get(request::get::ptr req, response::get::handler cb ) 
 {
-  std::lock_guard< std::recursive_mutex > lk(_mutex);
-  
-  if ( cb == nullptr )
+  if ( this->notify_ban<response::get>(req, cb) )
     return;
-  if ( req == nullptr )
-    return cb( nullptr );
+
+  std::lock_guard< mutex_type > lk(_mutex);
 
   auto res = std::make_unique<response::get>();
   auto itr = _storage.find( req->key );
@@ -112,9 +77,9 @@ void storage::perform_io(data_ptr d, io_id_t /*io_id*/, outgoing_handler_t handl
 {
   if (handler!=nullptr)
   {
-    std::reverse(d->begin(), d->end());
+    if ( d!=nullptr )
+      std::reverse(d->begin(), d->end());
     handler( std::move(d) );
-    //handler( nullptr );
   }
 }
 

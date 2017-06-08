@@ -13,7 +13,6 @@ namespace wamba{ namespace demo{ namespace hash{
 class hash_module
   : public ::wfc::module
 {
-  class impl;
 public:
   hash_module();
 };

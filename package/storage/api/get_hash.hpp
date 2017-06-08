@@ -6,7 +6,7 @@ namespace wamba{ namespace demo{ namespace storage{
 
 namespace request
 {
-  struct get 
+  struct get_hash
   {
     key_type key;
     typedef std::unique_ptr<get> ptr;
@@ -15,11 +15,10 @@ namespace request
 
 namespace response
 {
-  struct get 
+  struct get_hash 
   {
-    data_type value;
-    bool status = false;
-    typedef std::unique_ptr<get> ptr;
+    hash_type value = 0;
+    typedef std::unique_ptr<get_hash> ptr;
     typedef std::function< void(ptr)> handler;
   };
 }

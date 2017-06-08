@@ -18,7 +18,6 @@ namespace response
 {
   struct set
   {
-    bool status = false;
     typedef std::unique_ptr<set> ptr;
     typedef std::function< void(ptr)> handler;
   };
