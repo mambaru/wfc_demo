@@ -17,7 +17,6 @@ namespace response
 {
   struct get_hash 
   {
-    bool status = false;
     hash_type value = 0;
     typedef std::unique_ptr<get_hash> ptr;
     typedef std::function< void(ptr)> handler;

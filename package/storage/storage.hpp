@@ -26,6 +26,7 @@ public:
   virtual void reconfigure() override;
   virtual void set(request::set::ptr req, response::set::handler cb ) override;
   virtual void get(request::get::ptr req, response::get::handler cb ) override;
+  virtual void get_hash( request::get_hash::ptr req, response::get_hash::handler cb ) override;
   virtual void perform_io(data_ptr d, io_id_t io_id, outgoing_handler_t handler) override;
 private:
   std::shared_ptr<istorage> _reply;

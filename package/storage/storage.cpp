@@ -30,12 +30,48 @@ void storage::set(request::set::ptr req, response::set::handler cb )
     cb( std::make_unique<response::set>() );
 }
 
+void storage::get_hash( request::get_hash::ptr req, response::get_hash::handler cb ) 
+{
+  if ( this->notify_ban<response::get_hash>(req, cb) )
+    return;
+  
+  std::unique_lock< mutex_type > lk(_mutex);
+  auto itr = _storage.find( req->key );
+  if ( itr != _storage.end() )
+  {
+    if ( _hash!=nullptr )
+    {
+      auto req_hash = std::make_unique< ::wamba::demo::hash::request::get_hash >();
+      req_hash->value = itr->second;
+      _hash->get_hash( std::move(req_hash), [cb](::wamba::demo::hash::response::get_hash::ptr res_hash)
+      {
+        auto res = std::make_unique<response::get_hash>();
+        res->status = true;
+        res->value = res_hash->value;
+        cb( std::move(res) );
+      });
+    }
+    else
+    {
+      cb(nullptr);
+    }
+  }
+  else
+  {
+    lk.unlock();
+    auto res = std::make_unique<response::get_hash>();
+    res->status = false;
+    cb( std::move(res) );
+  }
+}
+
 void storage::get(request::get::ptr req, response::get::handler cb ) 
 {
   if ( this->notify_ban<response::get>(req, cb) )
     return;
 
   std::lock_guard< mutex_type > lk(_mutex);
+  
 
   auto res = std::make_unique<response::get>();
   auto itr = _storage.find( req->key );

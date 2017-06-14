@@ -20,8 +20,6 @@ void hash::get_hash(request::get_hash::ptr req, response::get_hash::handler cb )
     return;
 
   auto res = std::make_unique<response::get_hash>();
-  res->status=true;
-
   typedef ::wamba::demo::hash::data_type data_type;
   res->value = std::hash< data_type >()( req->value );
   cb( std::move(res) );

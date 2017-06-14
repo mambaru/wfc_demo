@@ -13,7 +13,6 @@ namespace wamba{ namespace demo{ namespace storage{
 class storage_service_multiton
   : public ::wfc::component
 {
-  class impl;
 public:
   storage_service_multiton();
 };

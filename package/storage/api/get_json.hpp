@@ -33,8 +33,8 @@ namespace response
     typedef wfc::json::object<
       get,
       wfc::json::member_list<
-        wfc::json::member<n_value,  get, std::string, &get::value >,
-        wfc::json::member<n_status, get, bool,        &get::status >
+        wfc::json::member<n_status, get, bool,        &get::status >,
+        wfc::json::member<n_value,  get, std::string, &get::value >
       >
     > type;
 

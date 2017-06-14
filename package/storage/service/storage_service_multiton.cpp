@@ -13,11 +13,14 @@
 
 namespace wamba{ namespace demo{ namespace storage{
 
-WFC_NAME2(storage_service_name, "storage-service")
+namespace
+{
+  WFC_NAME2(service_name, "storage-service")
 
-class storage_service_multiton::impl
-  : public ::wfc::jsonrpc::service_multiton< storage_service_name, service_method_list> 
-{};
+  class impl
+    : public ::wfc::jsonrpc::service_multiton< service_name, service_method_list> 
+  {};
+}
 
 storage_service_multiton::storage_service_multiton()
   : wfc::component( std::make_shared<impl>() )
