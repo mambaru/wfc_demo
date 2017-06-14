@@ -2,14 +2,14 @@
 
 #include <storage/api/types.hpp>
 
-namespace wamba{ namespace demo{ namespace storage{
+namespace demo{ namespace storage{
   
 namespace request
 {
   struct set 
   {
-    key_type key;
-    data_type value;
+    std::string key;
+    std::string value;
     typedef std::unique_ptr<set> ptr;
   };
 }
@@ -23,4 +23,4 @@ namespace response
   };
 }
 
-}}}
+}}

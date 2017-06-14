@@ -4,7 +4,7 @@
 #include <hash/api/get_hash_json.hpp>
 #include <wfc/jsonrpc.hpp>
 
-namespace wamba{ namespace demo{ namespace hash {
+namespace demo{ namespace hash {
 
 JSONRPC_TAG(hash)
 
@@ -16,4 +16,4 @@ struct service_method_list: wfc::jsonrpc::method_list
 {
 };
 
-}}}
+}}

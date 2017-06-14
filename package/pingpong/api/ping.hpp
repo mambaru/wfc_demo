@@ -1,6 +1,6 @@
 #pragma once
 
-namespace wamba{ namespace pingpong{
+namespace demo{ namespace pingpong{
 
 namespace request
 {

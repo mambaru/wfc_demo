@@ -8,7 +8,7 @@
 
 #include <wfc/module/module.hpp>
 
-namespace wamba{ namespace demo{ namespace storage{
+namespace demo{ namespace storage{
 
 class storage_module
   : public ::wfc::module
@@ -18,5 +18,5 @@ public:
   storage_module();
 };
 
-}}}
+}}
 

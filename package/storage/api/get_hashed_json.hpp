@@ -3,11 +3,11 @@
 #include <storage/api/get_hashed.hpp>
 #include <wfc/json.hpp>
 
-namespace wamba{ namespace demo{ namespace storage{
+namespace demo{ namespace storage{
 
 namespace request
 {
-  struct get_hash_json
+  struct get_hashed_json
   {
     JSON_NAME(key)
 
@@ -25,16 +25,16 @@ namespace request
 
 namespace response
 {
-  struct get_hash_json
+  struct get_hashed_json
   {
     JSON_NAME(value)
     JSON_NAME(status)
     
     typedef wfc::json::object<
-      get_hash,
+      get_hashed,
       wfc::json::member_list<
         wfc::json::member<n_status, get_hashed, bool,      &get_hashed::status >,
-        wfc::json::member<n_value,  get_hashed, hash_type, &get_hashed::value >
+        wfc::json::member<n_value,  get_hashed, size_t, &get_hashed::value >
       >
     > type;
     typedef type::target     target;
@@ -42,4 +42,4 @@ namespace response
   };
 }
 
-}}}
+}}

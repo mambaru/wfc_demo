@@ -5,16 +5,16 @@ SET(
   demo_package.cpp
 
   storage/storage_module.cpp
-  storage/storage_multiton.cpp
+  storage/domain/storage.cpp
+  storage/domain/storage_multiton.cpp
   storage/service/storage_service_multiton.cpp
   storage/gateway/storage_gateway_multiton.cpp
-  storage/storage.cpp
-
-  hash/hash_module.cpp
-  hash/hash_multiton.cpp
+  
+  hash/domain/hash.cpp
+  hash/domain/hash_multiton.cpp
   hash/service/hash_service_multiton.cpp
   hash/gateway/hash_gateway_multiton.cpp
-  hash/hash.cpp
+  hash/hash_module.cpp
 
   pingpong/pingpong_module.cpp
   pingpong/domain/pingpong_multiton.cpp
@@ -23,7 +23,6 @@ SET(
   pingpong/tank/tank.cpp
   pingpong/service/pingpong_service_multiton.cpp
   pingpong/gateway/pingpong_gateway_multiton.cpp
- 
 )
 
 add_library(

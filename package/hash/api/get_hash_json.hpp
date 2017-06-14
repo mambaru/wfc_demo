@@ -3,7 +3,7 @@
 #include <hash/api/get_hash.hpp>
 #include <wfc/json.hpp>
 
-namespace wamba{ namespace demo{ namespace hash{
+namespace demo{ namespace hash{
 
 namespace request
 {
@@ -31,7 +31,7 @@ namespace response
     typedef wfc::json::object<
       get_hash,
       wfc::json::member_list<
-        wfc::json::member<n_value,  get_hash, hash_type, &get_hash::value>
+        wfc::json::member<n_value,  get_hash, size_t, &get_hash::value>
       >
     > type;
 
@@ -40,4 +40,4 @@ namespace response
   };
 }
 
-}}}
+}}

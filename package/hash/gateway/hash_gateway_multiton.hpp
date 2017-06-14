@@ -8,7 +8,7 @@
 
 #include <wfc/module/component.hpp>
 
-namespace wamba{ namespace demo{ namespace hash{
+namespace demo{ namespace hash{
 
 class hash_gateway_multiton
   : public ::wfc::component
@@ -17,4 +17,4 @@ public:
   hash_gateway_multiton();
 };
 
-}}}
+}}

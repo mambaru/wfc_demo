@@ -8,7 +8,7 @@
 
 #include <wfc/module/package.hpp>
 
-namespace wamba{
+namespace demo{
 
 class demo_package
   : public ::wfc::package

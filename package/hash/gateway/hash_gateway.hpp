@@ -5,7 +5,7 @@
 #include <wfc/jsonrpc.hpp>
 
 
-namespace wamba{ namespace demo{ namespace hash{ 
+namespace demo{ namespace hash{ 
 
 JSONRPC_TAG(get_hash)
 
@@ -28,4 +28,4 @@ public:
   }
 };
 
-}}}
+}}

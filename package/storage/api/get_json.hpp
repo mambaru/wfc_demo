@@ -3,7 +3,7 @@
 #include <storage/api/get.hpp>
 #include <wfc/json.hpp>
 
-namespace wamba{ namespace demo{ namespace storage{
+namespace demo{ namespace storage{
 
 namespace request
 {
@@ -43,4 +43,4 @@ namespace response
   };
 }
 
-}}}
+}}

@@ -8,7 +8,7 @@
 
 #include <string>
 
-namespace wamba{ namespace pingpong{
+namespace demo{ namespace pingpong{
 
 struct tank_config
 {

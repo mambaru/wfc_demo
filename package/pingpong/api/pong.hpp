@@ -3,7 +3,7 @@
 #include <memory>
 #include <functional>
 
-namespace wamba{ namespace pingpong{
+namespace demo{ namespace pingpong{
   
 namespace request
 {

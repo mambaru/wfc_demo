@@ -11,7 +11,7 @@
 #include <wfc/module/instance.hpp>
 #include <wfc/name.hpp>
 
-namespace wamba{ namespace demo{ namespace storage{
+namespace demo{ namespace storage{
 
 WFC_NAME2(storage_gateway_name, "storage-gateway")
 
@@ -28,4 +28,4 @@ storage_gateway_multiton::storage_gateway_multiton()
 {
 }
 
-}}}
+}}

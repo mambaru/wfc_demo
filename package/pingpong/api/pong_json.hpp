@@ -3,7 +3,7 @@
 #include <pingpong/api/pong.hpp>
 #include <wfc/json.hpp>
 
-namespace wamba{ namespace pingpong{
+namespace demo{ namespace pingpong{
 
 namespace request
 {

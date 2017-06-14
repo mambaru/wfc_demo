@@ -13,7 +13,7 @@
 #include <wfc/name.hpp>
 #include <memory>
 
-namespace wamba{ namespace pingpong{
+namespace demo{ namespace pingpong{
 
 namespace {
   WFC_NAME2(module_name, "pingpong")

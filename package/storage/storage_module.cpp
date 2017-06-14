@@ -5,13 +5,13 @@
 //
 
 #include "storage_module.hpp"
-#include "storage_multiton.hpp"
+#include "domain/storage_multiton.hpp"
 #include "service/storage_service_multiton.hpp"
 #include "gateway/storage_gateway_multiton.hpp"
 #include <wfc/module/component_list.hpp>
 #include <wfc/name.hpp>
 
-namespace wamba{ namespace demo{ namespace storage{
+namespace demo{ namespace storage{
 
 WFC_NAME2(storage_module_name, "demo-storage")
 
@@ -33,4 +33,4 @@ storage_module::storage_module()
 {
 }
 
-}}}
+}}

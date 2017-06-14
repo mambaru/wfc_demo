@@ -5,10 +5,10 @@
 //
 #pragma once
 
-#include <hash/hash_config.hpp>
+#include "hash_config.hpp"
 #include <wfc/json.hpp>
 
-namespace wamba{ namespace demo{ namespace hash{
+namespace demo{ namespace hash{
 
 struct hash_config_json
 {
@@ -24,4 +24,4 @@ struct hash_config_json
   typedef type::member_list member_list;
 };
 
-}}}
+}}

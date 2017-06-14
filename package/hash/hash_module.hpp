@@ -8,7 +8,7 @@
 
 #include <wfc/module/module.hpp>
 
-namespace wamba{ namespace demo{ namespace hash{
+namespace demo{ namespace hash{
 
 class hash_module
   : public ::wfc::module
@@ -17,5 +17,5 @@ public:
   hash_module();
 };
 
-}}}
+}}
 

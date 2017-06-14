@@ -6,10 +6,10 @@
 
 #pragma once
 
-namespace wamba{ namespace demo{ namespace hash{
+namespace demo{ namespace hash{
 
 struct hash_config
 {
 };
 
-}}}
+}}

@@ -11,7 +11,7 @@
 #include <wfc/module/instance.hpp>
 #include <wfc/name.hpp>
 
-namespace wamba{ namespace demo{ namespace hash{
+namespace demo{ namespace hash{
 
 namespace 
 {
@@ -30,4 +30,4 @@ hash_gateway_multiton::hash_gateway_multiton()
 {
 }
 
-}}}
+}}

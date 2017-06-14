@@ -4,7 +4,7 @@
 #include <pingpong/api/pong.hpp>
 #include <wfc/iinterface.hpp>
 
-namespace wamba{ namespace pingpong{
+namespace demo{ namespace pingpong{
 
 struct ipingpong: public ::wfc::iinterface
 {

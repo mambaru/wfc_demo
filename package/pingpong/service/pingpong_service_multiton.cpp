@@ -13,7 +13,7 @@
 
 #include <memory>
 
-namespace wamba{ namespace pingpong{
+namespace demo{ namespace pingpong{
 
 WFC_NAME2(pingpong_service_name, "pingpong-service")
 

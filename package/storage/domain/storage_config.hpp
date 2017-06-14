@@ -8,12 +8,11 @@
 
 #include <string>
 
-namespace wamba{ namespace demo{ namespace storage{
+namespace demo{ namespace storage{
 
 struct storage_config
 {
-  std::string repli_target;
   std::string hash_target;
 };
 
-}}}
+}}

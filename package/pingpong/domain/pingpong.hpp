@@ -13,7 +13,7 @@
 #include <string>
 
 
-namespace wamba{ namespace pingpong{
+namespace demo{ namespace pingpong{
 
 
 class pingpong

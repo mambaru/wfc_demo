@@ -11,14 +11,14 @@
 #include "pingpong/pingpong_module.hpp"
 #include <wfc/module/module_list.hpp>
 
-namespace wamba{
+namespace demo{
 
 namespace
 { 
   class impl: public ::wfc::module_list<
     demo_build_info,
-    demo::storage::storage_module,
-    demo::hash::hash_module,
+    storage::storage_module,
+    hash::hash_module,
     pingpong::pingpong_module
   >
   {};

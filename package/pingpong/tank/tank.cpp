@@ -17,7 +17,7 @@
 #define PINGPONG_LOG_MESSAGE(message) WFC_LOG_MESSAGE("pingpong", message)
 #define PINGPONG_LOG_DEBUG(message)   WFC_LOG_DEBUG("pingpong", message)
 
-namespace wamba{ namespace pingpong{
+namespace demo{ namespace pingpong{
 
 void tank::ready()
 {

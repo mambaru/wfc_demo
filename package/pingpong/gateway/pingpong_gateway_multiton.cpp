@@ -12,7 +12,7 @@
 #include <wfc/module/instance.hpp>
 #include <wfc/name.hpp>
 
-namespace wamba{ namespace pingpong{
+namespace demo{ namespace pingpong{
 
 WFC_NAME2(pingpong_gateway_name, "pingpong-gateway")
 

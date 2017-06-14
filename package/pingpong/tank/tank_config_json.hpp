@@ -8,7 +8,7 @@
 #include "tank_config.hpp"
 #include <wfc/json.hpp>
 
-namespace wamba{ namespace pingpong{
+namespace demo{ namespace pingpong{
 
 struct tank_config_json
 {

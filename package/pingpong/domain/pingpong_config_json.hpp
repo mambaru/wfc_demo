@@ -8,7 +8,7 @@
 #include "pingpong_config.hpp"
 #include <wfc/json.hpp>
 
-namespace wamba{ namespace pingpong{
+namespace demo{ namespace pingpong{
 
 struct pingpong_config_json
 {

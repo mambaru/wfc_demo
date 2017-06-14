@@ -5,7 +5,7 @@
 #include <pingpong/api/pong_json.hpp>
 #include <wfc/jsonrpc.hpp>
 
-namespace wamba{ namespace pingpong{ namespace service{
+namespace demo{ namespace pingpong{ namespace service{
 
 JSONRPC_TAG(pong)
 JSONRPC_TAG(ping)

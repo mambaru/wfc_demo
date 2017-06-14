@@ -10,7 +10,7 @@
 #include <wfc/module/multiton.hpp>
 #include <wfc/name.hpp>
 
-namespace wamba{ namespace demo{ namespace hash{
+namespace demo{ namespace hash{
 
 namespace 
 {
@@ -26,4 +26,4 @@ hash_service_multiton::hash_service_multiton()
 {
 }
 
-}}}
+}}

@@ -11,7 +11,7 @@
 #include <wfc/module/instance.hpp>
 #include <wfc/name.hpp>
 
-namespace wamba{ namespace demo{ namespace storage{
+namespace demo{ namespace storage{
 
 namespace
 {
@@ -27,4 +27,4 @@ storage_service_multiton::storage_service_multiton()
 {
 }
 
-}}}
+}}

@@ -3,7 +3,7 @@
 #include <storage/api/set.hpp>
 #include <wfc/json.hpp>
 
-namespace wamba{ namespace demo{ namespace storage{
+namespace demo{ namespace storage{
 
 namespace request
 {
@@ -15,7 +15,7 @@ namespace request
     typedef wfc::json::object<
       set,
       wfc::json::member_list<
-        wfc::json::member<n_key, set, std::string, &set::key>,
+        wfc::json::member<n_key,   set, std::string, &set::key>,
         wfc::json::member<n_value, set, std::string, &set::value >
       >
     > type;
@@ -41,4 +41,4 @@ namespace response
   };
 }
 
-}}}
+}}

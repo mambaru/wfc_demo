@@ -5,13 +5,13 @@
 //
 
 #include "hash_module.hpp"
-#include "hash_multiton.hpp"
+#include "domain/hash_multiton.hpp"
 #include "service/hash_service_multiton.hpp"
 #include "gateway/hash_gateway_multiton.hpp"
 #include <wfc/module/component_list.hpp>
 #include <wfc/name.hpp>
 
-namespace wamba{ namespace demo{ namespace hash{
+namespace demo{ namespace hash{
 
 namespace
 {
@@ -37,4 +37,4 @@ hash_module::hash_module()
 {
 }
 
-}}}
+}}

@@ -5,14 +5,14 @@
 //
 
 #include "hash.hpp"
-#include "api/types.hpp"
+#include <hash/api/types.hpp>
 #include <wfc/logger.hpp>
 #include <wfc/memory.hpp>
 #include <iostream>
 #include <functional>
 
 
-namespace wamba{ namespace demo{ namespace hash{
+namespace demo{ namespace hash{
 
 void hash::get_hash(request::get_hash::ptr req, response::get_hash::handler cb ) 
 {
@@ -20,9 +20,8 @@ void hash::get_hash(request::get_hash::ptr req, response::get_hash::handler cb )
     return;
 
   auto res = std::make_unique<response::get_hash>();
-  typedef ::wamba::demo::hash::data_type data_type;
-  res->value = std::hash< data_type >()( req->value );
+  res->value = std::hash< std::string >()( req->value );
   cb( std::move(res) );
 }
 
-}}}
+}}

@@ -3,10 +3,12 @@
 #include <string>
 
 
-namespace wamba{ namespace demo{ namespace storage{
+namespace demo{ namespace storage{
 
-typedef std::string data_type;
+  /*
+typedef std::string value_type;
 typedef std::string key_type;
 typedef size_t hash_type;
+  */
 
-}}}
+}}

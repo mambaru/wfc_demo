@@ -18,7 +18,7 @@
 #define PINGPONG_LOG_MESSAGE(message) WFC_LOG_MESSAGE("pingpong", message)
 #define PINGPONG_LOG_DEBUG(message)   WFC_LOG_DEBUG("pingpong", message)
 
-namespace wamba{ namespace pingpong{
+namespace demo{ namespace pingpong{
 
 namespace {
 
@@ -81,7 +81,7 @@ namespace {
         }
         if ( pong_reqester!=nullptr )
         {
-          ::wamba::pingpong::pong_send_( std::move(res), std::move(cb), std::move(pong_reqester) );
+          ::demo::pingpong::pong_send_( std::move(res), std::move(cb), std::move(pong_reqester) );
         }
         else if (cb != nullptr )
         {
@@ -201,7 +201,7 @@ void pingpong::ping2(request::ping::ptr req, response::ping::handler cb, io_id_t
   {
     if ( !_deny_pong )
     {
-      ::wamba::pingpong::pong_send_( std::move(req), std::move(cb), pong_reqester );
+      ::demo::pingpong::pong_send_( std::move(req), std::move(cb), pong_reqester );
     }
     else
     {
