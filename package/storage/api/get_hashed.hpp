@@ -1,6 +1,8 @@
 #pragma once
 
-#include <storage/api/types.hpp>
+#include <string>
+#include <memory>
+#include <functional>
 
 namespace demo{ namespace storage{  
 

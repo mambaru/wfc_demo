@@ -5,12 +5,12 @@ SET(
   demo_package.cpp
 
   storage/storage_module.cpp
-  storage/domain/storage.cpp
+  storage/domain/storage_domain.cpp
   storage/domain/storage_multiton.cpp
   storage/service/storage_service_multiton.cpp
   storage/gateway/storage_gateway_multiton.cpp
   
-  hash/domain/hash.cpp
+  hash/domain/hash_domain.cpp
   hash/domain/hash_multiton.cpp
   hash/service/hash_service_multiton.cpp
   hash/gateway/hash_gateway_multiton.cpp
@@ -29,6 +29,9 @@ add_library(
   wfc_demo
   ${wfc_demo_source_list}
 )
+
+add_dependencies(wfc_demo storage)
+target_link_libraries(wfc_demo storage)
 
 build_info(wfc_demo demo)
 

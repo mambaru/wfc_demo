@@ -6,7 +6,7 @@
 
 
 #include "storage_multiton.hpp"
-#include "storage.hpp"
+#include "storage_domain.hpp"
 #include "storage_config_json.hpp"
 
 #include <wfc/module/multiton.hpp>
@@ -21,7 +21,7 @@ WFC_NAME2(object_name, "demo-storage")
 
 class impl: public ::wfc::multiton<
   object_name,
-  wfc::instance<storage>,
+  wfc::instance<storage_domain>,
   storage_config_json
 >
 {  

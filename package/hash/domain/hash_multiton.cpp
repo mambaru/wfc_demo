@@ -7,7 +7,7 @@
 
 #include "hash_multiton.hpp"
 #include "hash_config_json.hpp"
-#include "hash.hpp"
+#include "hash_domain.hpp"
 
 #include <wfc/module/multiton.hpp>
 #include <wfc/module/instance.hpp>
@@ -21,8 +21,10 @@ namespace
 
   class impl: public ::wfc::multiton<
     object_name,
-    ::wfc::instance<hash>,
-    hash_config_json
+    ::wfc::instance<hash_domain>,
+    hash_config_json,
+      ::wfc::component_features::DisabledWorkflow
+    | ::wfc::component_features::DisabledPriority
   >
   {
     virtual std::string interface_name() override
