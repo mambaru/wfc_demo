@@ -5,9 +5,22 @@
 //
 
 #include "hash_domain.hpp"
-
+#include <unistd.h>
 
 namespace demo{ namespace hash{
+
+void hash_domain::initialize()
+{
+  /*
+  for (int i =0 ; i < 100; ++i)
+  {
+    if ( this->global()->stop_signal_flag )
+      break;
+    COMMON_LOG_MESSAGE("Long initialize " << i);
+    ::sleep(1);
+  }
+  */
+}
 
 void hash_domain::get_hash(request::get_hash::ptr req, response::get_hash::handler cb ) 
 {
