@@ -30,7 +30,7 @@ struct ipinger: public ::wfc::iinterface
 
 struct iponger: public ::wfc::iinterface
 {
-  virtual ~ipinger() {}
+  virtual ~iponger() {}
   virtual void ping(request::ping::ptr, response::ping::handler, io_id_t, std::weak_ptr<ipinger> ) = 0;
 };
 
