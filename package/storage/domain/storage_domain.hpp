@@ -22,10 +22,11 @@ class storage_domain
 {
   typedef ::demo::hash::ihash ihash;
 public:
-  virtual void reconfigure() override;
+  virtual void initialize() override;
   virtual void set(request::set::ptr req, response::set::handler cb ) override;
   virtual void get(request::get::ptr req, response::get::handler cb ) override;
   virtual void get_hashed( request::get_hashed::ptr req, response::get_hashed::handler cb ) override;
+  virtual void multiget_hashed( request::multiget_hashed::ptr , response::multiget_hashed::handler  ) override;
   //virtual void perform_io(data_ptr d, io_id_t io_id, outgoing_handler_t handler) override;
 private:
   std::shared_ptr<ihash> _hash;

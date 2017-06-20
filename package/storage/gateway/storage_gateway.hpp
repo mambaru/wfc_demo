@@ -3,6 +3,7 @@
 #include <storage/istorage.hpp>
 #include <storage/api/get_json.hpp>
 #include <storage/api/get_hashed_json.hpp>
+#include <storage/api/multiget_hashed_json.hpp>
 #include <storage/api/set_json.hpp>
 #include <wfc/jsonrpc.hpp>
 
@@ -12,13 +13,15 @@ namespace demo{ namespace storage{
 JSONRPC_TAG(set)
 JSONRPC_TAG(get)
 JSONRPC_TAG(get_hashed)
+JSONRPC_TAG(multiget_hashed)
 
 struct gateway_method_list: wfc::jsonrpc::method_list
 <
   wfc::jsonrpc::interface_<istorage>,
   wfc::jsonrpc::call_method< _set_,      request::set_json,      response::set_json>,
   wfc::jsonrpc::call_method< _get_,      request::get_json,      response::get_json>,
-  wfc::jsonrpc::call_method< _get_hashed_, request::get_hashed_json, response::get_hashed_json>
+  wfc::jsonrpc::call_method< _get_hashed_, request::get_hashed_json, response::get_hashed_json>,
+  wfc::jsonrpc::call_method< _multiget_hashed_, request::multiget_hashed_json, response::multiget_hashed_json>
 >
 {
 };
@@ -42,6 +45,11 @@ public:
   {
     this->template call< _get_hashed_ >( std::move(req), cb, nullptr);
   }
-};
-
-}}
+  
+  virtual void multiget_hashed(request::multiget_hashed::ptr req, response::multiget_hashed::handler cb ) override
+  {
+    this->template call< _multiget_hashed_ >( std::move(req), cb, nullptr);
+  }};
+}
+  
+}

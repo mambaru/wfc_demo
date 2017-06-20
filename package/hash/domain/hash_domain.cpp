@@ -24,6 +24,7 @@ void hash_domain::initialize()
 
 void hash_domain::get_hash(request::get_hash::ptr req, response::get_hash::handler cb ) 
 {
+  //std::cout << "get_hash: " << req->value << std::endl;
   if ( this->notify_ban<response::get_hash>(req, cb) )
     return;
 
