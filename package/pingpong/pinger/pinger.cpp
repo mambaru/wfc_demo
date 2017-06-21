@@ -24,7 +24,7 @@ void pinger::initialize()
 {
   std::lock_guard<std::mutex> lk(_mutex);
   for (const auto& name : this->options().target_list )
-    _targets.push_back( this->get_target<ipinger>(name)  );
+    _targets.push_back( this->get_target<iponger>(name)  );
 }
 
 pinger::target_list pinger::get_target_list() const
@@ -33,7 +33,7 @@ pinger::target_list pinger::get_target_list() const
   return _targets;
 }
 
-void pinger::ping(ball::ptr req, ball::handler cb) 
+void pinger::play(ball::ptr req, ball::handler cb) 
 {
   if ( this->notify_ban<ball>(req, cb ) )
     return;
@@ -58,7 +58,7 @@ void pinger::ping(ball::ptr req, ball::handler cb)
           res->count = *ptotal;
           cb( std::move(res) );
         }
-      } );
+      } , 0, this->shared_from_this() );
     }
   }
 }

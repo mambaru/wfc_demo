@@ -56,7 +56,7 @@ void tank::fire()
         using namespace std::placeholders;
         auto req = std::make_unique<ball>();
         ball::handler handler = std::bind(&tank::result_handler, this, clock_t::now(), _1);
-        t->ping( std::move(req),  handler );
+        t->play( std::move(req),  handler );
       }
     }
     sleep(1);

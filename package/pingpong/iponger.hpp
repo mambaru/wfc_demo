@@ -14,4 +14,11 @@ struct iponger: public ::wfc::iinterface
   virtual void ping(ball::ptr, ball::handler, io_id_t, std::weak_ptr<ipinger> ) = 0;
 };
 
+struct iponger2: public ::wfc::iinterface
+{
+  virtual ~iponger2() {}
+  virtual void ping(ball::ptr, ball::handler) = 0;
+};
+
+
 }}

@@ -26,7 +26,9 @@ SET(
   pingpong/tank/tank_multiton.cpp
   pingpong/tank/tank.cpp
   pingpong/service/pingpong_service_multiton.cpp
-  #pingpong/service/pinger_service_multiton.cpp
+  pingpong/service/pinger_service_multiton.cpp
+  pingpong/service/ponger_service_multiton.cpp
+  pingpong/gateway/ponger_gateway_multiton.cpp
   pingpong/gateway/pingpong_gateway_multiton.cpp
 )
 
