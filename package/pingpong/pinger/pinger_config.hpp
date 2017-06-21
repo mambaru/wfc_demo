@@ -1,5 +1,5 @@
 //
-// Author: Vladimir Migashko <migashko@gmail.com>, (C) 2016
+// Author: Vladimir Migashko <migashko@gmail.com>, (C) 2013-2015
 //
 // Copyright: See COPYING file that comes with this distribution
 //
@@ -10,11 +10,9 @@
 
 namespace demo{ namespace pingpong{
 
-struct tank_config
+struct pinger_config
 {
-  size_t power = 1;
-  size_t discharge = 1;
-  std::string target;
+  std::vector<std::string> target_list;
 };
 
 }}

@@ -19,9 +19,14 @@ SET(
   pingpong/pingpong_module.cpp
   pingpong/domain/pingpong_multiton.cpp
   pingpong/domain/pingpong.cpp
+  pingpong/pinger/pinger_multiton.cpp
+  pingpong/pinger/pinger.cpp
+  pingpong/ponger/ponger_multiton.cpp
+  pingpong/ponger/ponger.cpp
   pingpong/tank/tank_multiton.cpp
   pingpong/tank/tank.cpp
   pingpong/service/pingpong_service_multiton.cpp
+  #pingpong/service/pinger_service_multiton.cpp
   pingpong/gateway/pingpong_gateway_multiton.cpp
 )
 

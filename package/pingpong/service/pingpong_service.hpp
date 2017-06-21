@@ -59,18 +59,6 @@ struct pingpong_method_list: wfc::jsonrpc::method_list
 {
 };
 
-/*
-struct pingpong_serice_handler
-  : wfc::jsonrpc::handler<pingpong_method_list>
-{
-};
-*/
 
-/*
-struct pingpong_service
-  : wfc::jsonrpc::service<pingpong_method_list, pingpong_interface>
-{
-};
-*/
 
 }}}
