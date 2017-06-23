@@ -9,6 +9,7 @@
 #include "tank_config.hpp"
 #include <pingpong/ipinger.hpp>
 #include <wfc/domain_object.hpp>
+#include <wrtstat/wrtstat.hpp>
 #include <memory>
 #include <string>
 
@@ -24,6 +25,7 @@ class tank
 public:
   // domain_object
   virtual void start() override;
+  virtual void stop() override;
   virtual void reconfigure() override;
   virtual void initialize() override;
   //virtual void ready() override;
@@ -34,6 +36,7 @@ private:
   std::weak_ptr<ipinger> _target;
   std::thread _thread;
   std::atomic<size_t> _discharge;
+  std::atomic<size_t> _power;
 };
 
 }}

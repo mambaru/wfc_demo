@@ -24,7 +24,7 @@ void pinger::initialize()
 {
   std::lock_guard<std::mutex> lk(_mutex);
   for (const auto& name : this->options().target_list )
-    _targets.push_back( this->get_target<iponger>(name)  );
+    _targets.push_back( this->get_target<iponger2>(name)  );
 }
 
 pinger::target_list pinger::get_target_list() const
@@ -35,12 +35,18 @@ pinger::target_list pinger::get_target_list() const
 
 void pinger::play(ball::ptr req, ball::handler cb) 
 {
+  //std::cout << "play " << req->power << ":" << req->count << std::endl;
   if ( this->notify_ban<ball>(req, cb ) )
     return;
-  
+
+  auto tlist = this->get_target_list();
+  if ( tlist.empty() )
+  {
+    return cb( std::move(req) );
+  }
+
   auto pcount = std::make_shared< std::atomic<size_t> >();
   auto ptotal = std::make_shared< std::atomic<size_t> >();
-  auto tlist = this->get_target_list();
   *pcount = tlist.size();
   for (auto wt : tlist )
   {
@@ -48,36 +54,51 @@ void pinger::play(ball::ptr req, ball::handler cb)
     {
       auto rereq = std::make_unique<ball>( *req );
       ++rereq->count;
-      t->ping( std::move(req), [pcount, ptotal, cb](ball::ptr res)
+      --rereq->power;
+      t->ping( std::move(rereq), [pcount, ptotal, cb](ball::ptr res)
       {
-        if ( res!=nullptr )
-          *ptotal+=res->count;
-        --(*pcount);
         if ( *pcount == 0 )
+          return;
+
+        if ( res == nullptr )
         {
-          res->count = *ptotal;
-          cb( std::move(res) );
+          *pcount = 0;
+          cb(nullptr);
         }
-      } , 0, this->shared_from_this() );
+        else
+        {
+          --(*pcount);
+          *ptotal+=res->count;
+          if ( *pcount == 0 )
+          {
+            res->count = *ptotal;
+            cb( std::move(res) );
+          }
+        }
+      } /*, 0, this->shared_from_this()*/ );
     }
   }
 }
 
 void pinger::pong( ball::ptr req, ball::handler cb, io_id_t, ball_handler reping )
 {
+  //std::cout << "pong " << req->power << ":" << req->count << std::endl;
   if ( this->notify_ban<ball>(req, cb ) )
     return;
   
   if ( req->power == 0 )
-    cb( std::move(req) );
-  --req->power;
-
-  auto rereq = std::make_unique<ball>( *req );
-  ++rereq->count;
-  reping( std::move(rereq), [cb](ball::ptr req)
   {
     cb( std::move(req) );
-  });
+  }
+  else
+  {
+    --req->power;
+    ++req->count;
+    reping( std::move(req), [cb](ball::ptr req)
+    {
+      cb( std::move(req) );
+    });
+  }
 }
 
 }}

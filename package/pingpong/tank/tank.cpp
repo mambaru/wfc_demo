@@ -22,6 +22,7 @@ namespace demo{ namespace pingpong{
 void tank::reconfigure()
 {
   _discharge = this->options().discharge;
+  _power = this->options().power;
 }
 
 void tank::initialize() 
@@ -29,12 +30,16 @@ void tank::initialize()
   _target = this->get_target<ipinger>( this->options().target );
 }
 
+void tank::stop() 
+{
+  _thread.join();
+}
 void tank::start()
 {
   this->global()->after_start.insert([this]() -> bool 
   {
     this->get_workflow()->post(  
-      std::chrono::seconds(1),
+      std::chrono::seconds(3),
       [this]()
       {
         this->_thread = std::thread( std::bind( &tank::fire, this) );
@@ -46,8 +51,9 @@ void tank::start()
 
 void tank::fire()
 {
+  time_t show_time = time(0);
   const auto* flag = &(this->global()->stop_signal_flag);
-  while( *flag )
+  while( !*flag )
   {
     if ( auto t = _target.lock() )
     {
@@ -55,11 +61,29 @@ void tank::fire()
       {
         using namespace std::placeholders;
         auto req = std::make_unique<ball>();
-        ball::handler handler = std::bind(&tank::result_handler, this, clock_t::now(), _1);
-        t->play( std::move(req),  handler );
+        req->power = _power;
+        auto tp = clock_t::now();
+        //ball::handler handler = std::bind(&tank::result_handler, this, now, _1);
+        //t->play( std::move(req),  handler );
+        t->play( std::move(req),  [&show_time,tp](ball::ptr res)
+        {
+            auto now = clock_t::now();
+            size_t ms = std::chrono::duration_cast<std::chrono::microseconds>( now - tp).count();
+            size_t count = 0;
+            if ( res != nullptr )
+              count = res->count * 2;
+            size_t rate = 0;
+            if ( ms != 0) 
+              rate = count * std::chrono::microseconds::period::den/ ms;
+            if ( show_time!=time(0) )
+            {
+              TANK_LOG_MESSAGE("Time " << ms << " microseconds for " << count << " messages. Rate " << rate << " persec")
+              show_time=time(0);
+            }
+          }
+        );
       }
     }
-    sleep(1);
   }
 }
 
@@ -71,7 +95,7 @@ void tank::result_handler(clock_t::time_point tp, ball::ptr res)
   auto now = clock_t::now();
   size_t ms = std::chrono::duration_cast<std::chrono::microseconds>( now - tp).count();
   size_t count = res->count * 2;
-  size_t rate = count * std::chrono::microseconds::max().count() / ms;
+  size_t rate = count * std::chrono::microseconds::period::den/ ms;
   TANK_LOG_MESSAGE("Time " << ms << " microseconds for " << count << " messages. Rate " << rate << " persec")
 }
 

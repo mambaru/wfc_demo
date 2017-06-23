@@ -7,9 +7,13 @@
 #include "pingpong_module.hpp"
 #include "domain/pingpong_multiton.hpp"
 #include "pinger/pinger_multiton.hpp"
+#include "ponger/ponger_multiton.hpp"
 #include "tank/tank_multiton.hpp"
 #include "service/pingpong_service_multiton.hpp"
+#include "service/ponger_service_multiton.hpp"
+#include "service/pinger_service_multiton.hpp"
 #include "gateway/pingpong_gateway_multiton.hpp"
+#include "gateway/ponger_gateway_multiton.hpp"
 #include <wfc/module/component_list.hpp>
 #include <wfc/name.hpp>
 #include <memory>
@@ -21,11 +25,15 @@ namespace {
 
   class impl: public ::wfc::component_list<
     module_name,
-    pingpong_multiton,
+// pingpong_multiton,
     pinger_multiton,
+    ponger_multiton,
     tank_multiton,
-    pingpong_service_multiton,
-    pingpong_gateway_multiton
+//     pingpong_service_multiton,
+    ponger_service_multiton,
+    pinger_service_multiton,
+//     pingpong_gateway_multiton,
+    ponger_gateway_multiton
   >
   {
   };
