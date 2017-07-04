@@ -56,8 +56,11 @@ void tank::fire()
 {
   time_t show_time = time(0);
   std::mutex m;
+  size_t tatal_rate = 0;
+  size_t discharge_count = 0;
   while( !this->system_is_stopped() )
   {
+    ++discharge_count;
     std::condition_variable cond_var;
     std::atomic<size_t> dcount;
     dcount = _discharge.load();
@@ -107,7 +110,10 @@ void tank::fire()
     size_t discharge_rate = 0;
     if ( discharge_ms != 0) 
       discharge_rate = _discharge * std::chrono::microseconds::period::den/ discharge_ms;
-    TANK_LOG_MESSAGE("Discharge time " << discharge_ms << " microseconds for " << _discharge << " messages. Rate " << discharge_rate << " persec")
+    tatal_rate += discharge_rate;
+    size_t middle_rate = tatal_rate / discharge_count;
+    TANK_LOG_MESSAGE("Discharge time " << discharge_ms << " microseconds for " << _discharge 
+                      << " messages. Rate " << discharge_rate << " persec (" << middle_rate << ")" )
     if ( discharge_ms < std::chrono::microseconds::period::den )
     {
       std::this_thread::sleep_for( std::chrono::microseconds( std::chrono::microseconds::period::den - discharge_ms ) );
