@@ -7,6 +7,8 @@
 #include "tank.hpp"
 #include <wfc/logger.hpp>
 #include <wfc/memory.hpp>
+#include <condition_variable>
+
 #include <iostream>
 #include <atomic>
 #include <memory>
@@ -34,6 +36,7 @@ void tank::stop()
 {
   _thread.join();
 }
+
 void tank::start()
 {
   this->global()->after_start.insert([this]() -> bool 
@@ -52,9 +55,13 @@ void tank::start()
 void tank::fire()
 {
   time_t show_time = time(0);
-  const auto* flag = &(this->global()->stop_signal_flag);
-  while( !*flag )
+  std::mutex m;
+  while( !this->system_is_stopped() )
   {
+    std::condition_variable cond_var;
+    std::atomic<size_t> dcount;
+    dcount = _discharge.load();
+    auto start_discharge = clock_t::now();
     if ( auto t = _target.lock() )
     {
       for ( size_t i = 0 ; i <  _discharge; ++i )
@@ -65,24 +72,45 @@ void tank::fire()
         auto tp = clock_t::now();
         //ball::handler handler = std::bind(&tank::result_handler, this, now, _1);
         //t->play( std::move(req),  handler );
-        t->play( std::move(req),  [&show_time,tp](ball::ptr res)
+        t->play( std::move(req),  [&show_time, tp, &dcount](ball::ptr res)
         {
+            --dcount;
             auto now = clock_t::now();
             size_t ms = std::chrono::duration_cast<std::chrono::microseconds>( now - tp).count();
-            size_t count = 0;
+            size_t count = -1;
             if ( res != nullptr )
               count = res->count * 2;
+            
             size_t rate = 0;
             if ( ms != 0) 
               rate = count * std::chrono::microseconds::period::den/ ms;
             if ( show_time!=time(0) )
             {
-              TANK_LOG_MESSAGE("Time " << ms << " microseconds for " << count << " messages. Rate " << rate << " persec")
+              if ( count != 0 )
+                TANK_LOG_MESSAGE("One request. Time " << ms << " microseconds for " << count << " messages. Rate " << rate << " persec")
+              else
+                TANK_LOG_MESSAGE("One request. Time " << ms << " microseconds Bad Gateway.")
               show_time=time(0);
             }
           }
         );
       }
+    }
+    while ( dcount!=0 )
+    {
+      if ( this->system_is_stopped() )
+        break;
+      std::this_thread::sleep_for( std::chrono::microseconds(1000) );
+    }
+    auto finish_discharge = clock_t::now();
+    auto discharge_ms = std::chrono::duration_cast<std::chrono::microseconds>( finish_discharge - start_discharge).count();
+    size_t discharge_rate = 0;
+    if ( discharge_ms != 0) 
+      discharge_rate = _discharge * std::chrono::microseconds::period::den/ discharge_ms;
+    TANK_LOG_MESSAGE("Discharge time " << discharge_ms << " microseconds for " << _discharge << " messages. Rate " << discharge_rate << " persec")
+    if ( discharge_ms < std::chrono::microseconds::period::den )
+    {
+      std::this_thread::sleep_for( std::chrono::microseconds( std::chrono::microseconds::period::den - discharge_ms ) );
     }
   }
 }

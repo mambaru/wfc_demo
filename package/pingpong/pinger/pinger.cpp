@@ -45,9 +45,9 @@ void pinger::play(ball::ptr req, ball::handler cb)
     return cb( std::move(req) );
   }
 
-  auto pcount = std::make_shared< std::atomic<size_t> >();
+  auto pwait = std::make_shared< std::atomic<size_t> >();
   auto ptotal = std::make_shared< std::atomic<size_t> >();
-  *pcount = tlist.size();
+  *pwait = tlist.size();
   for (auto wt : tlist )
   {
     if ( auto t = wt.lock() )
@@ -55,21 +55,21 @@ void pinger::play(ball::ptr req, ball::handler cb)
       auto rereq = std::make_unique<ball>( *req );
       ++rereq->count;
       --rereq->power;
-      t->ping( std::move(rereq), [pcount, ptotal, cb](ball::ptr res)
+      t->ping( std::move(rereq), [pwait, ptotal, cb](ball::ptr res)
       {
-        if ( *pcount == 0 )
+        if ( *pwait == 0 )
           return;
 
         if ( res == nullptr )
         {
-          *pcount = 0;
+          *pwait = 0;
           cb(nullptr);
         }
         else
         {
-          --(*pcount);
+          --(*pwait);
           *ptotal+=res->count;
-          if ( *pcount == 0 )
+          if ( *pwait == 0 )
           {
             res->count = *ptotal;
             cb( std::move(res) );
@@ -82,7 +82,7 @@ void pinger::play(ball::ptr req, ball::handler cb)
 
 void pinger::pong( ball::ptr req, ball::handler cb, io_id_t, ball_handler reping )
 {
-  //std::cout << "pong " << req->power << ":" << req->count << std::endl;
+  std::cout << "pong " << req->power << ":" << req->count << std::endl;
   if ( this->notify_ban<ball>(req, cb ) )
     return;
   

@@ -27,17 +27,17 @@ void ponger::reconfigure()
 
 void ponger::ping(ball::ptr req, ball::handler cb, io_id_t /*io_id*/, std::weak_ptr<ipinger> wp )
 {
-  //std::cout << "ping " << req->power << ":" << req->count << std::endl;
   if ( this->notify_ban<ball>(req, cb ) )
     return;
-  
   
   auto pcount = std::make_shared< std::atomic<size_t> >();
   auto ptotal = std::make_shared< std::atomic<size_t> >();
 
   size_t pong_count = _pong_count;
   if ( pong_count == 0 )
+  {
     cb( std::move(req) );
+  }
   else
   {
     *pcount = pong_count;
@@ -48,6 +48,7 @@ void ponger::ping(ball::ptr req, ball::handler cb, io_id_t /*io_id*/, std::weak_
       {
         auto rereq = std::make_unique<ball>( *req );
         ++rereq->count;
+        
         p->pong( 
           std::move(rereq), 
           [pcount, ptotal, cb](ball::ptr res)
@@ -59,6 +60,7 @@ void ponger::ping(ball::ptr req, ball::handler cb, io_id_t /*io_id*/, std::weak_
             --(*pcount);
             if ( *pcount == 0 )
             {
+              
               res->count = *ptotal;
               cb( std::move(res) );
             }
