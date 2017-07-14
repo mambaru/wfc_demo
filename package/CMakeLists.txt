@@ -29,6 +29,7 @@ SET(
   pingpong/service/pinger_service_multiton.cpp
   pingpong/service/ponger_service_multiton.cpp
   pingpong/gateway/ponger_gateway_multiton.cpp
+  pingpong/gateway/pinger_gateway_multiton.cpp
   pingpong/gateway/pingpong_gateway_multiton.cpp
 )
 

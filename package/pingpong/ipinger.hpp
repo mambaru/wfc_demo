@@ -13,12 +13,5 @@ struct ipinger: public ::wfc::iinterface
   virtual void play(ball::ptr, ball::handler) = 0;
   virtual void pong(ball::ptr, ball::handler, io_id_t, ball_handler ) = 0;
 };
-/*
-struct ipinger2: public ::wfc::iinterface
-{
-  virtual ~ipinger2() {}
-  virtual void play(ball::ptr, ball::handler) = 0;
-  virtual void pong(ball::ptr, ball::handler) = 0;
-};*/
 
 }}

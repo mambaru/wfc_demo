@@ -14,6 +14,7 @@
 #include "service/pinger_service_multiton.hpp"
 #include "gateway/pingpong_gateway_multiton.hpp"
 #include "gateway/ponger_gateway_multiton.hpp"
+#include "gateway/pinger_gateway_multiton.hpp"
 #include <wfc/module/component_list.hpp>
 #include <wfc/name.hpp>
 #include <memory>
@@ -33,7 +34,8 @@ namespace {
     ponger_service_multiton,
     pinger_service_multiton,
 //     pingpong_gateway_multiton,
-    ponger_gateway_multiton
+    ponger_gateway_multiton,
+    pinger_gateway_multiton
   >
   {
   };
