@@ -15,7 +15,6 @@
 #include <chrono>
 #include <iomanip>
 
-
 #define TANK_LOG_MESSAGE(message) WFC_LOG_MESSAGE("tank", message)
 #define TANK_LOG_DEBUG(message)   WFC_LOG_DEBUG("tank", message)
 
@@ -55,13 +54,13 @@ void tank::start()
 void tank::fire()
 {
   time_t show_time = time(0);
-  std::mutex m;
   size_t tatal_rate = 0;
   size_t discharge_count = 0;
+    std::mutex m;
+    std::condition_variable cond_var;
   while( !this->system_is_stopped() )
   {
     ++discharge_count;
-    std::condition_variable cond_var;
     std::atomic<size_t> dcount;
     dcount = _discharge.load();
     auto start_discharge = clock_t::now();
@@ -73,11 +72,24 @@ void tank::fire()
         auto req = std::make_unique<ball>();
         req->power = _power;
         auto tp = clock_t::now();
-        //ball::handler handler = std::bind(&tank::result_handler, this, now, _1);
-        //t->play( std::move(req),  handler );
-        t->play( std::move(req),  [&show_time, tp, &dcount](ball::ptr res)
+        if ( dcount == 0) break; // зависаетт иногда приостановке
+        t->play( std::move(req),  this->callback([&cond_var, &show_time, tp, &dcount](ball::ptr res)
         {
+            if ( res == nullptr || dcount == 0)
+            {
+              dcount = 0;
+              std::cout << "====!===" << std::endl;
+              std::cout << "====!===" << std::endl;
+              std::cout << "====!===" << std::endl;
+              std::cout << "====1===" << std::endl;
+              //cond_var.notify_one();
+              std::cout << "====2===" << std::endl;
+              return;
+            }
             --dcount;
+            if ( dcount == 0 )
+              cond_var.notify_one();
+
             auto now = clock_t::now();
             size_t ms = std::chrono::duration_cast<std::chrono::microseconds>( now - tp).count();
             size_t count = -1;
@@ -95,16 +107,31 @@ void tank::fire()
                 TANK_LOG_MESSAGE("One request. Time " << ms << " microseconds Bad Gateway.")
               show_time=time(0);
             }
-          }
+          },
+          [](ball::ptr){
+           abort(); 
+          })
         );
       }
     }
+    /*std::unique_lock<std::mutex> lock(m);
+
+    
+    while ( dcount!=0 )
+    {
+      if ( this->system_is_stopped() )
+        break;
+      cond_var.wait(lock);
+    }*/
+
+    
     while ( dcount!=0 )
     {
       if ( this->system_is_stopped() )
         break;
       std::this_thread::sleep_for( std::chrono::microseconds(1000) );
     }
+    
     auto finish_discharge = clock_t::now();
     auto discharge_ms = std::chrono::duration_cast<std::chrono::microseconds>( finish_discharge - start_discharge).count();
     size_t discharge_rate = 0;
@@ -113,24 +140,12 @@ void tank::fire()
     tatal_rate += discharge_rate;
     size_t middle_rate = tatal_rate / discharge_count;
     TANK_LOG_MESSAGE("Discharge time " << discharge_ms << " microseconds for " << _discharge 
-                      << " messages. Rate " << discharge_rate << " persec (" << middle_rate << ")" )
+                      << " messages. Rate " << discharge_rate << " persec ( middle: " << middle_rate << ")" )
     if ( discharge_ms < std::chrono::microseconds::period::den )
     {
       std::this_thread::sleep_for( std::chrono::microseconds( std::chrono::microseconds::period::den - discharge_ms ) );
     }
   }
-}
-
-void tank::result_handler(clock_t::time_point tp, ball::ptr res)
-{
-  if ( res == nullptr )
-    return;
-
-  auto now = clock_t::now();
-  size_t ms = std::chrono::duration_cast<std::chrono::microseconds>( now - tp).count();
-  size_t count = res->count * 2;
-  size_t rate = count * std::chrono::microseconds::period::den/ ms;
-  TANK_LOG_MESSAGE("Time " << ms << " microseconds for " << count << " messages. Rate " << rate << " persec")
 }
 
 }}

@@ -31,7 +31,7 @@ public:
   //virtual void ready() override;
   void fire();
 private:
-  void result_handler(clock_t::time_point tp, ball::ptr);
+ // void result_handler(clock_t::time_point tp, ball::ptr);
 private:
   std::weak_ptr<ipinger> _target;
   std::thread _thread;
