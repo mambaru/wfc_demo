@@ -78,12 +78,6 @@ void tank::fire()
             if ( res == nullptr || dcount == 0)
             {
               dcount = 0;
-              std::cout << "====!===" << std::endl;
-              std::cout << "====!===" << std::endl;
-              std::cout << "====!===" << std::endl;
-              std::cout << "====1===" << std::endl;
-              //cond_var.notify_one();
-              std::cout << "====2===" << std::endl;
               return;
             }
             --dcount;
