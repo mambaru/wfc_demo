@@ -33,7 +33,7 @@ void hash_domain::get_hash(request::get_hash::ptr req, response::get_hash::handl
   cb( std::move(res) );
 }
 
-void hash_domain::perform_io(data_ptr d, io_id_t /*io_id*/, outgoing_handler_t handler)
+void hash_domain::perform_io(data_ptr d, io_id_t /*io_id*/, output_handler_t handler)
 {
   std::string str( d->begin(), d->end() );
   size_t val = std::hash< std::string >()( str );
