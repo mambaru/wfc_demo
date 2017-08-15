@@ -56,8 +56,8 @@ void tank::fire()
   time_t show_time = time(0);
   size_t tatal_rate = 0;
   size_t discharge_count = 0;
-    std::mutex m;
-    std::condition_variable cond_var;
+  std::mutex m;
+  std::condition_variable cond_var;
   while( !this->system_is_stopped() )
   {
     ++discharge_count;
