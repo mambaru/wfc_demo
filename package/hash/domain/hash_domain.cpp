@@ -11,6 +11,22 @@ namespace demo{ namespace hash{
 
 void hash_domain::initialize()
 {
+  
+  this->get_workflow()->post(
+  [this](){
+    COMMON_LOG_MESSAGE("=========== start stress ================")
+    for (;!this->system_is_stopped();)
+    {
+      volatile float x;
+      for (int i =0; i < 1000000; i++)
+        x *= sin(i);
+    }
+  }, 
+  []()
+  {
+    COMMON_LOG_FATAL("==== test thread reg === ")
+  });
+  
   /*
   for (int i =0 ; i < 100; ++i)
   {
