@@ -11,39 +11,10 @@ namespace demo{ namespace hash{
 
 void hash_domain::initialize()
 {
-  
-  /*
-  this->get_workflow()->post(
-  [this](){
-    COMMON_LOG_MESSAGE("=========== start stress ================")
-    for (;!this->system_is_stopped();)
-    {
-      volatile float x;
-      for (int i =0; i < 1000000; i++)
-        x *= sin(i);
-    }
-  }, 
-  []()
-  {
-    COMMON_LOG_FATAL("==== test thread reg === ")
-  });
-  */
-  
-  /*this->get_workflow()->create_timer( std::chrono::microseconds(1), [](){return true;});*/
-  /*
-  for (int i =0 ; i < 100; ++i)
-  {
-    if ( this->global()->stop_signal_flag )
-      break;
-    COMMON_LOG_MESSAGE("Long initialize " << i);
-    ::sleep(1);
-  }
-  */
 }
 
 void hash_domain::get_hash(request::get_hash::ptr req, response::get_hash::handler cb ) 
 {
-  //std::cout << "get_hash: " << req->value << std::endl;
   if ( this->notify_ban<response::get_hash>(req, cb) )
     return;
 
@@ -52,7 +23,7 @@ void hash_domain::get_hash(request::get_hash::ptr req, response::get_hash::handl
   cb( std::move(res) );
 }
 
-void hash_domain::perform_io(data_ptr d, io_id_t /*io_id*/, output_handler_t handler)
+void hash_domain::perform_io(data_ptr d, io_id_t, output_handler_t handler)
 {
   std::string str( d->begin(), d->end() );
   size_t val = std::hash< std::string >()( str );

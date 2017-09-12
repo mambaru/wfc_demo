@@ -14,8 +14,7 @@ struct gateway_method_list: wfc::jsonrpc::method_list
   wfc::jsonrpc::interface_<ihash>,
   wfc::jsonrpc::call_method< _get_hash_,      request::get_hash_json,      response::get_hash_json>
 >
-{
-};
+{};
 
 template<typename Base>
 class hash_interface
