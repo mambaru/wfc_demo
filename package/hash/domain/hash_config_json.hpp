@@ -12,9 +12,9 @@ namespace demo{ namespace hash{
 
 struct hash_config_json
 {
-  typedef ::wfc::json::object<
+  typedef wfc::json::object<
     hash_config,
-    ::wfc::json::member_list<
+    wfc::json::member_list<
       /* список полей */
     >
   > type;

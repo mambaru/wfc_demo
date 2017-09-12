@@ -11,6 +11,14 @@ namespace demo{ namespace hash{
 
 void hash_domain::initialize()
 {
+  /*
+  std::thread([this](){
+    double x = 0.1;
+    while (!this->system_is_stopped() )
+    {
+      x+=sin(x);
+    }
+  }).detach();*/
 }
 
 void hash_domain::get_hash(request::get_hash::ptr req, response::get_hash::handler cb ) 
