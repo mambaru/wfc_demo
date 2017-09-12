@@ -2,6 +2,7 @@
 #include <storage/storage.hpp>
 
 struct _storage_;
+
 UNIT(set, "")
 {
   using namespace fas::testing;

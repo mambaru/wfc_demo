@@ -27,7 +27,7 @@ namespace
     |*/ ::wfc::component_features::DisabledPriority
   >
   {
-    virtual std::string interface_name() override
+    virtual std::string interface_name() const override
     {
       return "ihash";
     }

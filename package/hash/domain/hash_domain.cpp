@@ -12,6 +12,7 @@ namespace demo{ namespace hash{
 void hash_domain::initialize()
 {
   
+  /*
   this->get_workflow()->post(
   [this](){
     COMMON_LOG_MESSAGE("=========== start stress ================")
@@ -26,7 +27,9 @@ void hash_domain::initialize()
   {
     COMMON_LOG_FATAL("==== test thread reg === ")
   });
+  */
   
+  /*this->get_workflow()->create_timer( std::chrono::microseconds(1), [](){return true;});*/
   /*
   for (int i =0 ; i < 100; ++i)
   {

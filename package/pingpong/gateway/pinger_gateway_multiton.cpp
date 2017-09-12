@@ -26,12 +26,12 @@ namespace
     >
   {
   public:
-    virtual std::string interface_name() override
+    virtual std::string interface_name() const override
     {
       return "ipinger";
     }
 
-    virtual std::string description() override
+    virtual std::string description() const override
     {
       return "pinger description";
     }

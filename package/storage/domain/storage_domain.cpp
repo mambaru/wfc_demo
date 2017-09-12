@@ -74,31 +74,6 @@ void storage_domain::get_hashed( request::get_hashed::ptr req, response::get_has
     res->status = false;
     cb( std::move(res) );
   }
-  /*
-  std::unique_lock< mutex_type > lk(_mutex);
-  auto itr = _storage.find( req->key );
-  if ( itr != _storage.end() )
-  {
-    using hash_request  = ::demo::hash::request::get_hash;
-    using hash_response = ::demo::hash::response::get_hash;
-    auto req_hash = std::make_unique< hash_request >();
-    req_hash->value = itr->second;
-    _hash->get_hash( std::move(req_hash), [cb]( hash_response::ptr res_hash)
-    {
-      auto res = std::make_unique<response::get_hashed>();
-      res->status = true;
-      res->value = res_hash->value;
-      cb( std::move(res) );
-    });
-  }
-  else
-  {
-    lk.unlock();
-    auto res = std::make_unique<response::get_hashed>();
-    res->status = false;
-    cb( std::move(res) );
-  }
-  */
 }
 
 void storage_domain::multiget_hashed( request::multiget_hashed::ptr req, response::multiget_hashed::handler cb) 
@@ -123,13 +98,16 @@ void storage_domain::multiget_hashed( request::multiget_hashed::ptr req, respons
 
       auto req_hash = std::make_unique<hash_request>();
       req_hash->value = value;
-      //std::cout << "request: " << value << std::endl;
+
       _hash->get_hash( std::move(req_hash), [key, pmutex, psize, presp, cb](hash_response::ptr res_hash)
       {
-        if ( *psize == 0 ) return;
-        //std::cout << "response: " << res_hash->value << std::endl;
         std::lock_guard<std::mutex> lk(*pmutex);
+
+        if ( *psize == 0 ) 
+          return;
+        
         *psize -= 1;
+        
         if ( res_hash!=nullptr )
         {
           (*presp)->values[key] = std::make_shared<size_t>( res_hash->value );
@@ -154,15 +132,4 @@ void storage_domain::multiget_hashed( request::multiget_hashed::ptr req, respons
     cb( std::move(*presp) );
 }
 
-/*
-void storage_domain::perform_io(data_ptr d, io_id_t , outgoing_handler_t handler)
-{
-  if (handler!=nullptr)
-  {
-    if ( d!=nullptr )
-      std::reverse(d->begin(), d->end());
-    handler( std::move(d) );
-  }
-}
-*/
 }}

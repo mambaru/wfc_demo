@@ -4,6 +4,6 @@ project(libstorage)
 
 add_subdirectory(storage)
 
-if ( BUILD_TESTING )
+if ( BUILD_TESTING OR DEMO_BUILD_TESTING )
   add_subdirectory(tests)
 endif()
