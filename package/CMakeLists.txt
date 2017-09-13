@@ -16,21 +16,21 @@ SET(
   hash/gateway/hash_gateway_multiton.cpp
   hash/hash_module.cpp
 
-  pingpong/pingpong_module.cpp
-  pingpong/domain/pingpong_multiton.cpp
-  pingpong/domain/pingpong.cpp
-  pingpong/pinger/pinger_multiton.cpp
+  
   pingpong/pinger/pinger.cpp
-  pingpong/ponger/ponger_multiton.cpp
+  pingpong/pinger/pinger_multiton.cpp
+  pingpong/pinger_service/pinger_service_multiton.cpp
+  pingpong/pinger_gateway/pinger_gateway_multiton.cpp
+  
   pingpong/ponger/ponger.cpp
-  pingpong/tank/tank_multiton.cpp
+  pingpong/ponger/ponger_multiton.cpp
+  pingpong/ponger_service/ponger_service_multiton.cpp
+  pingpong/ponger_gateway/ponger_gateway_multiton.cpp
+  
   pingpong/tank/tank.cpp
-  pingpong/service/pingpong_service_multiton.cpp
-  pingpong/service/pinger_service_multiton.cpp
-  pingpong/service/ponger_service_multiton.cpp
-  pingpong/gateway/ponger_gateway_multiton.cpp
-  pingpong/gateway/pinger_gateway_multiton.cpp
-  pingpong/gateway/pingpong_gateway_multiton.cpp
+  pingpong/tank/tank_multiton.cpp
+  
+  pingpong/pingpong_module.cpp
 )
 
 add_library(

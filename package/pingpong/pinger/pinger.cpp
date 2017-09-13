@@ -82,7 +82,6 @@ void pinger::play(ball::ptr req, ball::handler cb)
 
 void pinger::pong( ball::ptr req, ball::handler cb, io_id_t, ball_handler reping )
 {
-  std::cout << "pong " << req->power << ":" << req->count << std::endl;
   if ( this->notify_ban<ball>(req, cb ) )
     return;
   
