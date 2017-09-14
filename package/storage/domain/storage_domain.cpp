@@ -38,6 +38,25 @@ void storage_domain::get(request::get::ptr req, response::get::handler cb )
   cb( std::move(res) );
 }
 
+void storage_domain::multiget(request::multiget::ptr req, response::multiget::handler cb ) 
+{
+  if ( this->notify_ban<response::multiget>(req, cb) )
+    return;
+
+  auto res = std::make_unique<response::multiget>();
+  std::shared_ptr<std::string> pval;
+  for (const std::string& key : req->keys )
+  {
+    if ( pval == nullptr )
+      pval = std::make_shared<std::string>();
+    if ( _storage.get(key, *pval) )
+      res->values[key] = std::move(pval);
+    else
+      res->values[key] = nullptr;
+  }
+  cb( std::move(res) );
+}
+
 void storage_domain::get_hashed( request::get_hashed::ptr req, response::get_hashed::handler cb ) 
 {
   if ( this->notify_ban<response::get_hashed>(req, cb) )
@@ -53,7 +72,7 @@ void storage_domain::get_hashed( request::get_hashed::ptr req, response::get_has
     using hash_response = ::demo::hash::response::get_hash;
     auto req_hash = std::make_unique< hash_request >();
     req_hash->value = value;
-    _hash->get_hash( std::move(req_hash), [cb]( hash_response::ptr res_hash)
+    _hash->get_hash( std::move(req_hash), this->callback([cb]( hash_response::ptr res_hash)
     {
       if ( res_hash!= nullptr )
       {
@@ -66,7 +85,7 @@ void storage_domain::get_hashed( request::get_hashed::ptr req, response::get_has
       {
         cb( nullptr );
       }
-    });
+    }, std::bind(cb, nullptr) ));
   }
   else
   {
@@ -99,7 +118,7 @@ void storage_domain::multiget_hashed( request::multiget_hashed::ptr req, respons
       auto req_hash = std::make_unique<hash_request>();
       req_hash->value = value;
 
-      _hash->get_hash( std::move(req_hash), [key, pmutex, psize, presp, cb](hash_response::ptr res_hash)
+      _hash->get_hash( std::move(req_hash), this->callback([key, pmutex, psize, presp, cb](hash_response::ptr res_hash)
       {
         std::lock_guard<std::mutex> lk(*pmutex);
 
@@ -119,7 +138,7 @@ void storage_domain::multiget_hashed( request::multiget_hashed::ptr req, respons
           *psize = 0;
           cb( nullptr );
         }
-      });
+      }, std::bind(cb, nullptr)));
     }
     else
     {
