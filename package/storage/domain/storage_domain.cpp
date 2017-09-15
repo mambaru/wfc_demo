@@ -7,7 +7,9 @@
 #include "storage_domain.hpp"
 #include <wfc/logger.hpp>
 #include <wfc/memory.hpp>
+#include <wrtstat/wrtstat.hpp>
 #include <iostream>
+#include <functional>
 
 namespace demo{ namespace storage{
 
@@ -85,7 +87,7 @@ void storage_domain::get_hashed( request::get_hashed::ptr req, response::get_has
       {
         cb( nullptr );
       }
-    }, std::bind(cb, nullptr) ));
+    }));
   }
   else
   {
@@ -97,16 +99,22 @@ void storage_domain::get_hashed( request::get_hashed::ptr req, response::get_has
 
 void storage_domain::multiget_hashed( request::multiget_hashed::ptr req, response::multiget_hashed::handler cb) 
 {
+  std::cout << "void storage_domain::multiget_hashed( request::multiget_hashed::ptr req, response::multiget_hashed::handler cb) " << std::endl;
   if ( this->notify_ban<response::multiget_hashed>(req, cb) )
     return;
   
   if ( _hash==nullptr )
     return cb(nullptr);
   
+  typedef wrtstat::time_meter<std::chrono::microseconds> meter_type;
+  auto mf = []( std::string key,  time_t , time_t value, size_t count){
+    std::cout << key << ":"<< value << "-" << count << std::endl;
+  };
+  
   auto psize = std::make_shared<size_t>( req->keys.size() );
   auto presp = std::make_shared<response::multiget_hashed::ptr>();
   *presp = std::make_unique<response::multiget_hashed>();
-  auto pmutex = std::make_shared<std::mutex>();
+  auto pmutex = std::make_shared<std::recursive_mutex>();
   for ( auto key : req->keys )
   {
     std::string value;
@@ -117,10 +125,14 @@ void storage_domain::multiget_hashed( request::multiget_hashed::ptr req, respons
 
       auto req_hash = std::make_unique<hash_request>();
       req_hash->value = value;
-
-      _hash->get_hash( std::move(req_hash), this->callback([key, pmutex, psize, presp, cb](hash_response::ptr res_hash)
+      
+      using namespace std::placeholders;
+      auto m = std::make_shared<meter_type>( std::bind(mf, key, _1, _2, _3),  std::time(0), 1);
+      std::cout << "--> " << key << std::endl;
+      _hash->get_hash( std::move(req_hash), this->callback([key, pmutex, psize, presp, cb, m](hash_response::ptr res_hash)
       {
-        std::lock_guard<std::mutex> lk(*pmutex);
+        std::cout << "<-- " << key << std::endl;
+        std::lock_guard<std::recursive_mutex> lk(*pmutex);
 
         if ( *psize == 0 ) 
           return;
@@ -138,11 +150,11 @@ void storage_domain::multiget_hashed( request::multiget_hashed::ptr req, respons
           *psize = 0;
           cb( nullptr );
         }
-      }, std::bind(cb, nullptr)));
+      }));
     }
     else
     {
-      std::lock_guard<std::mutex> lk(*pmutex);
+      std::lock_guard<std::recursive_mutex> lk(*pmutex);
       *psize -= 1;
       (*presp)->values[key] = nullptr;
     }

@@ -101,9 +101,6 @@ void tank::fire()
                 TANK_LOG_MESSAGE("One request. Time " << ms << " microseconds Bad Gateway.")
               show_time=time(0);
             }
-          },
-          [](ball::ptr){
-           abort(); 
           })
         );
       }
