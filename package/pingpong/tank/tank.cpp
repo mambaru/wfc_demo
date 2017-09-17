@@ -53,6 +53,7 @@ void tank::start()
 
 void tank::fire()
 {
+  this->reg_thread();
   time_t show_time = time(0);
   size_t tatal_rate = 0;
   size_t discharge_count = 0;
