@@ -154,6 +154,7 @@ void storage_domain::multiget_hashed( request::multiget_hashed::ptr req, respons
         (*presp)->values[key] = std::make_shared<size_t>( res_hash->value );
         if ( *psize == 0 )
         {
+          m.reset();
           std::cout << "response -1-" << std::endl;
           cb( std::move(*presp) );
           std::cout << "response -2-" << std::endl;
