@@ -5,6 +5,7 @@
 #include <storage/api/get_hashed_json.hpp>
 #include <storage/api/multiget_json.hpp>
 #include <storage/api/multiget_hashed_json.hpp>
+#include <storage/api/multiget_hashed2_json.hpp>
 #include <storage/api/set_json.hpp>
 #include <wfc/jsonrpc.hpp>
 
@@ -16,6 +17,7 @@ JSONRPC_TAG(get)
 JSONRPC_TAG(multiget)
 JSONRPC_TAG(get_hashed)
 JSONRPC_TAG(multiget_hashed)
+JSONRPC_TAG(multiget_hashed2)
 
 struct gateway_method_list: wfc::jsonrpc::method_list
 <
@@ -24,7 +26,8 @@ struct gateway_method_list: wfc::jsonrpc::method_list
   wfc::jsonrpc::call_method< _get_,      request::get_json,      response::get_json>,
   wfc::jsonrpc::call_method< _multiget_, request::multiget_json, response::multiget_json>,
   wfc::jsonrpc::call_method< _get_hashed_, request::get_hashed_json, response::get_hashed_json>,
-  wfc::jsonrpc::call_method< _multiget_hashed_, request::multiget_hashed_json, response::multiget_hashed_json>
+  wfc::jsonrpc::call_method< _multiget_hashed_, request::multiget_hashed_json, response::multiget_hashed_json>,
+  wfc::jsonrpc::call_method< _multiget_hashed2_, request::multiget_hashed2_json, response::multiget_hashed2_json>
 >
 {
 };
@@ -57,6 +60,11 @@ public:
   virtual void multiget_hashed(request::multiget_hashed::ptr req, response::multiget_hashed::handler cb ) override
   {
     this->template call< _multiget_hashed_ >( std::move(req), cb, nullptr);
+  }
+
+  virtual void multiget_hashed2(request::multiget_hashed2::ptr req, response::multiget_hashed2::handler cb ) override
+  {
+    this->template call< _multiget_hashed2_ >( std::move(req), cb, nullptr);
   }
 };
 

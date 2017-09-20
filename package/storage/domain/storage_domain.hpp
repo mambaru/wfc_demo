@@ -28,6 +28,7 @@ public:
   virtual void multiget( request::multiget::ptr , response::multiget::handler  ) override;
   virtual void get_hashed( request::get_hashed::ptr req, response::get_hashed::handler cb ) override;
   virtual void multiget_hashed( request::multiget_hashed::ptr , response::multiget_hashed::handler  ) override;
+  virtual void multiget_hashed2( request::multiget_hashed2::ptr , response::multiget_hashed2::handler  ) override;
 private:
   std::shared_ptr<ihash> _hash;
   ::storage _storage;

@@ -99,8 +99,6 @@ void storage_domain::get_hashed( request::get_hashed::ptr req, response::get_has
 
 void storage_domain::multiget_hashed( request::multiget_hashed::ptr req, response::multiget_hashed::handler cb) 
 {
-  std::cout << "void storage_domain::multiget_hashed( request::multiget_hashed::ptr req, response::multiget_hashed::handler cb) " << std::endl;
-
   if ( this->notify_ban<response::multiget_hashed>(req, cb) )
     return;
   
@@ -127,11 +125,6 @@ void storage_domain::multiget_hashed( request::multiget_hashed::ptr req, respons
   if ( hash_request_list.empty() )
     cb( std::move(*presp) );
 
-  typedef wrtstat::time_meter<std::chrono::microseconds> meter_type;
-  auto mf = []( std::string key,  time_t , time_t value, size_t count){
-    std::cout << key << ":"<< value << "-" << count << std::endl;
-  };
-  
   auto psize = std::make_shared<size_t>( hash_request_list.size() );
   auto pmutex = std::make_shared<std::recursive_mutex>();
 
@@ -139,25 +132,21 @@ void storage_domain::multiget_hashed( request::multiget_hashed::ptr req, respons
   {
     std::string key = req_hash.first;
     typedef  ::demo::hash::response::get_hash hash_response;
-    using namespace std::placeholders;
-    auto m = std::make_shared<meter_type>( std::bind(mf, key, _1, _2, _3),  std::time(0), 1);
-    _hash->get_hash( std::move(req_hash.second), this->callback([key, pmutex, psize, presp, cb, m](hash_response::ptr res_hash) mutable
+    _hash->get_hash( std::move(req_hash.second), this->callback([key, pmutex, psize, presp, cb](hash_response::ptr res_hash) mutable
     {
-      m = nullptr;
-      std::lock_guard<std::recursive_mutex> lk(*pmutex);
+      std::unique_lock<std::recursive_mutex> lk(*pmutex);
+      
       if ( *psize == 0 ) 
         return;
-      *psize -= 1;
+      
+      --(*psize);
 
       if ( res_hash!=nullptr )
       {
         (*presp)->values[key] = std::make_shared<size_t>( res_hash->value );
         if ( *psize == 0 )
         {
-          m.reset();
-          std::cout << "response -1-" << std::endl;
           cb( std::move(*presp) );
-          std::cout << "response -2-" << std::endl;
         }
       }
       else
@@ -168,75 +157,69 @@ void storage_domain::multiget_hashed( request::multiget_hashed::ptr req, respons
     }));
   }
 }
-/* плохой вариант
-void storage_domain::multiget_hashed( request::multiget_hashed::ptr req, response::multiget_hashed::handler cb) 
+
+void storage_domain::multiget_hashed2( request::multiget_hashed2::ptr req, response::multiget_hashed2::handler cb) 
 {
-  std::cout << "void storage_domain::multiget_hashed( request::multiget_hashed::ptr req, response::multiget_hashed::handler cb) " << std::endl;
-  if ( this->notify_ban<response::multiget_hashed>(req, cb) )
+  if ( this->notify_ban<response::multiget_hashed2>(req, cb) )
     return;
   
   if ( _hash==nullptr )
     return cb(nullptr);
-  
-  typedef wrtstat::time_meter<std::chrono::microseconds> meter_type;
-  auto mf = []( std::string key,  time_t , time_t value, size_t count){
-    std::cout << key << ":"<< value << "-" << count << std::endl;
-  };
-  
-  auto psize = std::make_shared<size_t>( req->keys.size() );
-  auto presp = std::make_shared<response::multiget_hashed::ptr>();
-  *presp = std::make_unique<response::multiget_hashed>();
-  auto pmutex = std::make_shared<std::recursive_mutex>();
+
+  auto presp = std::make_shared<response::multiget_hashed2::ptr>();
+  *presp = std::make_unique<response::multiget_hashed2>();
+  typedef ::demo::hash::request::get_hash hash_request;
+  typedef std::unique_ptr<hash_request> hash_request_ptr;
+  std::vector< std::pair< std::string, hash_request_ptr > > hash_request_list;
+  hash_request_list.reserve( req->keys.size() );
+  std::string value;
   for ( auto key : req->keys )
   {
-    std::string value;
     if ( _storage.get(key, value) )
     {
-      using hash_request  = ::demo::hash::request::get_hash;
-      using hash_response = ::demo::hash::response::get_hash;
-
-      auto req_hash = std::make_unique<hash_request>();
-      req_hash->value = value;
-      
-      using namespace std::placeholders;
-      auto m = std::make_shared<meter_type>( std::bind(mf, key, _1, _2, _3),  std::time(0), 1);
-      _hash->get_hash( std::move(req_hash), this->callback([key, pmutex, psize, presp, cb, m](hash_response::ptr res_hash)
-      {
-        std::lock_guard<std::recursive_mutex> lk(*pmutex);
-
-        if ( *psize == 0 ) 
-          return;
-        
-        *psize -= 1;
-        
-        if ( res_hash!=nullptr )
-        {
-          (*presp)->values[key] = std::make_shared<size_t>( res_hash->value );
-          if ( *psize == 0 )
-          {
-            cb( std::move(*presp) );
-          }
-        }
-        else
-        {
-          *psize = 0;
-          cb( nullptr );
-        }
-      }));
+      hash_request_list.push_back( std::make_pair(key, std::make_unique<hash_request>() ) );
+      hash_request_list.back().second->value = value;
+      /*hash_request_list[key] = std::make_unique<hash_request>();
+      hash_request_list[key]->value = value;*/
     }
     else
-    {
-      std::lock_guard<std::recursive_mutex> lk(*pmutex);
-      *psize -= 1;
-      (*presp)->values[key] = nullptr;
-    }
+      (*presp)->values.push_back(std::make_pair(key, nullptr) );
   }
-  if ( *psize == 0 )
-  {
-    std::cout << "resp -3.1-" << std::endl;
+  
+  if ( hash_request_list.empty() )
     cb( std::move(*presp) );
-    std::cout << "resp -3.2-" << std::endl;
+
+  auto psize = std::make_shared<size_t>( hash_request_list.size() );
+  auto pmutex = std::make_shared<std::recursive_mutex>();
+
+  for (auto& req_hash: hash_request_list)
+  {
+    std::string key = req_hash.first;
+    typedef  ::demo::hash::response::get_hash hash_response;
+    _hash->get_hash( std::move(req_hash.second), this->callback([key, pmutex, psize, presp, cb](hash_response::ptr res_hash) mutable
+    {
+      std::unique_lock<std::recursive_mutex> lk(*pmutex);
+      
+      if ( *psize == 0 ) 
+        return;
+      
+      --(*psize);
+
+      if ( res_hash!=nullptr )
+      {
+        (*presp)->values.push_back(std::make_pair(key, std::make_shared<size_t>( res_hash->value ) ) );
+        if ( *psize == 0 )
+        {
+          cb( std::move(*presp) );
+        }
+      }
+      else
+      {
+        *psize = 0;
+        cb( nullptr );
+      }
+    }));
   }
 }
-*/
+
 }}
