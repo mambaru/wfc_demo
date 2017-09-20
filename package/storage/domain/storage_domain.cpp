@@ -64,29 +64,25 @@ void storage_domain::get_hashed( request::get_hashed::ptr req, response::get_has
   if ( this->notify_ban<response::get_hashed>(req, cb) )
     return;
   
-  if ( _hash==nullptr )
-    return cb(nullptr);
-  
   std::string value;
   if ( _storage.get( req->key, value) )
   {
-    using hash_request  = ::demo::hash::request::get_hash;
-    using hash_response = ::demo::hash::response::get_hash;
+    typedef ::demo::hash::request::get_hash  hash_request;
+    typedef ::demo::hash::response::get_hash hash_response;
     auto req_hash = std::make_unique< hash_request >();
     req_hash->value = value;
     _hash->get_hash( std::move(req_hash), this->callback([cb]( hash_response::ptr res_hash)
     {
-      if ( res_hash!= nullptr )
-      {
-        auto res = std::make_unique<response::get_hashed>();
-        res->status = true;
-        res->value = res_hash->value;
-        cb( std::move(res) );
-      }
-      else
+      if ( res_hash == nullptr )
       {
         cb( nullptr );
+        return;
       }
+
+      auto res = std::make_unique<response::get_hashed>();
+      res->status = true;
+      res->value = res_hash->value;
+      cb( std::move(res) );
     }));
   }
   else
