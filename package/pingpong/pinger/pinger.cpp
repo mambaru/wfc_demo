@@ -35,7 +35,6 @@ pinger::target_list pinger::get_target_list() const
 
 void pinger::play(ball::ptr req, ball::handler cb) 
 {
-  //std::cout << "play " << req->power << ":" << req->count << std::endl;
   if ( this->notify_ban<ball>(req, cb ) )
     return;
 
@@ -59,7 +58,6 @@ void pinger::play(ball::ptr req, ball::handler cb)
       {
         if ( *pwait == 0 )
           return;
-
         if ( res == nullptr )
         {
           *pwait = 0;
@@ -75,7 +73,7 @@ void pinger::play(ball::ptr req, ball::handler cb)
             cb( std::move(res) );
           }
         }
-      } /*, 0, this->shared_from_this()*/ );
+      });
     }
   }
 }

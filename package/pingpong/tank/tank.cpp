@@ -67,15 +67,23 @@ void tank::fire()
     auto start_discharge = clock_t::now();
     if ( auto t = _target.lock() )
     {
-      for ( size_t i = 0 ; i <  _discharge; ++i )
+      for ( size_t i = 0 ; i <  _discharge && !this->system_is_stopped(); ++i )
       {
         using namespace std::placeholders;
         auto req = std::make_unique<ball>();
         req->power = _power;
         auto tp = clock_t::now();
         if ( dcount == 0) break; // зависаетт иногда приостановке
-        t->play( std::move(req),  this->callback([&cond_var, &show_time, tp, &dcount](ball::ptr res)
+        t->play( std::move(req),  this->callback([this, &cond_var, &show_time, tp, &dcount](ball::ptr res)
         {
+          if ( this->system_is_stopped() )
+            return;
+          
+          if ( res==nullptr )
+          {
+            DOMAIN_LOG_FATAL("Bad Gateway");
+            return;
+          }
             if ( res == nullptr || dcount == 0)
             {
               dcount = 0;
@@ -137,7 +145,7 @@ void tank::fire()
     {
       std::this_thread::sleep_for( std::chrono::microseconds( std::chrono::microseconds::period::den - discharge_ms ) );
     }
-  }
+  } //while
 }
 
 }}
