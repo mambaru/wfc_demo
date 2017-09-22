@@ -54,14 +54,16 @@ void ponger::ping(ball::ptr req, ball::handler cb, io_id_t /*io_id*/, std::weak_
           std::move(rereq), 
           [pcount, ptotal, cb](ball::ptr res)
           {
+            if ( res==nullptr )
+              return;
+
             if ( *pcount == 0 )
               return;
-            if ( res!=nullptr )
-              *ptotal+=res->count;
+
+            *ptotal+=res->count;
             --(*pcount);
             if ( *pcount == 0 )
             {
-              
               res->count = *ptotal;
               cb( std::move(res) );
             }
