@@ -8,7 +8,7 @@
 
 namespace demo{ namespace pingpong{ namespace gateway{
 
-JSONRPC_TAG(ping)
+JSONRPC_TAG(pong)
 JSONRPC_TAG(play)
 
 template<typename Base>
@@ -23,10 +23,9 @@ public:
     this->template call<_play_>( std::move(req), cb, nullptr);
   }
   
-  virtual void pong(ball::ptr, ball::handler cb, io_id_t, ipinger::ball_handler ) override
+  virtual void pong(ball::ptr req, ball::handler cb, io_id_t, ipinger::ball_handler ) override
   {
-    if ( cb != nullptr )
-      cb(nullptr);
+    this->template call<_pong_>( std::move(req), cb, nullptr);
   }
    
 };
@@ -34,7 +33,8 @@ public:
 struct pinger_method_list: wfc::jsonrpc::method_list
 <
   wfc::jsonrpc::interface_<ipinger>,
-  wfc::jsonrpc::call_method< _play_, ball_json, ball_json>
+  wfc::jsonrpc::call_method< _play_, ball_json, ball_json>,
+  wfc::jsonrpc::call_method< _pong_, ball_json, ball_json>
 >
 {
 };
