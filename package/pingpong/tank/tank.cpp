@@ -76,7 +76,7 @@ void tank::fire()
         req->power = _power;
         auto tp = clock_t::now();
         if ( dcount == 0) break; // зависаетт иногда приостановке
-        t->play( std::move(req),  this->callback([this, &cond_var, &show_time, tp, &dcount, &message_count](ball::ptr res)
+        t->play( std::move(req),  this->callback([this, &cond_var, &show_time, tp, &dcount, &messages_count](ball::ptr res)
         {
           if ( this->system_is_stopped() )
             return;
@@ -101,7 +101,7 @@ void tank::fire()
             if ( res != nullptr )
             {
               count = res->count * 2;
-              message_count += count;
+              messages_count += count;
             }
             
             size_t rate = 0;
@@ -136,7 +136,7 @@ void tank::fire()
     size_t middle_rate = tatal_rate / discharge_count;
     TANK_LOG_MESSAGE("Discharge time " << discharge_ms << " microseconds for " << _discharge 
                       << " messages. Rate " << discharge_rate << " persec ( middle: " << middle_rate << ")" )
-    TANK_LOG_MESSAGE("Messages count " << message_count << " messages rps: " << discharge_rate*message_count);
+    TANK_LOG_MESSAGE("Messages count " << messages_count << " messages rps: " << discharge_rate*messages_count);
     if ( discharge_ms < std::chrono::microseconds::period::den )
     {
       std::this_thread::sleep_for( std::chrono::microseconds( std::chrono::microseconds::period::den - discharge_ms ) );
