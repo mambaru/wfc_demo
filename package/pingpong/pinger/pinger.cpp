@@ -44,6 +44,7 @@ void pinger::play(ball::ptr req, ball::handler cb)
     return cb( std::move(req) );
   }
 
+  std::cout << "play power=" << req->power << std::endl;
   auto pwait = std::make_shared< std::atomic<size_t> >();
   auto ptotal = std::make_shared< std::atomic<size_t> >();
   *pwait = tlist.size();
@@ -82,6 +83,8 @@ void pinger::pong( ball::ptr req, ball::handler cb, io_id_t, ball_handler reping
 {
   if ( this->notify_ban<ball>(req, cb ) )
     return;
+  
+  std::cout << "pinger::pong power=" << req->power << std::endl;
   
   if ( req->power == 0 )
   {

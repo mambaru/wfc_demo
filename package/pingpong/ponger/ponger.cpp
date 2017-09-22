@@ -30,6 +30,7 @@ void ponger::ping(ball::ptr req, ball::handler cb, io_id_t /*io_id*/, std::weak_
   if ( this->notify_ban<ball>(req, cb ) )
     return;
   
+  std::cout << "ponger::ping power=" << req->power << std::endl;
   auto pcount = std::make_shared< std::atomic<size_t> >();
   auto ptotal = std::make_shared< std::atomic<size_t> >();
 
@@ -65,8 +66,8 @@ void ponger::ping(ball::ptr req, ball::handler cb, io_id_t /*io_id*/, std::weak_
               cb( std::move(res) );
             }
           },
-          /*this->get_id()*/0,
-          /*std::bind( &ponger::ping, this, _1, _2, io_id, wp )*/nullptr
+          0,
+          nullptr
         );
       }
     }

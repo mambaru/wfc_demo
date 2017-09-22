@@ -62,6 +62,8 @@ void tank::fire()
   while( !this->system_is_stopped() )
   {
     ++discharge_count;
+    std::atomic<size_t> messages_count;
+    messages_count = 0;
     std::atomic<size_t> dcount;
     dcount = _discharge.load();
     auto start_discharge = clock_t::now();
@@ -74,7 +76,7 @@ void tank::fire()
         req->power = _power;
         auto tp = clock_t::now();
         if ( dcount == 0) break; // зависаетт иногда приостановке
-        t->play( std::move(req),  this->callback([this, &cond_var, &show_time, tp, &dcount](ball::ptr res)
+        t->play( std::move(req),  this->callback([this, &cond_var, &show_time, tp, &dcount, &message_count](ball::ptr res)
         {
           if ( this->system_is_stopped() )
             return;
@@ -97,7 +99,10 @@ void tank::fire()
             size_t ms = std::chrono::duration_cast<std::chrono::microseconds>( now - tp).count();
             size_t count = -1;
             if ( res != nullptr )
+            {
               count = res->count * 2;
+              message_count += count;
+            }
             
             size_t rate = 0;
             if ( ms != 0) 
@@ -114,17 +119,7 @@ void tank::fire()
         );
       }
     }
-    /*std::unique_lock<std::mutex> lock(m);
 
-    
-    while ( dcount!=0 )
-    {
-      if ( this->system_is_stopped() )
-        break;
-      cond_var.wait(lock);
-    }*/
-
-    
     while ( dcount!=0 )
     {
       if ( this->system_is_stopped() )
@@ -141,6 +136,7 @@ void tank::fire()
     size_t middle_rate = tatal_rate / discharge_count;
     TANK_LOG_MESSAGE("Discharge time " << discharge_ms << " microseconds for " << _discharge 
                       << " messages. Rate " << discharge_rate << " persec ( middle: " << middle_rate << ")" )
+    TANK_LOG_MESSAGE("Messages count " << message_count << " messages rps: " << discharge_rate*message_count);
     if ( discharge_ms < std::chrono::microseconds::period::den )
     {
       std::this_thread::sleep_for( std::chrono::microseconds( std::chrono::microseconds::period::den - discharge_ms ) );
