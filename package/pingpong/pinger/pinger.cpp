@@ -55,24 +55,26 @@ void pinger::play(ball::ptr req, ball::handler cb)
       auto rereq = std::make_unique<ball>( *req );
       ++rereq->count;
       --rereq->power;
-      t->ping( std::move(rereq), [pwait, ptotal, cb](ball::ptr res)
+      t->ping( std::move(rereq), [this, pwait, ptotal, cb](ball::ptr res)
       {
+          if ( this->system_is_stopped() )
+            return;
+          
+          if ( res==nullptr )
+          {
+            DOMAIN_LOG_FATAL("Bad Gateway");
+            return;
+          }
+
         if ( *pwait == 0 )
           return;
-        if ( res == nullptr )
+
+        --(*pwait);
+        *ptotal+=res->count;
+        if ( *pwait == 0 )
         {
-          *pwait = 0;
-          cb(nullptr);
-        }
-        else
-        {
-          --(*pwait);
-          *ptotal+=res->count;
-          if ( *pwait == 0 )
-          {
-            res->count = *ptotal;
-            cb( std::move(res) );
-          }
+          res->count = *ptotal;
+          cb( std::move(res) );
         }
       });
     }

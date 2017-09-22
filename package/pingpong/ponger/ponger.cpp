@@ -52,10 +52,16 @@ void ponger::ping(ball::ptr req, ball::handler cb, io_id_t /*io_id*/, std::weak_
         
         p->pong( 
           std::move(rereq), 
-          [pcount, ptotal, cb](ball::ptr res)
+          [this, pcount, ptotal, cb](ball::ptr res)
           {
-            if ( res==nullptr )
+            if ( this->system_is_stopped() )
               return;
+            
+            if ( res==nullptr )
+            {
+              DOMAIN_LOG_FATAL("Bad Gateway");
+              return;
+            }
 
             if ( *pcount == 0 )
               return;
