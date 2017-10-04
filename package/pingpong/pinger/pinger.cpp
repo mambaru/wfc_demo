@@ -35,7 +35,7 @@ pinger::target_list pinger::get_target_list() const
 
 void pinger::play(ball::ptr req, ball::handler cb) 
 {
-  if ( this->notify_ban<ball>(req, cb ) )
+  if ( this->notify_ban(req, cb ) )
     return;
 
   auto tlist = this->get_target_list();
@@ -83,7 +83,7 @@ void pinger::play(ball::ptr req, ball::handler cb)
 
 void pinger::pong( ball::ptr req, ball::handler cb, io_id_t, ball_handler reping )
 {
-  if ( this->notify_ban<ball>(req, cb ) )
+  if ( this->notify_ban(req, cb ) )
     return;
   
   std::cout << "pinger::pong power=" << req->power << std::endl;
