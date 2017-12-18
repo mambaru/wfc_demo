@@ -21,7 +21,7 @@ void storage_domain::initialize()
 
 void storage_domain::set(request::set::ptr req, response::set::handler cb )
 {
-  if ( this->bad_request<response::set>(req, cb) )
+  if ( this->bad_request(req, cb) )
     return;
   
   _storage.set(req->key, req->value);
@@ -32,7 +32,7 @@ void storage_domain::set(request::set::ptr req, response::set::handler cb )
 
 void storage_domain::get(request::get::ptr req, response::get::handler cb ) 
 {
-  if ( this->notify_ban<response::get>(req, cb) )
+  if ( this->notify_ban(req, cb) )
     return;
 
   auto res = std::make_unique<response::get>();
@@ -42,7 +42,7 @@ void storage_domain::get(request::get::ptr req, response::get::handler cb )
 
 void storage_domain::multiget(request::multiget::ptr req, response::multiget::handler cb ) 
 {
-  if ( this->notify_ban<response::multiget>(req, cb) )
+  if ( this->notify_ban(req, cb) )
     return;
 
   auto res = std::make_unique<response::multiget>();
@@ -61,7 +61,7 @@ void storage_domain::multiget(request::multiget::ptr req, response::multiget::ha
 
 void storage_domain::get_hashed( request::get_hashed::ptr req, response::get_hashed::handler cb ) 
 {
-  if ( this->notify_ban<response::get_hashed>(req, cb) )
+  if ( this->notify_ban(req, cb) )
     return;
   
   std::string value;
@@ -95,7 +95,7 @@ void storage_domain::get_hashed( request::get_hashed::ptr req, response::get_has
 
 void storage_domain::multiget_hashed( request::multiget_hashed::ptr req, response::multiget_hashed::handler cb) 
 {
-  if ( this->notify_ban<response::multiget_hashed>(req, cb) )
+  if ( this->notify_ban(req, cb) )
     return;
   
   if ( _hash==nullptr )
@@ -156,7 +156,7 @@ void storage_domain::multiget_hashed( request::multiget_hashed::ptr req, respons
 
 void storage_domain::multiget_hashed2( request::multiget_hashed2::ptr req, response::multiget_hashed2::handler cb) 
 {
-  if ( this->notify_ban<response::multiget_hashed2>(req, cb) )
+  if ( this->notify_ban(req, cb) )
     return;
   
   if ( _hash==nullptr )

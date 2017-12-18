@@ -27,7 +27,7 @@ void ponger::reconfigure()
 
 void ponger::ping(ball::ptr req, ball::handler cb, io_id_t /*io_id*/, std::weak_ptr<ipinger> wp )
 {
-  if ( this->notify_ban<ball>(req, cb ) )
+  if ( this->notify_ban(req, cb ) )
     return;
   
   std::cout << "ponger::ping power=" << req->power << std::endl;

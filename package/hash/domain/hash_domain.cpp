@@ -23,7 +23,7 @@ void hash_domain::initialize()
 
 void hash_domain::get_hash(request::get_hash::ptr req, response::get_hash::handler cb ) 
 {
-  if ( this->notify_ban<response::get_hash>(req, cb) )
+  if ( this->notify_ban(req, cb) )
     return;
 
   auto res = std::make_unique<response::get_hash>();
