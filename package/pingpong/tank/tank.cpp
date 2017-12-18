@@ -78,7 +78,7 @@ void tank::fire()
         if ( dcount == 0) break; // зависаетт иногда приостановке
         t->play( std::move(req),  this->callback([this, &cond_var, &show_time, tp, &dcount, &messages_count](ball::ptr res)
         {
-          if ( this->system_is_stopped() )
+          if ( this->system_is_stopped() || dcount == 0 )
             return;
           
           if ( res==nullptr )
@@ -86,39 +86,35 @@ void tank::fire()
             DOMAIN_LOG_FATAL("Bad Gateway");
             return;
           }
-            if ( res == nullptr || dcount == 0)
-            {
-              dcount = 0;
-              return;
-            }
-            --dcount;
-            if ( dcount == 0 )
-              cond_var.notify_one();
+          
+          --dcount;
+          if ( dcount == 0 )
+            cond_var.notify_one();
 
-            auto now = clock_t::now();
-            size_t ms = std::chrono::duration_cast<std::chrono::microseconds>( now - tp).count();
-            size_t count = -1;
-            if ( res != nullptr )
-            {
-              count = res->count * 2;
-              messages_count += count;
-            }
+          auto now = clock_t::now();
+          size_t ms = std::chrono::duration_cast<std::chrono::microseconds>( now - tp).count();
+          size_t count = -1;
+          if ( res != nullptr )
+          {
+            count = res->count * 2;
+            messages_count += count;
+          }
             
-            size_t rate = 0;
-            if ( ms != 0) 
-              rate = count * std::chrono::microseconds::period::den/ ms;
-            if ( show_time!=time(0) )
-            {
-              if ( count != 0 )
-                TANK_LOG_MESSAGE("One request. Time " << ms << " microseconds for " << count << " messages. Rate " << rate << " persec")
-              else
-                TANK_LOG_MESSAGE("One request. Time " << ms << " microseconds Bad Gateway.")
+          size_t rate = 0;
+          if ( ms != 0) 
+            rate = count * std::chrono::microseconds::period::den/ ms;
+          if ( show_time!=time(0) )
+          {
+            if ( count != 0 )
+              TANK_LOG_MESSAGE("One request. Time " << ms << " microseconds for " << count << " messages. Rate " << rate << " persec")
+            else
+              TANK_LOG_MESSAGE("One request. Time " << ms << " microseconds Bad Gateway.")
               show_time=time(0);
-            }
-          })
-        );
-      }
+          }
+        })
+      );
     }
+  }
 
     while ( dcount!=0 )
     {
