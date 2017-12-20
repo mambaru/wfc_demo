@@ -9,8 +9,26 @@
 #include <unistd.h>
 #include <wfc/logger.hpp>
 #include <wfc/wfc_exit.hpp>
+#include <wlog/logger_fun.hpp>
 
 namespace demo{ namespace hash{
+
+void hash_domain::reconfigure() 
+{
+  /*
+  wlog::formatter_fun fun = [](std::ostream& os,
+    const wlog::time_point& tp,
+    const std::string& name, 
+    const std::string& ident,
+    const std::string& str
+  )
+  {
+    os << "-----";
+  };
+  */
+
+  //this->set_target<wlog::formatter_fun>("logger-formatter", "DEMO:HASH", std::make_shared<wlog::formatter_fun>(fun) );
+}
 
 void hash_domain::initialize()
 {
@@ -43,13 +61,20 @@ void hash_domain::perform_io(data_ptr d, io_id_t, output_handler_t handler)
   HASH_LOG_WARNING("Демо hash_domain::perform_io!")
   COMMON_LOG_WARNING("Демо hash_domain::perform_io!")
   
-  //HASH_LOG_FATAL("Демо хеш кранты!")
+  if (d==nullptr)
+    return handler(nullptr);
   
   std::string str( d->begin(), d->end() );
   size_t val = std::hash< std::string >()( str );
   std::string valstr = std::to_string(val);
   auto res = std::make_unique<data_type>( valstr.begin(), valstr.end() );
   handler( std::move(res) );
+  if ( str=="fatal" ) { COMMON_LOG_FATAL("hash_domain::perform_io") }
+  if ( str=="exit" ) 
+  {
+    COMMON_LOG_WARNING("hash_domain::perform_io") 
+    wfc_exit();
+  }
 }
 
 }}
