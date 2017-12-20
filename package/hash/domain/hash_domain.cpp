@@ -8,15 +8,42 @@
 #include <hash/logger.hpp>
 #include <unistd.h>
 #include <wfc/logger.hpp>
+#include <wfc/logger/ilogger.hpp>
 #include <wfc/wfc_exit.hpp>
 #include <wlog/logger_fun.hpp>
 
 namespace demo{ namespace hash{
 
+class logger: public wfc::ilogger
+{
+public: 
+  formatter_t formatter() override
+  {
+    return [](
+      std::ostream& os,
+      const wlog::time_point& /*tp*/,
+      const std::string& /*name*/, 
+      const std::string& /*ident*/,
+      const std::string& str
+    )
+    {
+      auto beg = str.find('[');
+      auto end = str.find(']');
+      if ( beg!=std::string::npos && end!=std::string::npos )
+        os << std::string(str.begin() + beg + 1, str.begin() + end);
+      else 
+        os << str;
+      
+      //os << str << std::endl;
+    };
+  }
+};
+  
 void hash_domain::reconfigure() 
 {
   /*
-  wlog::formatter_fun fun = [](std::ostream& os,
+  wlog::formatter_fun fun = [](
+    std::ostream& os,
     const wlog::time_point& tp,
     const std::string& name, 
     const std::string& ident,
@@ -27,7 +54,7 @@ void hash_domain::reconfigure()
   };
   */
 
-  //this->set_target<wlog::formatter_fun>("logger-formatter", "DEMO:HASH", std::make_shared<wlog::formatter_fun>(fun) );
+  this->set_target("logger", "IOW", std::make_shared<logger>() );
 }
 
 void hash_domain::initialize()
