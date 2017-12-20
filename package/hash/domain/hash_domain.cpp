@@ -17,58 +17,31 @@ namespace demo{ namespace hash{
 class logger: public wfc::ilogger
 {
 public: 
-  formatter_t formatter() override
+  
+  formatter_fun stdout_formatter() override
   {
-    return [](
-      std::ostream& os,
-      const wlog::time_point& /*tp*/,
-      const std::string& /*name*/, 
-      const std::string& /*ident*/,
-      const std::string& str
-    )
-    {
-      auto beg = str.find('[');
-      auto end = str.find(']');
-      if ( beg!=std::string::npos && end!=std::string::npos )
-        os << std::string(str.begin() + beg + 1, str.begin() + end);
-      else 
-        os << str;
-      
-      //os << str << std::endl;
-    };
+    return &logger::formater;
+  }
+  
+  static void formater(std::ostream& os, const wlog::time_point& /*tp*/,
+    const std::string& /*name*/, const std::string& /*ident*/, const std::string& str)
+  {
+    auto beg = str.find('[');
+    auto end = str.find(']');
+    if ( beg!=std::string::npos && end!=std::string::npos )
+      os << std::string(str.begin() + beg + 1, str.begin() + end);
+    else 
+      os << str;
   }
 };
   
 void hash_domain::reconfigure() 
 {
-  /*
-  wlog::formatter_fun fun = [](
-    std::ostream& os,
-    const wlog::time_point& tp,
-    const std::string& name, 
-    const std::string& ident,
-    const std::string& str
-  )
-  {
-    os << "-----";
-  };
-  */
-
   this->set_target("logger", "IOW", std::make_shared<logger>() );
 }
 
 void hash_domain::initialize()
 {
-  //HASH_LOG_FATAL("Демо хеш кранты!")
-  //wfc_exit_with_error("Демо хеш кранты!");
-  /*
-  std::thread([this](){
-    double x = 0.1;
-    while (!this->system_is_stopped() )
-    {
-      x+=sin(x);
-    }
-  }).detach();*/
 }
 
 void hash_domain::get_hash(request::get_hash::ptr req, response::get_hash::handler cb ) 
