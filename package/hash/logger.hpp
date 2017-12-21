@@ -1,4 +1,12 @@
-#include <wfc/logger/logger.hpp>
+//
+// Author: Vladimir Migashko <migashko@gmail.com>, (C) 2017
+//
+// Copyright: See COPYING file that comes with this distribution
+//
+
+#pragma once
+
+#include <wfc/logger.hpp>
 
 #define HASH_LOG_ERROR(X)    WFC_LOG_ERROR( "DEMO:HASH", X )
 #define HASH_LOG_WARNING(X)  WFC_LOG_WARNING( "DEMO:HASH", X )
