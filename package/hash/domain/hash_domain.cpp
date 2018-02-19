@@ -56,6 +56,17 @@ void hash_domain::get_hash(request::get_hash::ptr req, response::get_hash::handl
 
 void hash_domain::perform_io(data_ptr d, io_id_t, output_handler_t handler)
 {
+  HASH_LOG_WARNING(this->has_arg("abort"))
+  HASH_LOG_WARNING(this->get_arg("abort"))
+  if ( this->get_arg_t<bool>("abort") )
+  {
+    abort();
+  }
+  else
+  {
+    HASH_LOG_WARNING("this->get_arg_t<bool>('abort')")
+  }
+
   HASH_LOG_MESSAGE("Демо hash_domain::perform_io!")
   COMMON_LOG_MESSAGE("Демо hash_domain::perform_io!")
   HASH_LOG_WARNING("Демо hash_domain::perform_io!")
