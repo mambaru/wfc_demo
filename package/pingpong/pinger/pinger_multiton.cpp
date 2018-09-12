@@ -22,7 +22,8 @@ namespace
   class impl: public ::wfc::multiton<
     object_name,
     wfc::instance<pinger>,
-    pinger_config_json
+    pinger_config_json, 
+    wfc::component_features::IgnoreReconfigure
   >
   {  
   };
