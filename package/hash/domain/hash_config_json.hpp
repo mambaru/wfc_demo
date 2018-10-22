@@ -12,10 +12,11 @@ namespace demo{ namespace hash{
 
 struct hash_config_json
 {
+  JSON_NAME(param)
   typedef wfc::json::object<
     hash_config,
     wfc::json::member_list<
-      /* список полей */
+      wfc::json::member<n_param, hash_config, bool, &hash_config::param>
     >
   > type;
 

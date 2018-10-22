@@ -34,10 +34,22 @@ public:
       os << str;
   }
 };
-  
+
+void hash_domain::configure() 
+{
+  this->set_target("logger", "IOW", std::make_shared<logger>() );
+  DEBUG_LOG_DEBUG("hash_domain::configure " << this->options().param)
+}
+
 void hash_domain::reconfigure() 
 {
   this->set_target("logger", "IOW", std::make_shared<logger>() );
+  DEBUG_LOG_DEBUG("hash_domain::reconfigure " << this->options().param)
+}
+
+void hash_domain::reconfigure_basic() 
+{
+  DEBUG_LOG_DEBUG("hash_domain::reconfigure_basic " << this->options().param)
 }
 
 void hash_domain::initialize()

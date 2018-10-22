@@ -10,6 +10,7 @@ namespace demo{ namespace hash{
 
 struct hash_config
 {
+  bool param = false;
 };
 
 }}
