@@ -15,7 +15,6 @@ SET(
   hash/service/hash_service_multiton.cpp
   hash/gateway/hash_gateway_multiton.cpp
   hash/hash_module.cpp
-
   
   pingpong/pinger/pinger.cpp
   pingpong/pinger/pinger_multiton.cpp
@@ -29,7 +28,6 @@ SET(
   
   pingpong/tank/tank.cpp
   pingpong/tank/tank_multiton.cpp
-  
   pingpong/pingpong_module.cpp
 )
 
