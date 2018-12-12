@@ -132,22 +132,24 @@ void storage_domain::multiget_hashed( request::multiget_hashed::ptr req, respons
     {
       std::unique_lock<std::recursive_mutex> lk(*pmutex);
       
-      if ( *psize == 0 ) 
+      auto& ref_size = *psize;
+      
+      if ( ref_size == 0 ) 
         return;
       
-      --(*psize);
+      --(ref_size);
 
       if ( res_hash!=nullptr )
       {
         (*presp)->values[key] = std::make_shared<size_t>( res_hash->value );
-        if ( *psize == 0 )
+        if ( ref_size == 0 )
         {
           cb( std::move(*presp) );
         }
       }
       else
       {
-        *psize = 0;
+        ref_size = 0;
         cb( nullptr );
       }
     }));
@@ -195,23 +197,24 @@ void storage_domain::multiget_hashed2( request::multiget_hashed2::ptr req, respo
     _hash->get_hash( std::move(req_hash.second), this->callback([key, pmutex, psize, presp, cb](hash_response::ptr res_hash) mutable
     {
       std::unique_lock<std::recursive_mutex> lk(*pmutex);
+      auto& ref_size = *psize;
       
-      if ( *psize == 0 ) 
+      if ( ref_size == 0 ) 
         return;
       
-      --(*psize);
+      --ref_size;
 
       if ( res_hash!=nullptr )
       {
         (*presp)->values.push_back(std::make_pair(key, std::make_shared<size_t>( res_hash->value ) ) );
-        if ( *psize == 0 )
+        if ( ref_size == 0 )
         {
           cb( std::move(*presp) );
         }
       }
       else
       {
-        *psize = 0;
+        ref_size = 0;
         cb( nullptr );
       }
     }));

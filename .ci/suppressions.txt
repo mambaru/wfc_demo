@@ -1,0 +1,3 @@
+unusedFunction:
+missingInclude:./package/package.cpp:2
+unmatchedSuppression:./package/package.cpp:2

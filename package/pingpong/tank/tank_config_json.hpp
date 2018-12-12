@@ -20,7 +20,7 @@ struct tank_config_json
     tank_config,
     wfc::json::member_list<
       wfc::json::member< n_power, tank_config, size_t, &tank_config::power>,
-      wfc::json::member< n_discharge, tank_config, size_t, &tank_config::discharge>,
+      wfc::json::member< n_discharge, tank_config, long, &tank_config::discharge>,
       wfc::json::member< n_target, tank_config, std::string, &tank_config::target>
     >
   > type;

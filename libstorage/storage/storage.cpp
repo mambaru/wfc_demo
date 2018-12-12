@@ -1,12 +1,12 @@
 #include "storage.hpp"
 
-void storage::set(std::string key, std::string val)
+void storage::set(const std::string& key, const std::string& val)
 {
   std::lock_guard<std::mutex> lk(_mutex);
   _storage[key]=val;
 }
 
-bool storage::get(std::string key, std::string& val) const
+bool storage::get(const std::string& key, std::string& val) const
 {
   val.clear();
   std::lock_guard<std::mutex> lk(_mutex);

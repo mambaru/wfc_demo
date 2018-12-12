@@ -55,21 +55,21 @@ void tank::fire()
 {
   this->reg_thread();
   time_t show_time = time(0);
-  size_t tatal_rate = 0;
-  size_t discharge_count = 0;
+  long tatal_rate = 0;
+  long discharge_count = 0;
   std::mutex m;
   std::condition_variable cond_var;
   while( !this->system_is_stopped() )
   {
     ++discharge_count;
-    std::atomic<size_t> messages_count;
+    std::atomic<long> messages_count;
     messages_count = 0;
-    std::atomic<size_t> dcount;
+    std::atomic<long> dcount;
     dcount = _discharge.load();
     auto start_discharge = clock_t::now();
     if ( auto t = _target.lock() )
     {
-      for ( size_t i = 0 ; i <  _discharge && !this->system_is_stopped(); ++i )
+      for ( long i = 0 ; i <  _discharge && !this->system_is_stopped(); ++i )
       {
         using namespace std::placeholders;
         auto req = std::make_unique<ball>();
@@ -92,24 +92,28 @@ void tank::fire()
             cond_var.notify_one();
 
           auto now = clock_t::now();
-          size_t ms = std::chrono::duration_cast<std::chrono::microseconds>( now - tp).count();
-          size_t count = -1;
+          long ms = std::chrono::duration_cast<std::chrono::microseconds>( now - tp).count();
+          long count = -1;
           if ( res != nullptr )
           {
-            count = res->count * 2;
+            count = static_cast<long>(res->count * 2);
             messages_count += count;
           }
             
-          size_t rate = 0;
+          long rate = 0;
           if ( ms != 0) 
             rate = count * std::chrono::microseconds::period::den/ ms;
           if ( show_time!=time(0) )
           {
             if ( count != 0 )
+            {
               TANK_LOG_MESSAGE("One request. Time " << ms << " microseconds for " << count << " messages. Rate " << rate << " persec")
+            }
             else
+            {
               TANK_LOG_MESSAGE("One request. Time " << ms << " microseconds Bad Gateway.")
               show_time=time(0);
+            }
           }
         })
       );
@@ -124,12 +128,12 @@ void tank::fire()
     }
     
     auto finish_discharge = clock_t::now();
-    auto discharge_ms = std::chrono::duration_cast<std::chrono::microseconds>( finish_discharge - start_discharge).count();
-    size_t discharge_rate = 0;
+    long discharge_ms = std::chrono::duration_cast<std::chrono::microseconds>( finish_discharge - start_discharge).count();
+    long discharge_rate = 0;
     if ( discharge_ms != 0) 
       discharge_rate = _discharge * std::chrono::microseconds::period::den/ discharge_ms;
     tatal_rate += discharge_rate;
-    size_t middle_rate = tatal_rate / discharge_count;
+    long middle_rate = tatal_rate / discharge_count;
     TANK_LOG_MESSAGE("Discharge time " << discharge_ms << " microseconds for " << _discharge 
                       << " messages. Rate " << discharge_rate << " persec ( middle: " << middle_rate << ")" )
     TANK_LOG_MESSAGE("Messages count " << messages_count << " messages rps: " << discharge_rate*messages_count);

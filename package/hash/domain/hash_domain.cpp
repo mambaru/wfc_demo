@@ -31,7 +31,10 @@ public:
     auto beg = str.find('[');
     auto end = str.find(']');
     if ( beg!=std::string::npos && end!=std::string::npos )
-      os << std::string(str.begin() + beg + 1, str.begin() + end);
+      os << std::string(
+        str.begin() + static_cast<std::ptrdiff_t>(beg + 1), 
+        str.begin() + static_cast<std::ptrdiff_t>(end)
+      );
     else 
       os << str;
   }

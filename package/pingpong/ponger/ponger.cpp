@@ -63,12 +63,13 @@ void ponger::ping(ball::ptr req, ball::handler cb, io_id_t /*io_id*/, std::weak_
               return;
             }
 
-            if ( *pcount == 0 )
+            auto& ref_count = *pcount;
+            if ( ref_count == 0 )
               return;
 
             *ptotal+=res->count;
-            --(*pcount);
-            if ( *pcount == 0 )
+            --ref_count;
+            if ( ref_count == 0 )
             {
               res->count = *ptotal;
               cb( std::move(res) );

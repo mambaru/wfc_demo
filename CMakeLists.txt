@@ -7,7 +7,7 @@ include(ci)
 
 if ( STANDALONE )
   list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/external/wfc/cmake)
-  getlibs(faslib wjson wlog wflow iow wjrpc wrtstat wfc v-set wamba-common)
+  getlibs(faslib wjson wlog wflow iow wjrpc wrtstat wfc)
   enable_testing()
 else()
   set(BUILD_TESTING OFF)

@@ -23,8 +23,8 @@ namespace demo{ namespace pingpong{
 void pinger::initialize() 
 {
   std::lock_guard<std::mutex> lk(_mutex);
-  for (const auto& name : this->options().target_list )
-    _targets.push_back( this->get_target<iponger2>(name)  );
+  for (const auto& target_name : this->options().target_list )
+    _targets.push_back( this->get_target<iponger2>(target_name)  );
 }
 
 pinger::target_list pinger::get_target_list() const
@@ -66,15 +66,16 @@ void pinger::play(ball::ptr req, ball::handler cb)
             return;
           }
 
-        if ( *pwait == 0 )
-          return;
-
-        --(*pwait);
-        *ptotal+=res->count;
-        if ( *pwait == 0 )
+        auto& ref_wait = *pwait;
+        if ( ref_wait != 0 )
         {
-          res->count = *ptotal;
-          cb( std::move(res) );
+          --ref_wait;
+          *ptotal+=res->count;
+          if (ref_wait == 0 )
+          {
+            res->count = *ptotal;
+            cb( std::move(res) );
+          }
         }
       });
     }
@@ -96,9 +97,9 @@ void pinger::pong( ball::ptr req, ball::handler cb, io_id_t, ball_handler reping
   {
     --req->power;
     ++req->count;
-    reping( std::move(req), [cb](ball::ptr req)
+    reping( std::move(req), [cb](ball::ptr req1)
     {
-      cb( std::move(req) );
+      cb( std::move(req1) );
     });
   }
 }

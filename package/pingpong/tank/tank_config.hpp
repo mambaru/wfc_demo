@@ -13,7 +13,7 @@ namespace demo{ namespace pingpong{
 struct tank_config
 {
   size_t power = 1;
-  size_t discharge = 1;
+  long discharge = 1;
   std::string target;
 };
 
