@@ -1,6 +1,6 @@
 {
   /* Open source проект (публикация на github.com) */
-  "public":false,
+  "public":true,
   "tag":"0.7.1",
   /* Текущий релиз бранч  */
   "release":"release-0.7",
@@ -32,7 +32,7 @@
     "compiler":"g++",
     
     "Release":{
-      "static":true,
+      "static":false,
       "shared":true,
       
       "production":true,
@@ -41,8 +41,8 @@
       "devel":true
     },
     "RelWithDebInfo":{
-      "static":true,
-      "shared":true,
+      "static":false,
+      "shared":false,
       
       "production":true,
       "loads":true,
@@ -50,8 +50,8 @@
       "devel":true
     },
     "Debug":{
-      "static":true,
-      "shared":true,
+      "static":false,
+      "shared":false,
       
       "production":true,
       "loads":true,
