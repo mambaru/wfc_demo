@@ -4,11 +4,11 @@ SET(
   wfc_demo_source_list
   demo_package.cpp
 
-  storage/storage_module.cpp
-  storage/domain/storage_domain.cpp
-  storage/domain/storage_multiton.cpp
-  storage/service/storage_service_multiton.cpp
-  storage/gateway/storage_gateway_multiton.cpp
+  demo/demo_module.cpp
+  demo/domain/demo_domain.cpp
+  demo/domain/demo_multiton.cpp
+  demo/service/demo_service_multiton.cpp
+  demo/gateway/demo_gateway_multiton.cpp
   
   hash/domain/hash_domain.cpp
   hash/domain/hash_multiton.cpp

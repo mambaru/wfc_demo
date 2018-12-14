@@ -6,18 +6,19 @@
 
 #include "demo_build_info.h"
 #include "demo_package.hpp"
-#include "storage/storage_module.hpp"
+#include "demo/demo_module.hpp"
 #include "hash/hash_module.hpp"
 #include "pingpong/pingpong_module.hpp"
+
 #include <wfc/module/module_list.hpp>
 
 namespace demo{
 
 namespace
 { 
-  class impl: public ::wfc::module_list<
+  class impl: public wfc::module_list<
     demo_build_info,
-    storage::storage_module,
+    storage_module,
     hash::hash_module,
     pingpong::pingpong_module
   >

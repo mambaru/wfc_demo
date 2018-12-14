@@ -1,0 +1,29 @@
+//
+// Author: Vladimir Migashko <migashko@gmail.com>, (C) 2013-2015
+//
+// Copyright: See COPYING file that comes with this distribution
+//
+#pragma once
+
+#include "demo_config.hpp"
+#include <wfc/json.hpp>
+
+namespace demo{
+
+struct storage_config_json
+{
+  JSON_NAME(hash_target)
+  
+  typedef wfc::json::object<
+    storage_config,
+    wfc::json::member_list<
+      wfc::json::member< n_hash_target, storage_config, std::string, &storage_config::hash_target>
+    >
+  > type;
+
+  typedef type::serializer serializer;
+  typedef type::target target;
+  typedef type::member_list member_list;
+};
+
+}
