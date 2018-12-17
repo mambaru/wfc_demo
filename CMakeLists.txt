@@ -21,4 +21,5 @@ add_subdirectory(package)
 
 if ( STANDALONE AND BUILD_TESTING )
   enable_testing()
+  add_subdirectory(tests)
 endif()

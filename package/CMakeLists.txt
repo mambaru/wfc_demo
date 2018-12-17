@@ -41,4 +41,22 @@ target_link_libraries(wfc_demo storage)
 
 build_info(wfc_demo demo)
 
+if ( STANDALONE )
+
+  include(FindThreads)
+  find_package(Boost COMPONENTS system program_options filesystem date_time REQUIRED)
+
+  target_link_libraries(
+    wfc_demo
+      wfc
+      wrtstat
+      wlog
+      wflow
+      wjrpc
+      ${Boost_LIBRARIES} 
+      ${CMAKE_THREAD_LIBS_INIT}
+  )
+endif()
+
+
 install(TARGETS wfc_demo DESTINATION ${CMAKE_INSTALL_PREFIX})
