@@ -24,10 +24,13 @@ void storage_domain::set(request::set::ptr req, response::set::handler cb )
   if ( this->bad_request(req, cb) )
     return;
   
-  _storage.set(req->key, req->value);
+  auto res = this->create_response(cb);
+  
+  bool status =  _storage.set(req->key, req->value);
+  if ( res!=nullptr )
+    res->status = status;
 
-  if (cb!=nullptr)
-    cb( std::make_unique<response::set>() );
+  this->send_response( std::move(res), std::move(cb) );
 }
 
 void storage_domain::get(request::get::ptr req, response::get::handler cb ) 
@@ -36,7 +39,7 @@ void storage_domain::get(request::get::ptr req, response::get::handler cb )
     return;
 
   auto res = std::make_unique<response::get>();
-  res->status = _storage.get(req->key, res->value);
+  res->status = _storage.get(req->key, &res->value);
   cb( std::move(res) );
 }
 
@@ -51,7 +54,7 @@ void storage_domain::multiget(request::multiget::ptr req, response::multiget::ha
   {
     if ( pval == nullptr )
       pval = std::make_shared<std::string>();
-    if ( _storage.get(key, *pval) )
+    if ( _storage.get(key, &*pval) )
       res->values[key] = std::move(pval);
     else
       res->values[key] = nullptr;
@@ -64,8 +67,11 @@ void storage_domain::get_hashed( request::get_hashed::ptr req, response::get_has
   if ( this->notify_ban(req, cb) )
     return;
   
+  if ( _hash == nullptr )
+    return cb(nullptr);
+  
   std::string value;
-  if ( _storage.get( req->key, value) )
+  if ( _storage.get( req->key, &value) )
   {
     typedef ::demo::hash::request::get_hash  hash_request;
     typedef ::demo::hash::response::get_hash hash_response;
@@ -109,7 +115,7 @@ void storage_domain::multiget_hashed( request::multiget_hashed::ptr req, respons
   std::string value;
   for ( auto key : req->keys )
   {
-    if ( _storage.get(key, value) )
+    if ( _storage.get(key, &value) )
     {
       hash_request_list[key] = std::make_unique<hash_request>();
       hash_request_list[key]->value = value;
@@ -173,7 +179,7 @@ void storage_domain::multiget_hashed2( request::multiget_hashed2::ptr req, respo
   std::string value;
   for ( auto key : req->keys )
   {
-    if ( _storage.get(key, value) )
+    if ( _storage.get(key, &value) )
     {
       hash_request_list.push_back( std::make_pair(key, std::make_unique<hash_request>() ) );
       hash_request_list.back().second->value = value;

@@ -22,6 +22,7 @@ namespace response
   {
     typedef std::unique_ptr<set> ptr;
     typedef std::function< void(ptr)> handler;
+    bool status = false;
   };
 }
 

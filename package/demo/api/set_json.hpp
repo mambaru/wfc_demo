@@ -33,6 +33,7 @@ namespace response
     typedef wfc::json::object<
       set,
       wfc::json::member_list<
+        wfc::json::member<n_status,   set, bool, &set::status>
       >
     > type;
 
