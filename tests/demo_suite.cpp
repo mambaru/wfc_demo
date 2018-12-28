@@ -1,13 +1,13 @@
 #include <fas/testing.hpp>
 #include <demo/domain/demo_domain.hpp>
 #include <hash/domain/hash_domain.hpp>
-#include <wfc/module/domain_test.hpp>
+#include <wfc/module/testing_domain.hpp>
 
 UNIT(demo1, "")
 {
   using namespace fas::testing;
   t << nothing;
-  auto ptest = std::make_shared<wfc::domain_test>();
+  auto ptest = std::make_shared<wfc::testing_domain>();
   demo::storage_domain::domain_config conf;
   conf.name = "demo1";
   conf.hash_target = "hash1";
