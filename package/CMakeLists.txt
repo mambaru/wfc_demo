@@ -42,10 +42,8 @@ target_link_libraries(wfc_demo storage)
 build_info(wfc_demo demo)
 
 if ( STANDALONE )
-
   include(FindThreads)
   find_package(Boost COMPONENTS system program_options filesystem date_time REQUIRED)
-
   target_link_libraries(
     wfc_demo
       wfc
