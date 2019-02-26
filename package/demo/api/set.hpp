@@ -13,6 +13,14 @@ namespace request
     std::string key;
     std::string value;
     typedef std::unique_ptr<set> ptr;
+    
+    static set create_schema() 
+    {
+      set sch;
+      sch.key = "key1";
+      sch.value = "value1";
+      return sch;
+    }
   };
 }
 
