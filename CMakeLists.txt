@@ -4,7 +4,7 @@ project(wfc_demo)
 
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 include(ci)
-wfc_package()
+wfc_libs()
 
 include_directories(package)
 include_directories(libstorage)
