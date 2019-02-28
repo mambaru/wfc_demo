@@ -24,6 +24,10 @@ before_script:
   - git submodule sync
   - git submodule update --init
 
+after_script:
+  - rm -f /tmp/migrate-${CI_JOB_ID}.sh
+  - rm -f /tmp/export-${CI_JOB_ID}.sh
+
 stages:
   - build
   - check
@@ -289,11 +293,13 @@ push-to-github:
     - git tag -f ${RELEASE_TAG}
     - git push -f --tags ${PROJECT_SSH} ${CI_COMMIT_REF_NAME}
     - if [[ "$(python3 ./.ci/wamba-ci.py enabled public)" == "1" ]]; then
+    -   cp "./external/cmake-ci/migrate.sh" "/tmp/migrate-${CI_JOB_ID}.sh"
+    -   cp "./external/cmake-ci/export.sh" "/tmp/export-${CI_JOB_ID}.sh"
     -   git branch -f mambaru
     -   git checkout mambaru
     -   git rm -rf .ci
     -   git rm .gitlab-ci.yml
     -   git rm wamba-ci.json
-    -   ./external/cmake-ci/migrate.sh https://github.com/mambaru/cmake-ci.git
-    -   ./external/cmake-ci/export.sh ${REMOTE_SSH}
+    -   /tmp/migrate-${CI_JOB_ID}.sh https://github.com/mambaru/cmake-ci.git
+    -   /tmp/export-${CI_JOB_ID}.sh ${REMOTE_SSH}
     - fi
