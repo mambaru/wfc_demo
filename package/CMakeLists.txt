@@ -34,6 +34,7 @@ SET(
 add_library(wfc_demo ${wfc_demo_source_list})
 
 add_dependencies(wfc_demo storage)
+
 target_link_libraries(wfc_demo storage ${WFC_LIBRARIES})
 
 build_info(wfc_demo demo)
