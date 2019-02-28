@@ -7,10 +7,9 @@ UNIT(set, "")
 {
   using namespace fas::testing;
   storage& stg = GET_REF(_storage_);
-  stg.set("key1",  "+value1");
-  stg.set("key99", "+value99");
-  stg.set("keyX",  "+valueX");
-  t << nothing;
+  t << is_false<expect>( stg.set("key1",  "+value1") ) << FAS_FL;
+  t << is_false<expect>( stg.set("key99", "+value99") ) << FAS_FL;
+  t << is_true<expect>( stg.set("keyX",  "+valueX") ) << FAS_FL;
 }
 
 UNIT(get, "")
@@ -19,19 +18,19 @@ UNIT(get, "")
   storage& stg = GET_REF(_storage_);
   std::string result;
   
-  bool found = stg.get("key1", result);
+  bool found = stg.get("key1", &result);
   t << is_true<expect>(found) << " key1 not found." << FAS_FL;
-  t << equal<expect>("+value1", result) << FAS_FL;
+  t << equal<expect, std::string>("value1", result) << FAS_FL;
 
-  found = stg.get("key99", result);
+  found = stg.get("key99", &result);
   t << is_true<expect>(found) << " key99 not found." << FAS_FL;
-  t << equal<expect>("+value99", result) << FAS_FL;
+  t << equal<expect, std::string>("value99", result) << FAS_FL;
 
-  found = stg.get("keyX", result);
+  found = stg.get("keyX", &result);
   t << is_true<expect>(found) << " keyX not found." << FAS_FL;
-  t << equal<expect>("+valueX", result) << FAS_FL;
+  t << equal<expect, std::string>("+valueX", result) << FAS_FL;
 
-  found = stg.get("keyY", result);
+  found = stg.get("keyY", &result);
   t << is_false<expect>(found) << " keyY is found." << FAS_FL;
   t << equal<expect, std::string>("", result) << FAS_FL;
 
@@ -49,7 +48,7 @@ UNIT(ini, "")
     std::string value = "value"+std::to_string(i);
     std::string result;
 
-    bool found = stg.get(key, result);
+    bool found = stg.get(key, &result);
     t << is_true<expect>(found) << key << " not found." << FAS_FL;
     t << equal<expect>(value, result) << FAS_FL;
   }

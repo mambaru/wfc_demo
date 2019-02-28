@@ -1,4 +1,4 @@
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${WFC_TEST_DIR})
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${UNIT_TEST_BIN_OUTPUT_DIR})
 
 SET(
   storage_test_source_list
@@ -16,6 +16,6 @@ add_dependencies(storage_test storage)
 
 target_link_libraries(storage_test storage)
 
-add_test(NAME storage_test COMMAND storage_test WORKING_DIRECTORY ${WFC_TEST_DIR} )
+add_test(NAME storage_test COMMAND storage_test )
 
 
