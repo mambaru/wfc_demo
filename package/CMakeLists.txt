@@ -31,10 +31,7 @@ SET(
   pingpong/pingpong_module.cpp
 )
 
-add_library(
-  wfc_demo
-  ${wfc_demo_source_list}
-)
+add_library(wfc_demo ${wfc_demo_source_list})
 
 add_dependencies(wfc_demo storage)
 target_link_libraries(wfc_demo storage ${WFC_LIBRARIES})
