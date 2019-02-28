@@ -295,13 +295,5 @@ push-to-github:
     -   git rm .gitlab-ci.yml
     -   git rm wamba-ci.json
     -   ./external/cmake-ci/migrate.sh https://github.com/mambaru/cmake-ci.git
-    -   git commit -m "autocommit github.com export"
-    -   git push -f ${REMOTE_SSH} mambaru
-    -   git push -f --tags ${REMOTE_SSH} mambaru
-    -   doxygen
-    -   cd docs/html
-    -   git init 
-    -   git add .
-    -   git commit -m "doxygen"
-    -   git push -f ${REMOTE_SSH} master:gh-pages
+    -   ./external/cmake-ci/export.sh ${REMOTE_SSH}
     - fi
