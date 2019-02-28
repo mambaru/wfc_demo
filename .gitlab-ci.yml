@@ -50,17 +50,29 @@ night-build:
   only:
     - night-build
 
+basic-build:
+  stage: build
+  script:
+    - ./.ci/wip-build.sh
+  only:
+    - /^devel-.*$/
+    - /^hotfix-.*$/
+
+wip-build:
+  stage: build
+  script:
+    - ./.ci/wip-build-and-test.sh
+  only:
+    - wip-devel
+
 main-build:
   stage: build
   script:
     - ./.ci/build-and-test.sh g++ 11 Release
   only:
     - devel
-    - wip-devel
     - pre-release
     - /^build.*$/
-    - /^devel-.*$/
-    - /^hotfix-.*$/
 
 build-g++11:
   stage: build
@@ -151,7 +163,7 @@ devel-any:
     - export CI_PROJECT_ID=${CI_PROJECT_ID} 
     - export GITLAB_USER_ID=${GITLAB_USER_ID} 
     - export PRIVATE_TOKEN=${PRIVATE_TOKEN}
-    - ./.ci/automr.sh devel true
+    - ./.ci/automr.sh wip-devel true
   only:
     - /^devel-.*$/
     
