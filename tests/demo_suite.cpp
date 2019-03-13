@@ -38,14 +38,16 @@ UNIT(demo1, "")
   demo::hash::hash_domain::domain_config hash_conf;
   hash_conf.name = "hash1";
   auto phash = ptest->create<demo::hash::hash_domain>(hash_conf);
+  ptest->initialize();
   
   get_hashed=std::make_unique<demo::request::get_hashed>();
   get_hashed->key="key1";
   pdemo->get_hashed(std::move(get_hashed), [&t](demo::response::get_hashed::ptr res){
     using namespace fas::testing;
-    t << not_equal<assert>(res, nullptr) << FAS_FL;
+    
+    t << not_equal<assert, demo::response::get_hashed::ptr>(res, nullptr) << FAS_FL;
     t << stop;
-    t << not_equal<assert>(res->value, std::hash<std::string>()("key1") ) << FAS_FL;
+    t << not_equal<assert, size_t>(res->value, std::hash<std::string>()("key1") ) << FAS_FL;
     t << equal<assert>(res->value, std::hash<std::string>()("val1") ) << FAS_FL;
   });
 }
