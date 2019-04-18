@@ -24,8 +24,6 @@ public:
   }
 };
 
-
-
 struct ponger_method_list: wfc::jsonrpc::method_list
 <
   wfc::jsonrpc::interface_<iponger2>,
