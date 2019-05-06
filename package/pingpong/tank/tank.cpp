@@ -54,7 +54,7 @@ void tank::start()
 void tank::fire()
 {
   this->reg_thread();
-  time_t show_time = time(0);
+  time_t show_time = time(nullptr);
   long tatal_rate = 0;
   long discharge_count = 0;
   std::mutex m;
@@ -103,7 +103,7 @@ void tank::fire()
           long rate = 0;
           if ( ms != 0) 
             rate = count * std::chrono::microseconds::period::den/ ms;
-          if ( show_time!=time(0) )
+          if ( show_time!=time(nullptr) )
           {
             if ( count != 0 )
             {
@@ -112,7 +112,7 @@ void tank::fire()
             else
             {
               TANK_LOG_MESSAGE("One request. Time " << ms << " microseconds Bad Gateway.")
-              show_time=time(0);
+              show_time=time(nullptr);
             }
           }
         })

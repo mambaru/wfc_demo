@@ -15,8 +15,8 @@
 #include <iomanip>
 
 
-#define PONGER_LOG_MESSAGE(message) WFC_LOG_MESSAGE("ponger", message)
-#define PONGER_LOG_DEBUG(message)   WFC_LOG_DEBUG("ponger", message)
+// #define PONGER_LOG_MESSAGE(message) WFC_LOG_MESSAGE("ponger", message)
+// #define PONGER_LOG_DEBUG(message)   WFC_LOG_DEBUG("ponger", message)
 
 namespace demo{ namespace pingpong{
 
