@@ -16,7 +16,7 @@
 #include <iomanip>
 
 #define TANK_LOG_MESSAGE(message) WFC_LOG_MESSAGE("tank", message)
-#define TANK_LOG_DEBUG(message)   WFC_LOG_DEBUG("tank", message)
+// #define TANK_LOG_DEBUG(message)   WFC_LOG_DEBUG("tank", message)
 
 namespace demo{ namespace pingpong{
 
