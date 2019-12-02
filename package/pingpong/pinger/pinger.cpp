@@ -19,11 +19,12 @@
 
 namespace demo{ namespace pingpong{
 
-void pinger::initialize() 
+void pinger::initialize()
 {
   std::lock_guard<std::mutex> lk(_mutex);
-  for (const auto& target_name : this->options().target_list )
-    _targets.push_back( this->get_target<iponger2>(target_name)  );
+  auto tl = this->options().target_list;
+  auto handler = std::bind(&super::get_target<iponger2>, this, std::placeholders::_1, false);
+  std::transform(std::begin(tl), std::end(tl), std::back_inserter(_targets),  handler);
 }
 
 pinger::target_list pinger::get_target_list() const
@@ -32,7 +33,7 @@ pinger::target_list pinger::get_target_list() const
   return _targets;
 }
 
-void pinger::play(ball::ptr req, ball::handler cb) 
+void pinger::play(ball::ptr req, ball::handler cb)
 {
   if ( this->notify_ban(req, cb ) )
     return;
@@ -56,9 +57,9 @@ void pinger::play(ball::ptr req, ball::handler cb)
       --rereq->power;
       t->ping( std::move(rereq), [this, pwait, ptotal, cb](ball::ptr res)
       {
-          if ( this->system_is_stopped() )
+          if ( this->global_stop_flag() )
             return;
-          
+
           if ( res==nullptr )
           {
             DOMAIN_LOG_FATAL("Bad Gateway");
@@ -85,9 +86,9 @@ void pinger::pong( ball::ptr req, ball::handler cb, io_id_t, ball_handler reping
 {
   if ( this->notify_ban(req, cb ) )
     return;
-  
+
   std::cout << "pinger::pong power=" << req->power << std::endl;
-  
+
   if ( req->power == 0 )
   {
     cb( std::move(req) );

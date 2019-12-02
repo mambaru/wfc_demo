@@ -1,21 +1,6 @@
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${UNIT_TEST_BIN_OUTPUT_DIR})
-
-SET(
-  storage_test_source_list
-    storage_suite.cpp
-    storage_test.cpp
-    ${FAS_TESTING_CPP}
-)
-
-add_executable(
-  storage_test
-  ${storage_test_source_list}
-)
-
+add_executable(storage_test storage_suite.cpp storage_test.cpp)
 add_dependencies(storage_test storage)
-
-target_link_libraries(storage_test storage)
-
-add_test(NAME storage_test COMMAND storage_test )
+target_link_libraries(storage_test PRIVATE storage fas::testing)
+wci_test(NAME storage_test COMMAND storage_test )
 
 

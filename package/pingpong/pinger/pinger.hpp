@@ -20,6 +20,7 @@ class pinger
   : public ::wfc::domain_object< ipinger, pinger_config>
   , public std::enable_shared_from_this<pinger>
 {
+  typedef wfc::domain_object< ipinger, pinger_config> super;
   typedef std::vector< std::weak_ptr<iponger2> > target_list;
 public:
   virtual void initialize() override;

@@ -1,5 +1,6 @@
-[![pipeline status](http://github.lan/cpp/wfc_demo/badges/wip-devel/pipeline.svg)](http://gitlab7.lan/cpp/wfc_demo/commits/wip-devel)
-[![coverage report](http://gitlab7.lan/cpp/wfc_demo/badges/wip-devel/coverage.svg)](http://gitlab7.lan/cpp/wfc_demo/commits/wip-devel)
+[![Build Status](https://github.com/mambaru/wfc_demo/workflows/C++%20CI/badge.svg?branch=master)](https://github.com/mambaru/wfc_demo/tree/master)
+[![Build Status](https://github.com/mambaru/wfc_demo/workflows/C++%20CI/badge.svg?branch=mambaru)](https://github.com/mambaru/wfc_demo/tree/mambaru)
+[![Coverage Report](http://github.lan/cpp/wfc_demo/badges/pre-release/coverage.svg)](http://github.lan/cpp/wfc_demo/commits/pre-release)
 
 # Демо проект пакета модулей для [WFC](https://github.com/mambaru/wfcroot). 
 
