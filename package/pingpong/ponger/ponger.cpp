@@ -15,12 +15,12 @@
 #include <iomanip>
 
 
-#define PONGER_LOG_MESSAGE(message) WFC_LOG_MESSAGE("ponger", message)
-#define PONGER_LOG_DEBUG(message)   WFC_LOG_DEBUG("ponger", message)
+// #define PONGER_LOG_MESSAGE(message) WFC_LOG_MESSAGE("ponger", message)
+// #define PONGER_LOG_DEBUG(message)   WFC_LOG_DEBUG("ponger", message)
 
 namespace demo{ namespace pingpong{
 
-void ponger::reconfigure() 
+void ponger::reconfigure()
 {
   _pong_count = this->options().pong_count;
 }
@@ -29,7 +29,7 @@ void ponger::ping(ball::ptr req, ball::handler cb, io_id_t /*io_id*/, std::weak_
 {
   if ( this->notify_ban(req, cb ) )
     return;
-  
+
   std::cout << "ponger::ping power=" << req->power << std::endl;
   auto pcount = std::make_shared< std::atomic<size_t> >();
   auto ptotal = std::make_shared< std::atomic<size_t> >();
@@ -49,14 +49,14 @@ void ponger::ping(ball::ptr req, ball::handler cb, io_id_t /*io_id*/, std::weak_
       {
         auto rereq = std::make_unique<ball>( *req );
         ++rereq->count;
-        
-        p->pong( 
-          std::move(rereq), 
+
+        p->pong(
+          std::move(rereq),
           [this, pcount, ptotal, cb](ball::ptr res)
           {
-            if ( this->system_is_stopped() )
+            if ( this->global_stop_flag() )
               return;
-            
+
             if ( res==nullptr )
             {
               DOMAIN_LOG_FATAL("Bad Gateway");

@@ -16,7 +16,7 @@
 #include <iomanip>
 
 #define TANK_LOG_MESSAGE(message) WFC_LOG_MESSAGE("tank", message)
-#define TANK_LOG_DEBUG(message)   WFC_LOG_DEBUG("tank", message)
+// #define TANK_LOG_DEBUG(message)   WFC_LOG_DEBUG("tank", message)
 
 namespace demo{ namespace pingpong{
 
@@ -26,26 +26,26 @@ void tank::reconfigure()
   _power = this->options().power;
 }
 
-void tank::initialize() 
+void tank::initialize()
 {
   _target = this->get_target<ipinger>( this->options().target );
 }
 
-void tank::stop() 
+void tank::stop()
 {
   _thread.join();
 }
 
 void tank::start()
 {
-  this->global()->after_start.insert([this]() -> bool 
+  this->global()->after_start.insert([this]() -> bool
   {
-    this->get_workflow()->post(  
+    this->get_workflow()->post(
       std::chrono::seconds(3),
       [this]()
       {
         this->_thread = std::thread( std::bind( &tank::fire, this) );
-      }, 
+      },
       nullptr);
     return false;
   });
@@ -54,12 +54,12 @@ void tank::start()
 void tank::fire()
 {
   this->reg_thread();
-  time_t show_time = time(0);
+  time_t show_time = time(nullptr);
   long tatal_rate = 0;
   long discharge_count = 0;
-  std::mutex m;
+  //std::mutex m;
   std::condition_variable cond_var;
-  while( !this->system_is_stopped() )
+  while( !this->global_stop_flag() )
   {
     ++discharge_count;
     std::atomic<long> messages_count;
@@ -69,7 +69,7 @@ void tank::fire()
     auto start_discharge = clock_t::now();
     if ( auto t = _target.lock() )
     {
-      for ( long i = 0 ; i <  _discharge && !this->system_is_stopped(); ++i )
+      for ( long i = 0 ; i <  _discharge && !this->global_stop_flag(); ++i )
       {
         using namespace std::placeholders;
         auto req = std::make_unique<ball>();
@@ -78,15 +78,15 @@ void tank::fire()
         if ( dcount == 0) break; // зависаетт иногда приостановке
         t->play( std::move(req),  this->callback([this, &cond_var, &show_time, tp, &dcount, &messages_count](ball::ptr res)
         {
-          if ( this->system_is_stopped() || dcount == 0 )
+          if ( this->global_stop_flag() || dcount == 0 )
             return;
-          
+
           if ( res==nullptr )
           {
             DOMAIN_LOG_FATAL("Bad Gateway");
             return;
           }
-          
+
           --dcount;
           if ( dcount == 0 )
             cond_var.notify_one();
@@ -99,11 +99,11 @@ void tank::fire()
             count = static_cast<long>(res->count * 2);
             messages_count += count;
           }
-            
+
           long rate = 0;
-          if ( ms != 0) 
+          if ( ms != 0)
             rate = count * std::chrono::microseconds::period::den/ ms;
-          if ( show_time!=time(0) )
+          if ( show_time!=time(nullptr) )
           {
             if ( count != 0 )
             {
@@ -112,7 +112,7 @@ void tank::fire()
             else
             {
               TANK_LOG_MESSAGE("One request. Time " << ms << " microseconds Bad Gateway.")
-              show_time=time(0);
+              show_time=time(nullptr);
             }
           }
         })
@@ -122,19 +122,19 @@ void tank::fire()
 
     while ( dcount!=0 )
     {
-      if ( this->system_is_stopped() )
+      if ( this->global_stop_flag() )
         break;
       std::this_thread::sleep_for( std::chrono::microseconds(1000) );
     }
-    
+
     auto finish_discharge = clock_t::now();
     long discharge_ms = std::chrono::duration_cast<std::chrono::microseconds>( finish_discharge - start_discharge).count();
     long discharge_rate = 0;
-    if ( discharge_ms != 0) 
+    if ( discharge_ms != 0)
       discharge_rate = _discharge * std::chrono::microseconds::period::den/ discharge_ms;
     tatal_rate += discharge_rate;
     long middle_rate = tatal_rate / discharge_count;
-    TANK_LOG_MESSAGE("Discharge time " << discharge_ms << " microseconds for " << _discharge 
+    TANK_LOG_MESSAGE("Discharge time " << discharge_ms << " microseconds for " << _discharge
                       << " messages. Rate " << discharge_rate << " persec ( middle: " << middle_rate << ")" )
     TANK_LOG_MESSAGE("Messages count " << messages_count << " messages rps: " << discharge_rate*messages_count);
     if ( discharge_ms < std::chrono::microseconds::period::den )
