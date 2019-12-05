@@ -1,6 +1,10 @@
+
+[![tag](https://img.shields.io/github/v/tag/mambaru/wfc_demo.svg?sort=semver)](https://github.com/mambaru/wfc_demo/tree/master)
 [![Build Status](https://github.com/mambaru/wfc_demo/workflows/C++%20CI/badge.svg?branch=master)](https://github.com/mambaru/wfc_demo/tree/master)
 [![Build Status](https://github.com/mambaru/wfc_demo/workflows/C++%20CI/badge.svg?branch=mambaru)](https://github.com/mambaru/wfc_demo/tree/mambaru)
-[![Coverage Report](http://github.lan/cpp/wfc_demo/badges/pre-release/coverage.svg)](http://github.lan/cpp/wfc_demo/commits/pre-release)
+[![Build Status](https://travis-ci.com/mambaru/wfc_demo.svg?branch=master)](https://travis-ci.com/mambaru/wfc_demo)
+[![Build Status](https://travis-ci.com/mambaru/wfc_demo.svg?branch=mambaru)](https://travis-ci.com/mambaru/wfc_demo)
+[![codecov](https://codecov.io/gh/mambaru/wfc_demo/branch/master/graph/badge.svg)](https://codecov.io/gh/mambaru/wfc_demo)
 
 # Демо проект пакета модулей для [WFC](https://github.com/mambaru/wfcroot). 
 
