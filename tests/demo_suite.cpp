@@ -1,7 +1,7 @@
 #include <fas/testing.hpp>
 #include <demo/domain/demo_domain.hpp>
 #include <hash/domain/hash_domain.hpp>
-#include <wfc/module/testing_domain.hpp>
+#include <wfc/testing/testing_domain.hpp>
 
 UNIT(demo1, "")
 {
