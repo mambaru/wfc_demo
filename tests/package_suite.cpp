@@ -26,7 +26,7 @@ namespace{
   {
     using namespace wjson::literals;
     return
-      "{'name': 'demo-storage1',  \
+      "{'name': 'storage1',  \
       'enabled': true,          \
       'suspend': false,         \
       'startup_priority': 0,    \
@@ -39,7 +39,7 @@ namespace{
   {
     using namespace wjson::literals;
     return
-      "{'name': 'demo-service1',  \
+      "{'name': 'storage-service1',  \
       'target': '"_json + target + "'}"_json;
   }
 
@@ -83,14 +83,14 @@ UNIT(package1, "")
 
   wjson::json_error er;
   add_config(t, twfc, hash_config(), __LINE__);
-  add_config(t, twfc, "demo-storage", demo_config("hash1"), __LINE__);
-  add_config(t, twfc, "storage-service", demo_service_config("demo-storage1"), __LINE__);
+  add_config(t, twfc, "storage", demo_config("hash1"), __LINE__);
+  add_config(t, twfc, "storage-service", demo_service_config("storage1"), __LINE__);
 
   twfc.start();
 
   std::string set_req = "{'method':'set','params':{'key':'key1','val':'val1'},'id':1}"_json;
   std::string set_res;
-  bool status = twfc.test_service("demo-service1", set_req, &set_res, &er);
+  bool status = twfc.test_service("storage-service1", set_req, &set_res, &er);
 
   t << is_false<assert>(er) << wjson::strerror::message_trace(er, set_req.begin(), set_req.end() ) << FAS_FL ;
 
@@ -100,7 +100,7 @@ UNIT(package1, "")
 
   std::string get_req = "{'method':'get_hashed','params':{'key':'key1'},'id':1}"_json;
   std::string get_res;
-  status = twfc.test_service("demo-service1", get_req, &get_res, &er);
+  status = twfc.test_service("storage-service1", get_req, &get_res, &er);
 
   t << is_false<assert>(er) << wjson::strerror::message_trace(er, set_req.begin(), set_req.end() ) << FAS_FL ;
   t << is_true<assert>(status) << FAS_FL;
@@ -108,7 +108,6 @@ UNIT(package1, "")
 
   int res = twfc.run(1);
   t << equal<assert, int>(res, 0) << FAS_FL;
-
 }
 
 BEGIN_SUITE(package, "")
