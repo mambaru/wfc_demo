@@ -12,7 +12,7 @@
 #include <functional>
 
 namespace demo{ namespace storage{
-
+  
 void storage_domain::initialize()
 {
   std::string hash_name = this->options().hash_target;
