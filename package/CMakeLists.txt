@@ -3,11 +3,11 @@ SET(
   wfc_demo_source_list
   demo_package.cpp
 
-  demo/demo_module.cpp
-  demo/domain/demo_domain.cpp
-  demo/domain/demo_multiton.cpp
-  demo/service/demo_service_multiton.cpp
-  demo/gateway/demo_gateway_multiton.cpp
+  storage/storage_module.cpp
+  storage/domain/storage_domain.cpp
+  storage/domain/storage_multiton.cpp
+  storage/service/storage_service_multiton.cpp
+  storage/gateway/storage_gateway_multiton.cpp
 
   hash/domain/hash_domain.cpp
   hash/domain/hash_multiton.cpp
@@ -32,7 +32,7 @@ SET(
 
 add_library(wfc_demo ${wfc_demo_source_list})
 wci_targets(wfc_demo)
-
+enable_stat(wfc_demo)
 add_dependencies(wfc_demo storage)
 
 target_link_libraries(wfc_demo PUBLIC wfc PRIVATE storage )
