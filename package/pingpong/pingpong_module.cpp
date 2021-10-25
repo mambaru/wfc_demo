@@ -19,18 +19,18 @@
 namespace demo{ namespace pingpong{
 
 namespace {
-  WFC_NAME2(module_name, "pingpong")
+  WFC_NAME2(module_name, "pingpong-module")
 
   class impl: public ::wfc::component_list<
     module_name,
     pinger_service_multiton,
     pinger_multiton,
     pinger_gateway_multiton,
-    
+
     ponger_service_multiton,
     ponger_multiton,
     ponger_gateway_multiton,
-    
+
     tank_multiton
   >
   {
