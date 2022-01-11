@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.1)
 project(wfc_demo)
 
 include(cmake/ci.cmake)
-wci_getlib(NAME wfc ${WCI_SUPERMODULE})
+wci_submodule(NAME wfc SUPERMODULE)
 
 add_subdirectory(libstorage)
 add_subdirectory(package)
