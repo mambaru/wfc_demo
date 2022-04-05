@@ -3,7 +3,7 @@
 #include <memory>
 #include <functional>
 
-namespace demo{ namespace pingpong{
+namespace damba{ namespace pingpong{
 
   struct ball
   {

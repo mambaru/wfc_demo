@@ -8,15 +8,14 @@
 
 #include <wfc/module/module.hpp>
 
-namespace demo{
+namespace damba{ namespace demo{
 
-class storage_module
-  : public ::wfc::module
+class demo_module
+  : public wfc::module
 {
-  class impl;
 public:
-  storage_module();
+  demo_module();
 };
 
-}
+}}
 

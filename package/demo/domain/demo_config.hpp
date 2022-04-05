@@ -8,11 +8,20 @@
 
 #include <string>
 
-namespace demo{
+namespace damba{ namespace demo{
 
-struct storage_config
+struct demo_config
 {
   std::string hash_target;
+
+  static demo_config create_schema(const std::string& schema)
+  {
+    return demo_config{schema};
+  }
+
+  static std::vector<std::string> get_schema_list(){
+    return {"example1", "example2"};
+  }
 };
 
-}
+}}

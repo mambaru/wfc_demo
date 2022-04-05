@@ -8,13 +8,13 @@
 
 #include <wfc/module/component.hpp>
 
-namespace demo{
+namespace damba{ namespace demo{
 
-class storage_service_multiton
+class demo_service_multiton
   : public ::wfc::component
 {
 public:
-  storage_service_multiton();
+  demo_service_multiton();
 };
 
-}
+}}

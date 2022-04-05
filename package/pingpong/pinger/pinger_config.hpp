@@ -8,7 +8,7 @@
 
 #include <string>
 
-namespace demo{ namespace pingpong{
+namespace damba{ namespace pingpong{
 
 struct pinger_config
 {

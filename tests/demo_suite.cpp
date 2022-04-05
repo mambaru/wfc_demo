@@ -1,39 +1,39 @@
 #include <fas/testing.hpp>
-#include <storage/domain/storage_domain.hpp>
+#include <demo/domain/demo_domain.hpp>
 #include <hash/domain/hash_domain.hpp>
 #include <wfc/testing/testing_domain.hpp>
 
 UNIT(demo1, "")
 {
   using namespace fas::testing;
-  using namespace demo;
+  using namespace damba;
   t << nothing;
 
   auto ptest = std::make_shared<wfc::testing_domain>();
-  demo::storage::storage_domain::domain_config conf;
+  demo::demo_domain::domain_config conf;
   conf.name = "demo1";
   conf.hash_target = "hash1";
 
-  auto pdemo = ptest->create<demo::storage::storage_domain>(conf);
+  auto pdemo = ptest->create<demo::demo_domain>(conf);
 
-  auto set=std::make_unique<demo::storage::request::set>();
+  auto set=std::make_unique<demo::request::set>();
   set->key="key1";
   set->value="val1";
-  pdemo->set(std::move(set), [&t](demo::storage::response::set::ptr res){
+  pdemo->set(std::move(set), [&t](demo::response::set::ptr res){
     using namespace fas::testing;
     t << is_true<expect>(res->status) << FAS_FL;
   });
 
-  auto get=std::make_unique<demo::storage::request::get>();
+  auto get=std::make_unique<demo::request::get>();
   get->key="key1";
-  pdemo->get(std::move(get), [&t](demo::storage::response::get::ptr res){
+  pdemo->get(std::move(get), [&t](demo::response::get::ptr res){
     using namespace fas::testing;
     t << equal<expect>(res->value, "val1") << FAS_FL;
   });
 
-  auto get_hashed=std::make_unique<demo::storage::request::get_hashed>();
+  auto get_hashed=std::make_unique<demo::request::get_hashed>();
   get_hashed->key="key1";
-  pdemo->get_hashed(std::move(get_hashed), [&t](demo::storage::response::get_hashed::ptr res){
+  pdemo->get_hashed(std::move(get_hashed), [&t](demo::response::get_hashed::ptr res){
     using namespace fas::testing;
     t << equal<assert>(res, nullptr) << FAS_FL;
   });
@@ -43,12 +43,12 @@ UNIT(demo1, "")
   auto phash = ptest->create<hash::hash_domain>(hash_conf);
   ptest->initialize();
 
-  get_hashed=std::make_unique<demo::storage::request::get_hashed>();
+  get_hashed=std::make_unique<demo::request::get_hashed>();
   get_hashed->key="key1";
-  pdemo->get_hashed(std::move(get_hashed), [&t](demo::storage::response::get_hashed::ptr res){
+  pdemo->get_hashed(std::move(get_hashed), [&t](demo::response::get_hashed::ptr res){
     using namespace fas::testing;
 
-    t << not_equal<assert, demo::storage::response::get_hashed::ptr>(res, nullptr) << FAS_FL;
+    t << not_equal<assert, demo::response::get_hashed::ptr>(res, nullptr) << FAS_FL;
     t << stop;
     t << not_equal<assert, size_t>(res->value, std::hash<std::string>()("key1") ) << FAS_FL;
     t << equal<assert>(res->value, std::hash<std::string>()("val1") ) << FAS_FL;

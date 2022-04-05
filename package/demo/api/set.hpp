@@ -4,23 +4,26 @@
 #include <memory>
 #include <functional>
 
-namespace demo{
-  
+namespace damba{ namespace demo{
+
 namespace request
 {
-  struct set 
+  struct set
   {
     std::string key;
     std::string value;
     typedef std::unique_ptr<set> ptr;
-    
-    static set create_schema() 
+
+    static bool create_schema(set& g, const std::string& name)
     {
-      set sch;
-      sch.key = "key1";
-      sch.value = "value1";
-      return sch;
+      if ( name.empty() ) g.key = "empty1";
+      else if ( name == "example_request" || name == "example2") g.key = "example2";
+      else g.key = "unknown1";
+      g.value = name;
+      return true;
     }
+
+    static std::vector<std::string> get_schema_list() { return {"example_request", "example2"}; }
   };
 }
 
@@ -34,4 +37,4 @@ namespace response
   };
 }
 
-}
+}}

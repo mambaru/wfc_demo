@@ -3,7 +3,7 @@
 #include <demo/api/multiget.hpp>
 #include <wfc/json.hpp>
 
-namespace demo{
+namespace damba{ namespace demo{
 
 namespace request
 {
@@ -15,11 +15,11 @@ namespace request
       multiget,
       wfc::json::member_list<
         wfc::json::member<
-          n_keys, 
-          multiget, 
-          std::set<std::string>, 
-          &multiget::keys, 
-          wfc::json::array< std::set< wfc::json::value< std::string> > > 
+          n_keys,
+          multiget,
+          std::set<std::string>,
+          &multiget::keys,
+          wfc::json::array< std::set< wfc::json::value< std::string> > >
         >
       >
     > type;
@@ -47,4 +47,4 @@ namespace response
   };
 }
 
-}
+}}

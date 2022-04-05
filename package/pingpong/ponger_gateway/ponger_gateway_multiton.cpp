@@ -12,7 +12,7 @@
 #include <wfc/module/instance.hpp>
 #include <wfc/name.hpp>
 
-namespace demo{ namespace pingpong{
+namespace damba{ namespace pingpong{
 
 namespace 
 {

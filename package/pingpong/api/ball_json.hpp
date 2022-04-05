@@ -3,7 +3,7 @@
 #include <pingpong/api/ball.hpp>
 #include <wfc/json.hpp>
 
-namespace demo{ namespace pingpong{
+namespace damba{ namespace pingpong{
 
 struct ball_json
 {

@@ -13,7 +13,7 @@
 
 #include <memory>
 
-namespace demo{ namespace pingpong{
+namespace damba{ namespace pingpong{
 
 namespace
 {

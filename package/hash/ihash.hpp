@@ -3,7 +3,7 @@
 #include <hash/api/get_hash.hpp>
 #include <wfc/iinterface.hpp>
 
-namespace demo{ namespace hash{
+namespace damba{ namespace hash{
 
 struct ihash
   : public ::wfc::iinterface

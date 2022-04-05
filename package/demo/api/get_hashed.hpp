@@ -4,7 +4,7 @@
 #include <memory>
 #include <functional>
 
-namespace demo{
+namespace damba{ namespace demo{
 
 namespace request
 {
@@ -13,7 +13,7 @@ namespace request
     std::string key;
     typedef std::unique_ptr<get_hashed> ptr;
 
-    static get_hashed create_schema() 
+    static get_hashed create_schema()
     {
       get_hashed sch;
       sch.key = "key1";
@@ -31,7 +31,7 @@ namespace response
     typedef std::unique_ptr<get_hashed> ptr;
     typedef std::function< void(ptr)> handler;
 
-    static get_hashed create_schema() 
+    static get_hashed create_schema()
     {
       get_hashed sch;
       sch.value = std::hash<std::string>()("value1");
@@ -42,4 +42,4 @@ namespace response
   };
 }
 
-}
+}}

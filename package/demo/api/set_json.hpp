@@ -3,7 +3,7 @@
 #include <demo/api/set.hpp>
 #include <wfc/json.hpp>
 
-namespace demo{
+namespace damba{ namespace demo{
 
 namespace request
 {
@@ -42,4 +42,4 @@ namespace response
   };
 }
 
-}
+}}

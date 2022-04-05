@@ -10,7 +10,7 @@
 #include <wfc/jsonrpc.hpp>
 
 
-namespace demo{
+namespace damba{ namespace demo{
 
 JSONRPC_TAG(set)
 JSONRPC_TAG(get)
@@ -21,7 +21,7 @@ JSONRPC_TAG(multiget_hashed2)
 
 struct gateway_method_list: wfc::jsonrpc::method_list
 <
-  wfc::jsonrpc::interface_<istorage>,
+  wfc::jsonrpc::interface_<idemo>,
   wfc::jsonrpc::call_method< _set_,      request::set_json,      response::set_json>,
   wfc::jsonrpc::call_method< _get_,      request::get_json,      response::get_json>,
   wfc::jsonrpc::call_method< _multiget_, request::multiget_json, response::multiget_json>,
@@ -33,7 +33,7 @@ struct gateway_method_list: wfc::jsonrpc::method_list
 };
 
 template<typename Base>
-class storage_interface
+class demo_interface
   : public Base
 {
 public:
@@ -51,12 +51,12 @@ public:
   {
     this->template call< _multiget_ >( std::move(req), cb, nullptr);
   }
-  
+
   virtual void get_hashed(request::get_hashed::ptr req, response::get_hashed::handler cb ) override
   {
     this->template call< _get_hashed_ >( std::move(req), cb, nullptr);
   }
-  
+
   virtual void multiget_hashed(request::multiget_hashed::ptr req, response::multiget_hashed::handler cb ) override
   {
     this->template call< _multiget_hashed_ >( std::move(req), cb, nullptr);
@@ -68,4 +68,4 @@ public:
   }
 };
 
-}
+}}

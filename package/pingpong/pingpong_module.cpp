@@ -16,7 +16,7 @@
 #include <wfc/name.hpp>
 #include <memory>
 
-namespace demo{ namespace pingpong{
+namespace damba{ namespace pingpong{
 
 namespace {
   WFC_NAME2(module_name, "pingpong-module")

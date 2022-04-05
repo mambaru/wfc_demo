@@ -8,7 +8,7 @@
 #include "hash_config.hpp"
 #include <wfc/json.hpp>
 
-namespace demo{ namespace hash{
+namespace damba{ namespace hash{
 
 struct hash_config_json
 {

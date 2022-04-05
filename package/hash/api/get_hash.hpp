@@ -4,7 +4,7 @@
 #include <memory>
 #include <functional>
 
-namespace demo{ namespace hash{
+namespace damba{ namespace hash{
 
 namespace request
 {

@@ -6,7 +6,7 @@
 #include <memory>
 #include <functional>
 
-namespace demo{
+namespace damba{ namespace demo{
 
 namespace request
 {
@@ -14,8 +14,8 @@ namespace request
   {
     std::set<std::string> keys;
     typedef std::unique_ptr<multiget_hashed> ptr;
-    
-    static multiget_hashed create_schema() 
+
+    static multiget_hashed create_schema()
     {
       multiget_hashed sch;
       sch.keys.insert("key1");
@@ -35,8 +35,8 @@ namespace response
     map_type values;
     typedef std::unique_ptr<multiget_hashed> ptr;
     typedef std::function< void(ptr)> handler;
-    
-    static multiget_hashed create_schema() 
+
+    static multiget_hashed create_schema()
     {
       multiget_hashed sch;
       std::hash<std::string> h;
@@ -49,4 +49,4 @@ namespace response
   };
 }
 
-}
+}}

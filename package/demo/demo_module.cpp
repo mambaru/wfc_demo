@@ -11,26 +11,30 @@
 #include <wfc/module/component_list.hpp>
 #include <wfc/name.hpp>
 
-namespace demo{
+namespace damba{ namespace demo{
 
-WFC_NAME2(storage_module_name, "demo-storage")
-
-class storage_module::impl: public ::wfc::component_list<
-  storage_module_name,
-  storage_multiton,
-  storage_service_multiton,
-  storage_gateway_multiton
->
+namespace
 {
-  virtual std::string description() const override
+  WFC_NAME2(demo_module_name, "demo-module")
+
+  class impl:
+    public wfc::component_list<
+      demo_module_name,
+      demo_multiton,
+      demo_service_multiton,
+      demo_gateway_multiton
+    >
   {
-    return "Demo-storage module description";
-  }
-};
+    virtual std::string description() const override
+    {
+      return "Demo-demo module description";
+    }
+  };
+}
 
-storage_module::storage_module()
-  : module( std::make_shared<storage_module::impl>() )
+demo_module::demo_module()
+  : module( std::make_shared<impl>() )
 {
 }
 
-}
+}}

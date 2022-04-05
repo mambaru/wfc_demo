@@ -6,7 +6,7 @@
 
 #pragma once
 
-namespace demo{ namespace hash{
+namespace damba{ namespace hash{
 
 struct hash_config
 {

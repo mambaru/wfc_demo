@@ -14,7 +14,7 @@
 #include <iow/logger.hpp>
 
 
-namespace demo{ namespace hash{
+namespace damba{ namespace hash{
 
 class logger: public wfc::ilogger
 {

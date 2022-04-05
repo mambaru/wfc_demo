@@ -11,39 +11,42 @@
 #include <iostream>
 #include <functional>
 
-namespace demo{
-
-void storage_domain::initialize()
+namespace damba{ namespace demo{
+  
+void demo_domain::initialize()
 {
   std::string hash_name = this->options().hash_target;
   _hash = this->get_target<ihash>(hash_name);
 }
 
-void storage_domain::set(request::set::ptr req, response::set::handler cb )
+void demo_domain::set(request::set::ptr req, response::set::handler cb )
 {
   if ( this->bad_request(req, cb) )
     return;
-  
+
   auto res = this->create_response(cb);
-  
-  bool status =  _storage.set(req->key, req->value);
+
+  bool status = _demo.set(req->key, req->value);
+
   if ( res!=nullptr )
     res->status = status;
 
   this->send_response( std::move(res), std::move(cb) );
 }
 
-void storage_domain::get(request::get::ptr req, response::get::handler cb ) 
+void demo_domain::get(request::get::ptr req, response::get::handler cb )
 {
   if ( this->notify_ban(req, cb) )
     return;
-
-  auto res = std::make_unique<response::get>();
-  res->status = _storage.get(req->key, &res->value);
+  
+  auto res = this->create_response(cb);
+  
+  res->status = _demo.get(req->key, &res->value);
+  
   cb( std::move(res) );
 }
 
-void storage_domain::multiget(request::multiget::ptr req, response::multiget::handler cb ) 
+void demo_domain::multiget(request::multiget::ptr req, response::multiget::handler cb )
 {
   if ( this->notify_ban(req, cb) )
     return;
@@ -54,7 +57,7 @@ void storage_domain::multiget(request::multiget::ptr req, response::multiget::ha
   {
     if ( pval == nullptr )
       pval = std::make_shared<std::string>();
-    if ( _storage.get(key, &*pval) )
+    if ( _demo.get(key, &*pval) )
       res->values[key] = std::move(pval);
     else
       res->values[key] = nullptr;
@@ -62,19 +65,19 @@ void storage_domain::multiget(request::multiget::ptr req, response::multiget::ha
   cb( std::move(res) );
 }
 
-void storage_domain::get_hashed( request::get_hashed::ptr req, response::get_hashed::handler cb ) 
+void demo_domain::get_hashed( request::get_hashed::ptr req, response::get_hashed::handler cb )
 {
   if ( this->notify_ban(req, cb) )
     return;
-  
+
   if ( _hash == nullptr )
     return cb(nullptr);
-  
+
   std::string value;
-  if ( _storage.get( req->key, &value) )
+  if ( _demo.get( req->key, &value) )
   {
-    typedef ::demo::hash::request::get_hash  hash_request;
-    typedef ::demo::hash::response::get_hash hash_response;
+    typedef hash::request::get_hash  hash_request;
+    typedef hash::response::get_hash hash_response;
     auto req_hash = std::make_unique< hash_request >();
     req_hash->value = value;
     _hash->get_hash( std::move(req_hash), this->callback([cb]( hash_response::ptr res_hash)
@@ -99,23 +102,23 @@ void storage_domain::get_hashed( request::get_hashed::ptr req, response::get_has
   }
 }
 
-void storage_domain::multiget_hashed( request::multiget_hashed::ptr req, response::multiget_hashed::handler cb) 
+void demo_domain::multiget_hashed( request::multiget_hashed::ptr req, response::multiget_hashed::handler cb)
 {
   if ( this->notify_ban(req, cb) )
     return;
-  
+
   if ( _hash==nullptr )
     return cb(nullptr);
 
   auto presp = std::make_shared<response::multiget_hashed::ptr>();
   *presp = std::make_unique<response::multiget_hashed>();
-  typedef ::demo::hash::request::get_hash hash_request;
+  typedef hash::request::get_hash hash_request;
   typedef std::unique_ptr<hash_request> hash_request_ptr;
   std::map<std::string, hash_request_ptr> hash_request_list;
   std::string value;
   for ( auto key : req->keys )
   {
-    if ( _storage.get(key, &value) )
+    if ( _demo.get(key, &value) )
     {
       hash_request_list[key] = std::make_unique<hash_request>();
       hash_request_list[key]->value = value;
@@ -123,7 +126,7 @@ void storage_domain::multiget_hashed( request::multiget_hashed::ptr req, respons
     else
       (*presp)->values[key] = nullptr;
   }
-  
+
   if ( hash_request_list.empty() )
     cb( std::move(*presp) );
 
@@ -133,16 +136,16 @@ void storage_domain::multiget_hashed( request::multiget_hashed::ptr req, respons
   for (auto& req_hash: hash_request_list)
   {
     std::string key = req_hash.first;
-    typedef  ::demo::hash::response::get_hash hash_response;
+    typedef hash::response::get_hash hash_response;
     _hash->get_hash( std::move(req_hash.second), this->callback([key, pmutex, psize, presp, cb](hash_response::ptr res_hash) mutable
     {
       std::unique_lock<std::recursive_mutex> lk(*pmutex);
-      
+
       auto& ref_size = *psize;
-      
-      if ( ref_size == 0 ) 
+
+      if ( ref_size == 0 )
         return;
-      
+
       --(ref_size);
 
       if ( res_hash!=nullptr )
@@ -162,24 +165,24 @@ void storage_domain::multiget_hashed( request::multiget_hashed::ptr req, respons
   }
 }
 
-void storage_domain::multiget_hashed2( request::multiget_hashed2::ptr req, response::multiget_hashed2::handler cb) 
+void demo_domain::multiget_hashed2( request::multiget_hashed2::ptr req, response::multiget_hashed2::handler cb)
 {
   if ( this->notify_ban(req, cb) )
     return;
-  
+
   if ( _hash==nullptr )
     return cb(nullptr);
 
   auto presp = std::make_shared<response::multiget_hashed2::ptr>();
   *presp = std::make_unique<response::multiget_hashed2>();
-  typedef ::demo::hash::request::get_hash hash_request;
+  typedef hash::request::get_hash hash_request;
   typedef std::unique_ptr<hash_request> hash_request_ptr;
   std::vector< std::pair< std::string, hash_request_ptr > > hash_request_list;
   hash_request_list.reserve( req->keys.size() );
   std::string value;
   for ( auto key : req->keys )
   {
-    if ( _storage.get(key, &value) )
+    if ( _demo.get(key, &value) )
     {
       hash_request_list.push_back( std::make_pair(key, std::make_unique<hash_request>() ) );
       hash_request_list.back().second->value = value;
@@ -189,7 +192,7 @@ void storage_domain::multiget_hashed2( request::multiget_hashed2::ptr req, respo
     else
       (*presp)->values.push_back(std::make_pair(key, nullptr) );
   }
-  
+
   if ( hash_request_list.empty() )
     cb( std::move(*presp) );
 
@@ -199,15 +202,15 @@ void storage_domain::multiget_hashed2( request::multiget_hashed2::ptr req, respo
   for (auto& req_hash: hash_request_list)
   {
     std::string key = req_hash.first;
-    typedef  ::demo::hash::response::get_hash hash_response;
+    typedef  hash::response::get_hash hash_response;
     _hash->get_hash( std::move(req_hash.second), this->callback([key, pmutex, psize, presp, cb](hash_response::ptr res_hash) mutable
     {
       std::unique_lock<std::recursive_mutex> lk(*pmutex);
       auto& ref_size = *psize;
-      
-      if ( ref_size == 0 ) 
+
+      if ( ref_size == 0 )
         return;
-      
+
       --ref_size;
 
       if ( res_hash!=nullptr )
@@ -227,4 +230,4 @@ void storage_domain::multiget_hashed2( request::multiget_hashed2::ptr req, respo
   }
 }
 
-}
+}}

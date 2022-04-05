@@ -6,7 +6,7 @@
 #include <wfc/jsonrpc.hpp>
 
 
-namespace demo{ namespace pingpong{ namespace gateway{
+namespace damba{ namespace pingpong{ namespace gateway{
 
 JSONRPC_TAG(pong)
 JSONRPC_TAG(play)

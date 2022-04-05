@@ -8,12 +8,12 @@
 #include <demo/api/multiget_hashed2.hpp>
 #include <wfc/iinterface.hpp>
 
-namespace demo{
+namespace damba{ namespace demo{
 
-struct istorage
+struct idemo
   : public ::wfc::iinterface
 {
-  virtual ~istorage() {}
+  virtual ~idemo() {}
   virtual void set( request::set::ptr req, response::set::handler cb ) = 0;
   virtual void get( request::get::ptr req, response::get::handler cb ) = 0;
   virtual void multiget( request::multiget::ptr req, response::multiget::handler cb ) = 0;
@@ -22,4 +22,4 @@ struct istorage
   virtual void multiget_hashed2( request::multiget_hashed2::ptr , response::multiget_hashed2::handler  ) = 0;
 };
 
-}
+}}

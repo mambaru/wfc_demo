@@ -5,7 +5,7 @@
 
 #include <wfc/iinterface.hpp>
 
-namespace demo{ namespace pingpong{
+namespace damba{ namespace pingpong{
 
 
 struct iponger: public ::wfc::iinterface

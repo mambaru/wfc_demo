@@ -1,5 +1,5 @@
 //
-// Author: Vladimir Migashko <migashko@gmail.com>, (C) 2013-2015
+// Author: Vladimir Migashko <migashko@gmail.com>, (C) 2013-2015, 2022
 //
 // Copyright: See COPYING file that comes with this distribution
 //
@@ -8,10 +8,10 @@
 
 #include <wfc/module/package.hpp>
 
-namespace demo{
+namespace damba{
 
 class demo_package
-  : public ::wfc::package
+  : public wfc::package
 {
 public:
   demo_package();

@@ -13,7 +13,7 @@
 #include <string>
 
 
-namespace demo{ namespace pingpong{
+namespace damba{ namespace pingpong{
 
 class ponger
   : public ::wfc::domain_object< iponger, ponger_config>

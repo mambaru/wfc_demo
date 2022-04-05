@@ -10,7 +10,7 @@
 #include <wfc/module/multiton.hpp>
 #include <wfc/name.hpp>
 
-namespace demo{ namespace hash{
+namespace damba{ namespace hash{
 
 namespace 
 {

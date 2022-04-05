@@ -9,7 +9,7 @@
 
 
 
-namespace demo{ namespace pingpong{
+namespace damba{ namespace pingpong{
 
 struct ponger_config
 {

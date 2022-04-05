@@ -13,24 +13,24 @@
 #include <wfc/module/instance.hpp>
 #include <wfc/name.hpp>
 
-namespace demo{
+namespace damba{ namespace demo{
 
 namespace {
-  
-WFC_NAME2(object_name, "demo-storage")
+
+WFC_NAME2(object_name, "demo")
 
 class impl: public ::wfc::multiton<
   object_name,
-  wfc::instance<storage_domain>,
-  storage_config_json
+  wfc::instance<demo_domain>,
+  demo_config_json
 >
-{  
+{
 };
 
 }
-storage_multiton::storage_multiton()
+demo_multiton::demo_multiton()
   : component( std::make_shared<impl>() )
 {
 }
 
-}
+}}

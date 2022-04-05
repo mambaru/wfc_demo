@@ -8,14 +8,14 @@
 
 #include <wfc/module/component.hpp>
 
-namespace demo{
+namespace damba{ namespace demo{
 
-class storage_gateway_multiton
+class demo_gateway_multiton
   : public ::wfc::component
 {
   class impl;
 public:
-  storage_gateway_multiton();
+  demo_gateway_multiton();
 };
 
-}
+}}

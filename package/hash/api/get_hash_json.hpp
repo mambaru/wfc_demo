@@ -3,7 +3,7 @@
 #include <hash/api/get_hash.hpp>
 #include <wfc/json.hpp>
 
-namespace demo{ namespace hash{
+namespace damba{ namespace hash{
 
 namespace request
 {

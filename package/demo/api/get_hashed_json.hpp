@@ -3,7 +3,7 @@
 #include <demo/api/get_hashed.hpp>
 #include <wfc/json.hpp>
 
-namespace demo{
+namespace damba{ namespace demo{
 
 namespace request
 {
@@ -29,7 +29,7 @@ namespace response
   {
     JSON_NAME(value)
     JSON_NAME(status)
-    
+
     typedef wfc::json::object<
       get_hashed,
       wfc::json::member_list<
@@ -42,4 +42,4 @@ namespace response
   };
 }
 
-}
+}}

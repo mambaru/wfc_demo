@@ -11,20 +11,20 @@
 #include <wfc/module/instance.hpp>
 #include <wfc/name.hpp>
 
-namespace demo{
+namespace damba{ namespace demo{
 
 namespace
 {
-  WFC_NAME2(service_name, "storage-service")
+  WFC_NAME2(service_name, "demo-service")
 
   class impl
-    : public ::wfc::jsonrpc::service_multiton< service_name, service_method_list> 
+    : public ::wfc::jsonrpc::service_multiton< service_name, service_method_list>
   {};
 }
 
-storage_service_multiton::storage_service_multiton()
+demo_service_multiton::demo_service_multiton()
   : wfc::component( std::make_shared<impl>() )
 {
 }
 
-}
+}}

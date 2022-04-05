@@ -5,7 +5,7 @@
 #include <wfc/jsonrpc.hpp>
 
 
-namespace demo{ namespace hash{ 
+namespace damba{ namespace hash{ 
 
 JSONRPC_TAG(get_hash)
 

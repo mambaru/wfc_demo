@@ -8,7 +8,7 @@
 
 #include <wfc/module/module.hpp>
 
-namespace demo{ namespace pingpong{
+namespace damba{ namespace pingpong{
 
 class pingpong_module
   : public ::wfc::module

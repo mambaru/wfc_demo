@@ -10,7 +10,7 @@
 #include <hash/domain/hash_config.hpp>
 #include <hash/ihash.hpp>
 
-namespace demo{ namespace hash{
+namespace damba{ namespace hash{
 
 class hash_domain
   : public ::wfc::domain_object<ihash, hash_config>

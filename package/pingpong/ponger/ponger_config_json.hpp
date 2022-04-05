@@ -8,7 +8,7 @@
 #include "ponger_config.hpp"
 #include <wfc/json.hpp>
 
-namespace demo{ namespace pingpong{
+namespace damba{ namespace pingpong{
 
 struct ponger_config_json
 {

@@ -8,7 +8,7 @@
 
 #include <wfc/module/module.hpp>
 
-namespace demo{ namespace hash{
+namespace damba{ namespace hash{
 
 class hash_module
   : public ::wfc::module

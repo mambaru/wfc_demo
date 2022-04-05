@@ -6,7 +6,7 @@
 #include <memory>
 #include <functional>
 
-namespace demo{
+namespace damba{ namespace demo{
 
 namespace request
 {
@@ -29,4 +29,4 @@ namespace response
   };
 }
 
-}
+}}

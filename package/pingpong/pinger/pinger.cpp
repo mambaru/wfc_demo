@@ -17,7 +17,7 @@
 // #define PINGER_LOG_MESSAGE(message) WFC_LOG_MESSAGE("pinger", message)
 // #define PINGER_LOG_DEBUG(message)   WFC_LOG_DEBUG("pinger", message)
 
-namespace demo{ namespace pingpong{
+namespace damba{ namespace pingpong{
 
 void pinger::initialize()
 {

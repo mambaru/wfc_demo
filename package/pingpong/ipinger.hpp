@@ -3,7 +3,7 @@
 #include <pingpong/api/ball.hpp>
 #include <wfc/iinterface.hpp>
 
-namespace demo{ namespace pingpong{
+namespace damba{ namespace pingpong{
 
 struct ipinger: public ::wfc::iinterface
 {

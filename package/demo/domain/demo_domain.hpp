@@ -7,7 +7,7 @@
 #pragma once
 
 #include <wfc/domain_object.hpp>
-#include <storage/storage.hpp>
+#include <demostg/demostg.hpp>
 #include "demo_config.hpp"
 #include <demo/idemo.hpp>
 #include <hash/ihash.hpp>
@@ -15,12 +15,12 @@
 #include <string>
 #include <map>
 
-namespace demo{
+namespace damba{ namespace demo{
 
-class storage_domain
-  : public ::wfc::domain_object<istorage, storage_config>
+class demo_domain
+  : public ::wfc::domain_object<idemo, demo_config>
 {
-  typedef ::demo::hash::ihash ihash;
+  typedef hash::ihash ihash;
 public:
   virtual void initialize() override;
   virtual void set(request::set::ptr req, response::set::handler cb ) override;
@@ -31,7 +31,7 @@ public:
   virtual void multiget_hashed2( request::multiget_hashed2::ptr , response::multiget_hashed2::handler  ) override;
 private:
   std::shared_ptr<ihash> _hash;
-  ::storage _storage;
+  demostg _demo;
 };
 
-}
+}}

@@ -14,7 +14,7 @@
 #include <string>
 
 
-namespace demo{ namespace pingpong{
+namespace damba{ namespace pingpong{
 
 class pinger
   : public ::wfc::domain_object< ipinger, pinger_config>
