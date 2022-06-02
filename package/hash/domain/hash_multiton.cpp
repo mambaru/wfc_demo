@@ -21,10 +21,11 @@ namespace
 
   class impl: public ::wfc::multiton<
     object_name,
-    ::wfc::instance<hash_domain>,
+    wfc::instance<hash_domain>,
     hash_config_json,
-      ::wfc::component_features::DisabledWorkflow
-    | ::wfc::component_features::DisabledPriority
+      wfc::component_features::DisabledWorkflow
+    | wfc::component_features::DisabledPriority
+    | wfc::component_features::EnableTracking
   >
   {
     virtual std::string interface_name() const override

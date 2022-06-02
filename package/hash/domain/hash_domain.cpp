@@ -40,8 +40,11 @@ public:
   }
 };
 
+hash_domain::hash_domain():_sleep(0) {}
+
 void hash_domain::configure() 
 {
+  _sleep = false;
   ///! this->set_target("logger", "IOW", std::make_shared<logger>() );
   DEBUG_LOG_DEBUG("hash_domain::configure " << this->options().param)
 }
@@ -65,22 +68,38 @@ void hash_domain::get_hash(request::get_hash::ptr req, response::get_hash::handl
 {
   if ( this->notify_ban(req, cb) )
     return;
+  
+  if ( _sleep )
+  {
+    _sleep=false;
+    sleep(100);
+  }
 
   auto res = std::make_unique<response::get_hash>();
   res->value = std::hash< std::string >()( req->value );
   cb( std::move(res) );
 }
 
-void hash_domain::perform_io(data_ptr d, io_id_t, output_handler_t handler)
+void hash_domain::perform_io(data_ptr d, io_id_t id, output_handler_t handler)
 {
-  if (d==nullptr)
-    return handler(nullptr);
+  if ( this->perform_status(d, handler ) )
+    return;
   
   std::string str( d->begin(), d->end() );
   size_t val = std::hash< std::string >()( str );
-  std::string valstr = std::to_string(val);
-  auto res = std::make_unique<data_type>( valstr.begin(), valstr.end() );
-  handler( std::move(res) );
+  if ( str == "delay")
+  {
+    this->get_workflow()->post( 
+        std::chrono::seconds(5), 
+        this->tracking(
+          id,
+          [handler, val](){handler( iow::io::make(std::to_string(val)) );}, 
+          [](){ DOMAIN_LOG_MESSAGE("Упс!")}
+      )
+    );
+  }
+  else
+    handler( iow::io::make(std::to_string(val)) );
 }
 
 }}
