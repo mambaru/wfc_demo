@@ -15,10 +15,10 @@ struct ball_json
       wfc::json::member<n_count, ball, size_t, &ball::count>,
       wfc::json::member<n_power, ball, size_t, &ball::power>
     >
-  > type;
+  > meta;
 
-  typedef type::target     target;
-  typedef type::serializer serializer;
+  typedef meta::target     target;
+  typedef meta::serializer serializer;
 };
 
 }}

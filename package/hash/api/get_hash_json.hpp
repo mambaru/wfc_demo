@@ -16,10 +16,10 @@ namespace request
       wfc::json::member_list<
         wfc::json::member<n_value, get_hash, std::string, &get_hash::value >
       >
-    > type;
+    > meta;
 
-    typedef type::target     target;
-    typedef type::serializer serializer;
+    typedef meta::target     target;
+    typedef meta::serializer serializer;
   };
 }
 
@@ -33,10 +33,10 @@ namespace response
       wfc::json::member_list<
         wfc::json::member<n_value,  get_hash, size_t, &get_hash::value>
       >
-    > type;
+    > meta;
 
-    typedef type::target     target;
-    typedef type::serializer serializer;
+    typedef meta::target     target;
+    typedef meta::serializer serializer;
   };
 }
 

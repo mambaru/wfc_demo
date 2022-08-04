@@ -22,10 +22,10 @@ namespace request
           wfc::json::array< std::set< wfc::json::value< std::string> > >
         >
       >
-    > type;
+    > meta;
 
-    typedef type::target     target;
-    typedef type::serializer serializer;
+    typedef meta::target     target;
+    typedef meta::serializer serializer;
   };
 }
 
@@ -41,9 +41,9 @@ namespace response
       wfc::json::member_list<
         wfc::json::member< n_values, multiget, multiget::map_type, &multiget::values, dict_json>
       >
-    > type;
-    typedef type::target     target;
-    typedef type::serializer serializer;
+    > meta;
+    typedef meta::target     target;
+    typedef meta::serializer serializer;
   };
 }
 

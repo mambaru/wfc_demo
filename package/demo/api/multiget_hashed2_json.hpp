@@ -22,10 +22,10 @@ namespace request
           wfc::json::array< std::vector< wfc::json::value< std::string> > >
         >
       >
-    > type;
+    > meta;
 
-    typedef type::target     target;
-    typedef type::serializer serializer;
+    typedef meta::target     target;
+    typedef meta::serializer serializer;
   };
 }
 
@@ -52,9 +52,9 @@ namespace response
           >
         >
       >
-    > type;
-    typedef type::target     target;
-    typedef type::serializer serializer;
+    > meta;
+    typedef meta::target     target;
+    typedef meta::serializer serializer;
   };
 }
 

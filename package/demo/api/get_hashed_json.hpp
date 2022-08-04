@@ -16,10 +16,10 @@ namespace request
       wfc::json::member_list<
         wfc::json::member<n_key, get_hashed, std::string, &get_hashed::key>
       >
-    > type;
+    > meta;
 
-    typedef type::target     target;
-    typedef type::serializer serializer;
+    typedef meta::target     target;
+    typedef meta::serializer serializer;
   };
 }
 
@@ -36,9 +36,9 @@ namespace response
         wfc::json::member<n_status, get_hashed, bool,      &get_hashed::status >,
         wfc::json::member<n_value,  get_hashed, size_t, &get_hashed::value >
       >
-    > type;
-    typedef type::target     target;
-    typedef type::serializer serializer;
+    > meta;
+    typedef meta::target     target;
+    typedef meta::serializer serializer;
   };
 }
 
