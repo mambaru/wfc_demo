@@ -42,6 +42,18 @@ public:
 
 hash_domain::hash_domain():_sleep(0) {}
 
+void hash_domain::reg_io(io_id_t io_id, std::weak_ptr<iinterface> )
+{
+  wfc::only_for_log(io_id);
+  DEBUG_LOG_DEBUG("hash_domain::reg_io " << io_id)
+}
+
+void hash_domain::unreg_io(io_id_t io_id)
+{
+  wfc::only_for_log(io_id);
+  DEBUG_LOG_DEBUG("hash_domain::unreg_io " << io_id)
+}
+
 void hash_domain::configure() 
 {
   _sleep = false;

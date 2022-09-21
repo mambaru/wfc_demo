@@ -18,6 +18,9 @@ class hash_domain
 {
 public:
   hash_domain();
+  virtual void reg_io(io_id_t io_id, std::weak_ptr<iinterface> itf) override;
+  virtual void unreg_io(io_id_t io_id) override;
+
   virtual void configure() override;
   virtual void reconfigure() override;
   virtual void reconfigure_basic() override;
