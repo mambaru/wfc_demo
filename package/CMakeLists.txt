@@ -40,8 +40,8 @@ add_dependencies(wfc_demo demostg)
 
 target_link_libraries(wfc_demo PUBLIC wfc PRIVATE demostg )
 
-target_include_directories(wfc_demo PUBLIC ${wfc_demo_SOURCE_DIR})
-target_include_directories(wfc_demo PUBLIC ${wfc_demo_SOURCE_DIR}/package)
-target_include_directories(wfc_demo PUBLIC ${wfc_demo_SOURCE_DIR}/libdemostg)
+target_include_directories(wfc_demo PUBLIC "$<BUILD_INTERFACE:${wfc_demo_SOURCE_DIR}>")
+target_include_directories(wfc_demo PUBLIC "$<BUILD_INTERFACE:${wfc_demo_SOURCE_DIR}/package>")
+target_include_directories(wfc_demo PUBLIC "$<BUILD_INTERFACE:${wfc_demo_SOURCE_DIR}/libdemostg>")
 
 build_info(wfc_demo demo)
