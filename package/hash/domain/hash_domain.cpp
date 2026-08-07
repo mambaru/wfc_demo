@@ -59,6 +59,8 @@ void hash_domain::configure()
   _sleep = false;
   ///! this->set_target("logger", "IOW", std::make_shared<logger>() );
   DEBUG_LOG_DEBUG("hash_domain::configure " << this->options().param)
+
+  DOMAIN_LOG_WARNING("hash_domain::configure " << this->options().param)
 }
 
 void hash_domain::reconfigure() 
@@ -74,6 +76,7 @@ void hash_domain::reconfigure_basic()
 
 void hash_domain::initialize()
 {
+  DOMAIN_LOG_WARNING("hash_domain::initialize " << this->options().param)
 }
 
 void hash_domain::get_hash(request::get_hash::ptr req, response::get_hash::handler cb ) 
@@ -105,8 +108,12 @@ void hash_domain::perform_io(data_ptr d, io_id_t id, output_handler_t handler)
         std::chrono::seconds(5), 
         this->tracking(
           id,
-          [handler, val](){handler( iow::io::make(std::to_string(val)) );}, 
-          [](){ DOMAIN_LOG_MESSAGE("Упс!")}
+          [handler, val](){
+            handler( iow::io::make(std::to_string(val)) );
+            sleep(60); // DEBUG
+            DOMAIN_LOG_MESSAGE("After sleep!")
+          },
+          [](){DOMAIN_LOG_MESSAGE("Упс!")}
       )
     );
   }

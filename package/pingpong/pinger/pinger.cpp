@@ -44,9 +44,9 @@ void pinger::play(ball::ptr req, ball::handler cb)
     return cb( std::move(req) );
   }
 
-  std::cout << "play power=" << req->power << std::endl;
+  //std::cout << "play power=" << req->power << std::endl;
   auto pwait = std::make_shared< std::atomic<size_t> >();
-  auto ptotal = std::make_shared< std::atomic<size_t> >();
+  auto ptotal = std::make_shared< std::atomic<int64_t> >();
   *pwait = tlist.size();
   for (auto wt : tlist )
   {
@@ -62,7 +62,7 @@ void pinger::play(ball::ptr req, ball::handler cb)
 
           if ( res==nullptr )
           {
-            DOMAIN_LOG_FATAL("Bad Gateway");
+            DOMAIN_LOG_FATAL("pinger::play: Bad Gateway");
             return;
           }
 
@@ -87,7 +87,7 @@ void pinger::pong( ball::ptr req, ball::handler cb, io_id_t, ball_handler reping
   if ( this->notify_ban(req, cb ) )
     return;
 
-  std::cout << "pinger::pong power=" << req->power << std::endl;
+  //std::cout << "pinger::pong power=" << req->power << std::endl;
 
   if ( req->power == 0 )
   {

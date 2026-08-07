@@ -36,7 +36,7 @@ private:
   std::weak_ptr<ipinger> _target;
   std::thread _thread;
   std::atomic<long> _discharge;
-  std::atomic<size_t> _power;
+  std::atomic<int64_t> _power;
 };
 
 }}

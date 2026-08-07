@@ -12,7 +12,7 @@ namespace damba{ namespace pingpong{
 
 struct tank_config
 {
-  size_t power = 1;
+  int64_t power = 1;
   long discharge = 1;
   std::string target;
 };

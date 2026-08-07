@@ -27,15 +27,15 @@ struct pinger_method_list: wfc::jsonrpc::method_list
 <
   wfc::jsonrpc::target<ipinger>,
   wfc::jsonrpc::interface_<iponger2>,
-  wfc::jsonrpc::call_method<_ping_, ball_json, ball_json>,
-  wfc::jsonrpc::invoke_method< _play_,  ball_json, ball_json, ipinger, &ipinger::play>,
-  wfc::jsonrpc::invoke_method2< 
-    _pong_, 
+  wfc::jsonrpc::invoke_method2<
+    _pong_,
     ball_json, ball_json,
     ball, ball,
     ipinger, &ipinger::pong,
     iponger2, &iponger2::ping
-  >
+  >,
+  wfc::jsonrpc::call_method<_ping_, ball_json, ball_json>,
+  wfc::jsonrpc::invoke_method< _play_,  ball_json, ball_json, ipinger, &ipinger::play>
 >
 {
 };

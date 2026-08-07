@@ -30,9 +30,9 @@ void ponger::ping(ball::ptr req, ball::handler cb, io_id_t /*io_id*/, std::weak_
   if ( this->notify_ban(req, cb ) )
     return;
 
-  std::cout << "ponger::ping power=" << req->power << std::endl;
+  //std::cout << "ponger::ping power=" << req->power << std::endl;
   auto pcount = std::make_shared< std::atomic<size_t> >();
-  auto ptotal = std::make_shared< std::atomic<size_t> >();
+  auto ptotal = std::make_shared< std::atomic<int64_t> >();
 
   size_t pong_count = _pong_count;
   if ( pong_count == 0 )
@@ -59,7 +59,7 @@ void ponger::ping(ball::ptr req, ball::handler cb, io_id_t /*io_id*/, std::weak_
 
             if ( res==nullptr )
             {
-              DOMAIN_LOG_FATAL("Bad Gateway");
+              DOMAIN_LOG_FATAL("ponger::ping: Bad Gateway");
               return;
             }
 

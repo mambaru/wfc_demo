@@ -12,8 +12,8 @@ struct ball_json
   typedef wfc::json::object<
     ball,
     wfc::json::member_list<
-      wfc::json::member<n_count, ball, size_t, &ball::count>,
-      wfc::json::member<n_power, ball, size_t, &ball::power>
+      wfc::json::member<n_count, ball, int64_t, &ball::count>,
+      wfc::json::member<n_power, ball, int64_t, &ball::power>
     >
   > meta;
 
