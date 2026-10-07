@@ -1,3 +1,9 @@
+//
+// Author: Vladimir Migashko <migashko@gmail.com>, (C) 2017-2018, 2022
+//
+// Copyright: See COPYING file that comes with this distribution
+//
+
 #include "demostg.hpp"
 
 bool demostg::set(const std::string& key, const std::string& val)

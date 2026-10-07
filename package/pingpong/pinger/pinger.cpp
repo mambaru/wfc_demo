@@ -1,5 +1,5 @@
 //
-// Author: Vladimir Migashko <migashko@gmail.com>, (C) 2013-2015
+// Author: Vladimir Migashko <migashko@gmail.com>, (C) 2017-2019, 2022, 2024-2026
 //
 // Copyright: See COPYING file that comes with this distribution
 //
@@ -11,6 +11,7 @@
 #include <iostream>
 #include <atomic>
 #include <memory>
+#include <vector>
 #include <chrono>
 #include <iomanip>
 
@@ -39,46 +40,47 @@ void pinger::play(ball::ptr req, ball::handler cb)
     return;
 
   auto tlist = this->get_target_list();
-  if ( tlist.empty() )
-  {
-    return cb( std::move(req) );
-  }
-
-  std::cout << "play power=" << req->power << std::endl;
-  auto pwait = std::make_shared< std::atomic<size_t> >();
-  auto ptotal = std::make_shared< std::atomic<size_t> >();
-  *pwait = tlist.size();
-  for (auto wt : tlist )
+  std::vector<std::shared_ptr<iponger2>> targets;
+  for (auto wt : tlist)
   {
     if ( auto t = wt.lock() )
+      targets.push_back(std::move(t));
+  }
+
+  if ( targets.empty() )
+  {
+    cb( std::move(req) );
+    return;
+  }
+
+  auto pwait = std::make_shared< std::atomic<size_t> >(targets.size());
+  auto ptotal = std::make_shared< std::atomic<int64_t> >(0);
+  for (auto& t : targets)
+  {
+    auto rereq = std::make_unique<ball>( *req );
+    ++rereq->count;
+    --rereq->power;
+    t->ping( std::move(rereq), [this, pwait, ptotal, cb](ball::ptr res)
     {
-      auto rereq = std::make_unique<ball>( *req );
-      ++rereq->count;
-      --rereq->power;
-      t->ping( std::move(rereq), [this, pwait, ptotal, cb](ball::ptr res)
+      if ( this->global_stop_flag() )
+        return;
+
+      auto left = --*pwait;
+      if ( res==nullptr )
       {
-          if ( this->global_stop_flag() )
-            return;
+        DOMAIN_LOG_ERROR("pinger::play: Bad Gateway");
+        if ( left == 0 )
+          cb( nullptr );
+        return;
+      }
 
-          if ( res==nullptr )
-          {
-            DOMAIN_LOG_FATAL("Bad Gateway");
-            return;
-          }
-
-        auto& ref_wait = *pwait;
-        if ( ref_wait != 0 )
-        {
-          --ref_wait;
-          *ptotal+=res->count;
-          if (ref_wait == 0 )
-          {
-            res->count = *ptotal;
-            cb( std::move(res) );
-          }
-        }
-      });
-    }
+      *ptotal += res->count;
+      if ( left == 0 )
+      {
+        res->count = *ptotal;
+        cb( std::move(res) );
+      }
+    });
   }
 }
 
@@ -87,21 +89,18 @@ void pinger::pong( ball::ptr req, ball::handler cb, io_id_t, ball_handler reping
   if ( this->notify_ban(req, cb ) )
     return;
 
-  std::cout << "pinger::pong power=" << req->power << std::endl;
-
-  if ( req->power == 0 )
+  if ( req->power == 0 || !reping )
   {
     cb( std::move(req) );
+    return;
   }
-  else
+
+  --req->power;
+  ++req->count;
+  reping( std::move(req), [cb](ball::ptr req1)
   {
-    --req->power;
-    ++req->count;
-    reping( std::move(req), [cb](ball::ptr req1)
-    {
-      cb( std::move(req1) );
-    });
-  }
+    cb( std::move(req1) );
+  });
 }
 
 }}

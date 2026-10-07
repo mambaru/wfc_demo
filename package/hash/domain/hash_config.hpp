@@ -1,5 +1,5 @@
 //
-// Author: Vladimir Migashko <migashko@gmail.com>, (C) 2013-2015
+// Author: Vladimir Migashko <migashko@gmail.com>, (C) 2015-2018, 2022, 2026
 //
 // Copyright: See COPYING file that comes with this distribution
 //
@@ -10,7 +10,7 @@ namespace damba{ namespace hash{
 
 struct hash_config
 {
-  bool param = false;
+  int delay_ms = 0;
 };
 
 }}

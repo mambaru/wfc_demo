@@ -1,5 +1,5 @@
 //
-// Author: Vladimir Migashko <migashko@gmail.com>, (C) 2013-2015
+// Author: Vladimir Migashko <migashko@gmail.com>, (C) 2017-2019, 2022, 2024-2026
 //
 // Copyright: See COPYING file that comes with this distribution
 //
@@ -30,56 +30,57 @@ void ponger::ping(ball::ptr req, ball::handler cb, io_id_t /*io_id*/, std::weak_
   if ( this->notify_ban(req, cb ) )
     return;
 
-  std::cout << "ponger::ping power=" << req->power << std::endl;
+  //std::cout << "ponger::ping power=" << req->power << std::endl;
   auto pcount = std::make_shared< std::atomic<size_t> >();
-  auto ptotal = std::make_shared< std::atomic<size_t> >();
+  auto ptotal = std::make_shared< std::atomic<int64_t> >();
 
   size_t pong_count = _pong_count;
   if ( pong_count == 0 )
   {
     cb( std::move(req) );
+    return;
   }
-  else
+
+  auto p = wp.lock();
+  if ( !p )
   {
-    *pcount = pong_count;
-    for ( size_t i =0; i < pong_count; ++i )
-    {
-      using namespace std::placeholders;
-      if ( auto p = wp.lock() )
+    DOMAIN_LOG_ERROR("ponger::ping: pinger is gone");
+    cb( nullptr );
+    return;
+  }
+
+  *pcount = pong_count;
+  for ( size_t i =0; i < pong_count; ++i )
+  {
+    auto rereq = std::make_unique<ball>( *req );
+    ++rereq->count;
+
+    p->pong(
+      std::move(rereq),
+      [this, pcount, ptotal, cb](ball::ptr res)
       {
-        auto rereq = std::make_unique<ball>( *req );
-        ++rereq->count;
+        if ( this->global_stop_flag() )
+          return;
 
-        p->pong(
-          std::move(rereq),
-          [this, pcount, ptotal, cb](ball::ptr res)
-          {
-            if ( this->global_stop_flag() )
-              return;
+        auto left = --*pcount;
+        if ( res==nullptr )
+        {
+          DOMAIN_LOG_ERROR("ponger::ping: Bad Gateway");
+          if ( left == 0 )
+            cb( nullptr );
+          return;
+        }
 
-            if ( res==nullptr )
-            {
-              DOMAIN_LOG_FATAL("Bad Gateway");
-              return;
-            }
-
-            auto& ref_count = *pcount;
-            if ( ref_count == 0 )
-              return;
-
-            *ptotal+=res->count;
-            --ref_count;
-            if ( ref_count == 0 )
-            {
-              res->count = *ptotal;
-              cb( std::move(res) );
-            }
-          },
-          0,
-          nullptr
-        );
-      }
-    }
+        *ptotal += res->count;
+        if ( left == 0 )
+        {
+          res->count = *ptotal;
+          cb( std::move(res) );
+        }
+      },
+      0,
+      nullptr
+    );
   }
 }
 

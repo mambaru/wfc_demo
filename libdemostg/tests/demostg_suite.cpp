@@ -1,3 +1,9 @@
+//
+// Author: Vladimir Migashko <migashko@gmail.com>, (C) 2017-2018, 2022
+//
+// Copyright: See COPYING file that comes with this distribution
+//
+
 #include <fas/testing.hpp>
 #include <demostg/demostg.hpp>
 

@@ -1,5 +1,5 @@
 //
-// Author: Vladimir Migashko <migashko@gmail.com>, (C) 2016
+// Author: Vladimir Migashko <migashko@gmail.com>, (C) 2016-2018, 2022, 2025
 //
 // Copyright: See COPYING file that comes with this distribution
 //
@@ -36,7 +36,7 @@ private:
   std::weak_ptr<ipinger> _target;
   std::thread _thread;
   std::atomic<long> _discharge;
-  std::atomic<size_t> _power;
+  std::atomic<int64_t> _power;
 };
 
 }}
