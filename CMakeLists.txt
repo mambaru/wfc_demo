@@ -4,7 +4,7 @@ project(wfc_demo VERSION "0.9.8")
 
 include(cmake/ci.cmake)
 
-wci_submodule(NAME wfc SUPERMODULE)
+wci_submodule(NAME wfc SUPERMODULE DIRECT)
 
 add_subdirectory(libdemostg)
 add_subdirectory(package)

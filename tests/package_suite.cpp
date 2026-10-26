@@ -1,3 +1,9 @@
+//
+// Author: Vladimir Migashko <migashko@gmail.com>, (C) 2020, 2022, 2026
+//
+// Copyright: See COPYING file that comes with this distribution
+//
+
 #include <package/demo_package.hpp>
 #include <wfc/testing/testing_wfc.hpp>
 #include <fas/testing.hpp>
@@ -16,7 +22,7 @@ namespace{
             'name': 'hash1',        \
             'enabled': true,        \
             'suspend': false,       \
-            'param': false          \
+            'delay_ms': 0           \
           }                         \
         ]                           \
       }"_json;

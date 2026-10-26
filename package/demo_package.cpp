@@ -1,5 +1,5 @@
 //
-// Author: Vladimir Migashko <migashko@gmail.com>, (C) 2013-2015, 2022
+// Author: Vladimir Migashko <migashko@gmail.com>, (C) 2015-2018, 2020, 2022
 //
 // Copyright: See COPYING file that comes with this distribution
 //

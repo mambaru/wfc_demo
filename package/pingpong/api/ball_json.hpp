@@ -1,3 +1,9 @@
+//
+// Author: Vladimir Migashko <migashko@gmail.com>, (C) 2017, 2022, 2024
+//
+// Copyright: See COPYING file that comes with this distribution
+//
+
 #pragma once
 
 #include <pingpong/api/ball.hpp>
@@ -12,8 +18,8 @@ struct ball_json
   typedef wfc::json::object<
     ball,
     wfc::json::member_list<
-      wfc::json::member<n_count, ball, size_t, &ball::count>,
-      wfc::json::member<n_power, ball, size_t, &ball::power>
+      wfc::json::member<n_count, ball, int64_t, &ball::count>,
+      wfc::json::member<n_power, ball, int64_t, &ball::power>
     >
   > meta;
 

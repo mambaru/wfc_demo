@@ -1,5 +1,5 @@
 //
-// Author: Vladimir Migashko <migashko@gmail.com>, (C) 2013-2015
+// Author: Vladimir Migashko <migashko@gmail.com>, (C) 2013, 2015-2018, 2022, 2026
 //
 // Copyright: See COPYING file that comes with this distribution
 //
@@ -12,11 +12,11 @@ namespace damba{ namespace hash{
 
 struct hash_config_json
 {
-  JSON_NAME(param)
+  JSON_NAME(delay_ms)
   typedef wfc::json::object<
     hash_config,
     wfc::json::member_list<
-      wfc::json::member<n_param, hash_config, bool, &hash_config::param>
+      wfc::json::member<n_delay_ms, hash_config, int, &hash_config::delay_ms>
     >
   > type;
 

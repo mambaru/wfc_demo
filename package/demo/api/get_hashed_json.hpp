@@ -1,3 +1,9 @@
+//
+// Author: Vladimir Migashko <migashko@gmail.com>, (C) 2013-2018, 2020, 2022
+//
+// Copyright: See COPYING file that comes with this distribution
+//
+
 #pragma once
 
 #include <demo/api/get_hashed.hpp>
